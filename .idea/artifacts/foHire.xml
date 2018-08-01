@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="foHire">
+    <output-path>$PROJECT_DIR$/out/artifacts/foHire</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="foHire/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="foHire" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

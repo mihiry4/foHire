@@ -1,0 +1,15 @@
+.lendform {
+  margin-top:20px;
+  box-shadow:2px 2px 5px rgb(135,135,135);
+  border-radius:5px;
+}
+
+.qbtn {
+  background-color:#f8b645;
+  margin:5px;
+}
+
+.qbtn:hover {
+  background-color:#f8af31;
+}
+
