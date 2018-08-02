@@ -114,14 +114,14 @@
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
   <div class="tline" style="margin-top:0;padding-top:20%;">
     <h1 class="text-monospace text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>
-    <h5 class="text-center" style="color:rgb(248,182,69);">Qirayaa helps you find things you want to rent. Let's
-      Qirayaa.<br></h5>
+    <h5 class="text-center" style="color:rgb(248,182,69);">fohire helps you find things you want to borrow. Let's
+      fohire.<br></h5>
   </div>
   <div>
     <div class="container">
       <form>
         <div class="form-row formres" style="padding:50px 0px;">
-          <div class="col"><input class="form-control searchqirayaa" type="text" placeholder="Search Qirayaa">
+          <div class="col"><input class="form-control searchqirayaa" type="text" placeholder="Search fohire">
           </div>
           <div class="col"><select class="form-control">
             <option value="All" selected="">All Categories</option>
@@ -157,7 +157,7 @@
       <div class="row places">
         <div class="col-lg-12">
           <div>
-            <h1 class="text-left">Explore Qirayaa<br></h1>
+            <h1 class="text-left">Explore fohire<br></h1>
           </div>
         </div>
         <div class="col-lg-4">
