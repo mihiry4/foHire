@@ -46,7 +46,7 @@
                                     </tr>
                                     <tr>
                                         <td>Rent expected(<i class="fa fa-rupee"></i>):</td>
-                                        <td><input class="form-control form-control-lg" type="text"></td>
+                                        <td><input class="form-control form-control-lg" type="number"></td>
                                         <td>/-</td>
                                         <td><select class="form-control">
                                             <option value="" selected=""></option>
@@ -56,7 +56,7 @@
                                     </tr>
                                     <tr>
                                         <td>Deposit amount(<i class="fa fa-rupee"></i>):</td>
-                                        <td colspan="2"><input class="form-control" type="text"></td>
+                                        <td colspan="2"><input class="form-control" type="number"></td>
                                         <td colspan="2">/-</td>
                                     </tr>
                                     <tr>
@@ -101,7 +101,7 @@
                                         <td>Late charges(<i class="fa fa-rupee"></i>):
                                             <p style="font-size:11px;">(per day late charge)</p>
                                         </td>
-                                        <td><input class="form-control" type="text"></td>
+                                        <td><input class="form-control" type="number"></td>
                                         <td>/-</td>
                                     </tr>
                                     <tr>
