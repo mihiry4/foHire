@@ -44,7 +44,7 @@ public class login extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            connection = DriverManager.getConnection("gdbc", "usrname", "password");
+            connection = DriverManager.getConnection(DB.DBclass, DB.user, DB.pass);
         } catch (SQLException e) {
             e.printStackTrace();
         }

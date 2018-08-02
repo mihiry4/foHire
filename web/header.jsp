@@ -30,20 +30,22 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Borrow</a>
                 </li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Lend</a>
-                </li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#">
-                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#signup"
-                            style="background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);">
-                        Sign up
-                    </button>
-                </a></li>
-                <li
-                        class="nav-item" role="presentation"><a class="nav-link" href="#">
-                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#login"
-                            style="background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);">
-                        Login
-                    </button>
-                </a></li>
+                    <%--if not logged in--%>
+                        <% if(session==null || session.getAttribute("user")==null) out.print("</li>\n" +
+"                <li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"#\">\n" +
+"                    <button class=\"btn btn-light log\" type=\"button\" data-toggle=\"modal\" data-target=\"#signup\"\n" +
+"                            style=\"background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);\">\n" +
+"                        Sign up\n" +
+"                    </button>\n" +
+"                </a></li>\n" +
+"                <li\n" +
+"                        class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"#\">\n" +
+"                    <button class=\"btn btn-light log\" type=\"button\" data-toggle=\"modal\" data-target=\"#login\"\n" +
+"                            style=\"background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);\">\n" +
+"                        Login\n" +
+"                    </button>\n" +
+"                </a></li>");%>
+                    <%--upto this--%>
                 <li
                         class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
                                             aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
@@ -52,15 +54,18 @@
                                                                       style="color:#f8b645;">How it works?</a><a
                             class="dropdown-item" role="presentation" href="#" style="color:#f8b645;">FAQs</a></div>
                 </li>
-                <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
-                                        aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu"
-                         style="background-color:rgba(0,0,0,0.5);"><a class="dropdown-item" role="presentation" href="#"
-                                                                      style="color:#f8b645;">Edit Profile</a><a
-                            class="dropdown-item" role="presentation" href="#" style="color:#f8b645;">Account
-                        Setting</a><a class="dropdown-item" role="presentation"
-                                      href="#" style="color:#f8b645;">Logout</a></div>
-                </li>
+                <%--if logged in--%>
+                <% if (session != null && session.getAttribute("user") != null)
+                    out.print("<li class=\"dropdown\"><a class=\"dropdown-toggle nav-link dropdown-toggle\" data-toggle=\"dropdown\"\n" +
+                            "                                        aria-expanded=\"false\" href=\"#\" style=\"color:#f8b645;\">Profile</a>\n" +
+                            "                    <div class=\"dropdown-menu dropdown-menu-right\" role=\"menu\"\n" +
+                            "                         style=\"background-color:rgba(0,0,0,0.5);\"><a class=\"dropdown-item\" role=\"presentation\" href=\"#\"\n" +
+                            "                                                                      style=\"color:#f8b645;\">Edit Profile</a><a\n" +
+                            "                            class=\"dropdown-item\" role=\"presentation\" href=\"#\" style=\"color:#f8b645;\">Account\n" +
+                            "                        Setting</a><a class=\"dropdown-item\" role=\"presentation\"\n" +
+                            "                                      href=\"#\" style=\"color:#f8b645;\">Logout</a></div>\n" +
+                            "                </li>"); %>
+                <%--upto this--%>
             </ul>
         </div>
     </div>
