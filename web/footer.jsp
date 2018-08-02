@@ -20,7 +20,7 @@
                     </ul>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2 col-lg-3">
-                    <h5>Qirayaa</h5>
+                    <h5>fohire</h5>
                     <ul>
                         <li><a href="#">About Us</a></li>
                         <li><a href="#">Company Information<br></a></li>
@@ -50,7 +50,7 @@
             </div>
             <div class="row footer-copyright" style="background-color:rgb(255,255,255);">
                 <div class="col" style="background-color:#ffffff;">
-                    <p>Copyright Qirayaa.com © 2018.All Rights Reserved<br></p>
+                    <p>Copyright fohire.com © 2018. All Rights Reserved<br></p>
                 </div>
             </div>
         </div>
