@@ -1,4 +1,4 @@
-<%@ page import="java.io.IOException" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 28-07-2018
@@ -32,9 +32,7 @@
                                     </tr>
                                     <tr>
                                         <td>Product category:</td>
-                                        <td colspan="3"><select class="form-control">
-                                            <option value="game">Games</option>
-                                        </select></td>
+                                        <td colspan="3"><select class="form-control"><option value="game">Games</option></select></td>
                                     </tr>
                                     <tr>
                                         <td>Available From:</td>
@@ -46,25 +44,17 @@
                                     </tr>
                                     <tr>
                                         <td>Rent expected(<i class="fa fa-rupee"></i>):</td>
-                                        <td><input class="form-control form-control-lg" type="number"></td>
+                                        <td><input class="form-control form-control-lg" type="text"></td>
                                         <td>/-</td>
-                                        <td><select class="form-control">
-                                            <option value="" selected=""></option>
-                                            <option value="day">Per Day</option>
-                                            <option value="month">Per Month</option>
-                                        </select></td>
+                                        <td><select class="form-control"><option value="" selected=""></option><option value="day">Per Day</option><option value="month">Per Month</option></select></td>
                                     </tr>
                                     <tr>
                                         <td>Deposit amount(<i class="fa fa-rupee"></i>):</td>
-                                        <td colspan="2"><input class="form-control" type="number"></td>
+                                        <td colspan="2"><input class="form-control" type="text"></td>
                                         <td colspan="2">/-</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">
-                                            <button class="btn btn-primary float-right qbtn" type="button" id="nextbtn">
-                                                Next
-                                            </button>
-                                        </td>
+                                        <td colspan="4"><button class="btn btn-primary float-right qbtn" type="button" id="nextbtn">Next</button></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -101,7 +91,7 @@
                                         <td>Late charges(<i class="fa fa-rupee"></i>):
                                             <p style="font-size:11px;">(per day late charge)</p>
                                         </td>
-                                        <td><input class="form-control" type="number"></td>
+                                        <td><input class="form-control" type="text"></td>
                                         <td>/-</td>
                                     </tr>
                                     <tr>
@@ -109,14 +99,8 @@
                                         <td colspan="2"><select class="form-control"></select></td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <button class="btn btn-primary qbtn" type="button" id="prvbtn">Previous
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary float-right qbtn" type="submit">Submit
-                                            </button>
-                                        </td>
+                                        <td><button class="btn btn-primary qbtn" type="button" id="prvbtn">Previous</button></td>
+                                        <td><button class="btn btn-primary float-right qbtn" type="submit">Submit</button></td>
                                     </tr>
                                     </tbody>
                                 </table>
