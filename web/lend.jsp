@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <jsp:include page="importLinks.jsp">
-    <jsp:param name="title" value="Lend"/>
+    <jsp:param name="title" value="Servlet.Lend"/>
 </jsp:include>
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="nonindex"/>
@@ -22,7 +22,7 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th colspan="4">Lend your product</th>
+                                        <th colspan="4">Servlet.Lend your Objects.product</th>
                                     </tr>
                                     </thead>
                                     <tbody class="tbdy">
@@ -67,7 +67,7 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th colspan="2">Lend your product</th>
+                                        <th colspan="2">Servlet.Lend your Objects.product</th>
                                     </tr>
                                     </thead>
                                     <tbody>

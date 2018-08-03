@@ -5,15 +5,14 @@
   Time: 09:34 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
     <link rel="icon" type="image/icon" href="assets/img/fohiretransparent1_FLM_icon.ico">
     <title><%= request.getParameter("title")%>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
@@ -29,4 +28,16 @@
     <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge.css">
     <link rel="stylesheet" href="assets/css/fav.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>

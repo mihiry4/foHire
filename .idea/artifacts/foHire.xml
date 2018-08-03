@@ -2,8 +2,15 @@
   <artifact type="exploded-war" build-on-make="true" name="foHire">
     <output-path>$PROJECT_DIR$/out/artifacts/foHire</output-path>
     <root id="root">
-      <element id="module-output" name="foHire" />
       <element id="javaee-facet-resources" facet="foHire/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="foHire" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/mysql-connector.jar" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

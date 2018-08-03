@@ -11,106 +11,6 @@
 <jsp:include page="header.jsp">
   <jsp:param name="type" value="index"/>
 </jsp:include>
-<div class="modal fade visible" role="dialog" tabindex="-1" id="login">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color:#f8b645;">
-        <h4 class="text-monospace modal-title">Login</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">×</span></button>
-      </div>
-      <div class="modal-body">
-        <div>
-          <form><label>E-mail:</label><input class="form-control" type="text"
-                                             required=""><label>Password:</label><input class="form-control"
-                                                                                        type="password"
-                                                                                        required=""><a
-                  class="d-table" href="#" style="font-size:10px;">Forgot your password?</a>
-            <button
-                    class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">
-              Login
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer d-block">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-primary" type="button"
-                    style="width:100%;background-color:rgb(48,51,137);"><a href="#"
-                                                                           style="color:rgb(255,255,255);font-size:20px;"><i
-                    class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with
-              Facebook</a></button>
-          </div>
-          <div
-                  class="col">
-            <button class="btn btn-primary" type="button"
-                    style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
-                                                                                           style="color:rgb(255,255,255);font-size:20px;"><i
-                    class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with
-              Google</a></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal fade visible" role="dialog" tabindex="-1" id="signup">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color:#f8b645;">
-        <h4 class="modal-title">Sign up</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">×</span></button>
-      </div>
-      <div class="modal-body">
-        <div>
-          <form method="post" action="signup"><label>Username:</label><input class="form-control" type="text"
-                                                                             required="true"><label>Firstname:</label><input
-                  class="form-control" type="text" required="true"><label>Lastname:</label><input
-                  class="form-control" type="text" required=""><label>Company name:</label>
-            <input
-                    class="form-control" type="text" required=""><label>Mobile number:</label><input
-                    class="form-control" type="text" required="" maxlength="10" minlength="10"
-                    pattern="^[0-9]*$"><label>E-mail:</label><input class="form-control"
-                                                                    type="email"><label>Password:</label>
-            <input
-                    class="form-control" type="password" required=""><label>Confirm password:</label><input
-                    class="form-control" type="password" required="">
-            <div class="form-check"><input class="form-check-input" type="checkbox" required=""
-                                           id="formCheck-2"><label class="form-check-label"
-                                                                   for="formCheck-2">By clicking sign up you
-              agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and that you have read our
-              <a href="terms.html">Privacy&nbsp;Policy</a>.</label></div>
-            <button
-                    class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">
-              Sign up
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col">
-            <button class="btn btn-primary" type="button"
-                    style="width:100%;background-color:rgb(48,51,137);"><a href="#"
-                                                                           style="color:rgb(255,255,255);font-size:20px;"><i
-                    class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with
-              Facebook</a></button>
-          </div>
-          <div
-                  class="col">
-            <button class="btn btn-primary" type="button"
-                    style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
-                                                                                           style="color:rgb(255,255,255);font-size:20px;"><i
-                    class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with
-              Google</a></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
   <div class="tline" style="margin-top:0;padding-top:20%;">
     <h1 class="text-monospace text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>
@@ -148,7 +48,7 @@
   </div>
   <div>
     <h2 class="text-center" style="color:#f8b645;">Be a lender yourself.</h2>
-    <h5 class="text-center" style="color:#f8b645;">Lend&nbsp;<a class="text-light" href="#">here.</a></h5>
+    <h5 class="text-center" style="color:#f8b645;">Servlet.Lend&nbsp;<a class="text-light" href="#">here.</a></h5>
   </div>
 </section>
 <section style="background-color:#fffdfd;padding-top:60px;padding-bottom:60px;">

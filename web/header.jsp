@@ -7,7 +7,7 @@
 --%>
 <% String type = request.getParameter("type"); %>
 
-<body <% if(type.equals("index")){out.print("style=\"background-image:url(&quot;assets/img/back1.jpg&quot;);background-repeat:no-repeat;background-size:cover;background-position:center;background-attachment:fixed;width:100%;background-color:#465765;\"");} %>>
+<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background: #465765 url('assets/img/back1.jpg') no-repeat fixed center;" <%}%>>
 <nav class="navbar navbar-light navbar-expand-md sticky-top" data-aos="fade-up" data-aos-duration="550"
      data-aos-once="true"
      style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5);");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;");} %>">
@@ -30,22 +30,34 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Borrow</a>
                 </li>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Lend</a>
+                </li>
                     <%--if not logged in--%>
-                        <% if(session==null || session.getAttribute("user")==null) out.print("</li>\n" +
-"                <li class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"#\">\n" +
-"                    <button class=\"btn btn-light log\" type=\"button\" data-toggle=\"modal\" data-target=\"#signup\"\n" +
-"                            style=\"background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);\">\n" +
-"                        Sign up\n" +
-"                    </button>\n" +
-"                </a></li>\n" +
-"                <li\n" +
-"                        class=\"nav-item\" role=\"presentation\"><a class=\"nav-link\" href=\"#\">\n" +
-"                    <button class=\"btn btn-light log\" type=\"button\" data-toggle=\"modal\" data-target=\"#login\"\n" +
-"                            style=\"background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);\">\n" +
-"                        Login\n" +
-"                    </button>\n" +
-"                </a></li>");%>
-                    <%--upto this--%>
+                <% if (session == null || session.getAttribute("user") == null) {%>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="padding: 0;">
+                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#signup"
+                            style="background-color:rgba(0,123,255,0);color:rgb(248,182,69);">
+                        Sign up
+                    </button>
+                </a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="padding: 0;">
+                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#login"
+                            style="background-color:rgba(0,123,255,0);color:rgb(248,182,69);">
+                        Login
+                    </button>
+                </a></li>
+                <%} else { %>   <%--if  logged in--%>
+                <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
+                                        aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu"
+                         style="background-color:rgba(0,0,0,0.5);"><a class="dropdown-item" role="presentation"
+                                                                      href="editprofile.html" style="color:#f8b645;">Edit
+                        Profile</a><a class="dropdown-item" role="presentation" href="setting.html"
+                                      style="color:#f8b645;">Account Setting</a><a class="dropdown-item"
+                                                                                   role="presentation" href="#"
+                                                                                   style="color:#f8b645;">Logout</a>
+                    </div>
+                </li>
+                <%} %>  <%--upto this--%>
                 <li
                         class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
                                             aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
@@ -54,19 +66,127 @@
                                                                       style="color:#f8b645;">How it works?</a><a
                             class="dropdown-item" role="presentation" href="#" style="color:#f8b645;">FAQs</a></div>
                 </li>
-                <%--if logged in--%>
-                <% if (session != null && session.getAttribute("user") != null)
-                    out.print("<li class=\"dropdown\"><a class=\"dropdown-toggle nav-link dropdown-toggle\" data-toggle=\"dropdown\"\n" +
-                            "                                        aria-expanded=\"false\" href=\"#\" style=\"color:#f8b645;\">Profile</a>\n" +
-                            "                    <div class=\"dropdown-menu dropdown-menu-right\" role=\"menu\"\n" +
-                            "                         style=\"background-color:rgba(0,0,0,0.5);\"><a class=\"dropdown-item\" role=\"presentation\" href=\"#\"\n" +
-                            "                                                                      style=\"color:#f8b645;\">Edit Profile</a><a\n" +
-                            "                            class=\"dropdown-item\" role=\"presentation\" href=\"#\" style=\"color:#f8b645;\">Account\n" +
-                            "                        Setting</a><a class=\"dropdown-item\" role=\"presentation\"\n" +
-                            "                                      href=\"#\" style=\"color:#f8b645;\">Logout</a></div>\n" +
-                            "                </li>"); %>
-                <%--upto this--%>
             </ul>
         </div>
     </div>
 </nav>
+    <% if (session == null || session.getAttribute("user") == null) {%>
+<script>
+    $(document).ready(function () {
+        $("#log").click(function () {
+            $.post("login", {
+                login: $("#login_user").val(),
+                password: $("#login_pass").val()
+            }, function () {
+                location.reload(true);
+            }).fail(function () {
+                $("#incorrect").text("Invalid username or password");
+            });
+        });
+    });
+
+</script>
+<div class="modal fade visible" role="dialog" tabindex="-1" id="login"><%--For login--%>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#f8b645;">
+                <h4 class="text-monospace modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&#9587;</span></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label for="login_user">E-mail or Phone no:</label><input id="login_user" class="form-control"
+                                                                              type="text" required=""><label
+                        for="login_pass">Password:</label><input
+                        id="login_pass" class="form-control" type="password" required=""><a class="d-table" href="#"
+                                                                                            style="font-size:10px;">Forgot
+                    your
+                    password?</a>
+                    <button
+                            id="log" class="btn btn-primary" <%--type="submit"--%>
+                            style="background-color:#f8b645;margin-top:10px;">
+                        Login
+                    </button>
+                    <span id="incorrect"></span>
+                </div>
+            </div>
+            <div class="modal-footer d-block">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" type="button"
+                                style="width:100%;background-color:rgb(48,51,137);"><a href="#"
+                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
+                                class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with
+                            Facebook</a></button>
+                    </div>
+                    <div
+                            class="col">
+                        <button class="btn btn-primary" type="button"
+                                style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
+                                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
+                                class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with
+                            Google</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade visible" role="dialog" tabindex="-1" id="signup"><%--for signup--%>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#f8b645;">
+                <h4 class="modal-title">Sign up</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&#9587;</span></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form><label>Username:</label><input class="form-control" type="text"
+                                                         required=""><label>Firstname:</label><input
+                            class="form-control" type="text" required=""><label>Lastname:</label><input
+                            class="form-control" type="text" required=""><label>Company name:</label>
+                        <input
+                                class="form-control" type="text" required=""><label>Mobile number:</label><input
+                                class="form-control" type="number" required="" maxlength="10" minlength="10"
+                        ><label>E-mail:</label><input class="form-control"
+                                                      type="email"><label>Password:</label>
+                        <input
+                                class="form-control" type="password" required=""><label>Confirm password:</label><input
+                                class="form-control" type="password" required="">
+                        <div class="form-check"><input class="form-check-input" type="checkbox" required=""
+                                                       id="formCheck-2"><label class="form-check-label"
+                                                                               for="formCheck-2">By clicking sign up you
+                            agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and that you have read our
+                            <a href="terms.html">Privacy&nbsp;Policy</a>.</label></div>
+                        <button
+                                class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">
+                            Sign up
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-primary" type="button"
+                                style="width:100%;background-color:rgb(48,51,137);"><a href="#"
+                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
+                                class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with
+                            Facebook</a></button>
+                    </div>
+                    <div
+                            class="col">
+                        <button class="btn btn-primary" type="button"
+                                style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
+                                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
+                                class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with
+                            Google</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% }%>

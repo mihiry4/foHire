@@ -19,6 +19,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0" level="application_server_libraries" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="GlassFish 5.0.0" level="application_server_libraries" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/mysql-connector.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

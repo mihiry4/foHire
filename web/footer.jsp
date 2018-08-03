@@ -50,7 +50,7 @@
             </div>
             <div class="row footer-copyright" style="background-color:rgb(255,255,255);">
                 <div class="col" style="background-color:#ffffff;">
-                    <p>Copyright fohire.com © 2018. All Rights Reserved<br></p>
+                    <p>Copyright fohire.com &copy; 2018. All Rights Reserved<br></p>
                 </div>
             </div>
         </div>
