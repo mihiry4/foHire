@@ -44,13 +44,13 @@
                                     </tr>
                                     <tr>
                                         <td>Rent expected(<i class="fa fa-rupee"></i>):</td>
-                                        <td><input class="form-control form-control-lg" type="text"></td>
+                                        <td><input class="form-control form-control-lg" type="number"></td>
                                         <td>/-</td>
                                         <td><select class="form-control"><option value="" selected=""></option><option value="day">Per Day</option><option value="month">Per Month</option></select></td>
                                     </tr>
                                     <tr>
                                         <td>Deposit amount(<i class="fa fa-rupee"></i>):</td>
-                                        <td colspan="2"><input class="form-control" type="text"></td>
+                                        <td colspan="2"><input class="form-control" type="number"></td>
                                         <td colspan="2">/-</td>
                                     </tr>
                                     <tr>
@@ -73,7 +73,7 @@
                                     <tbody>
                                     <tr>
                                         <td>Thumbnail image:</td>
-                                        <td colspan="2"><input type="file" accept=".jpg" required=""></td>
+                                        <td colspan="2"><input type="file" accept="image/*" required=""></td>
                                     </tr>
                                     <tr>
                                         <td>Product images:</td>
@@ -91,7 +91,7 @@
                                         <td>Late charges(<i class="fa fa-rupee"></i>):
                                             <p style="font-size:11px;">(per day late charge)</p>
                                         </td>
-                                        <td><input class="form-control" type="text"></td>
+                                        <td><input class="form-control" type="number"></td>
                                         <td>/-</td>
                                     </tr>
                                     <tr>
