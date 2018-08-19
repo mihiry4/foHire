@@ -19,9 +19,7 @@ public class user {
     Timestamp firstCreated;
     Timestamp lastActive;
     String profilePic;
-    Timestamp dateOfBirth;
     int numOfPost;
-    String city;
     boolean verifiedUser;
     boolean TCverified;
     boolean emailVerified;
@@ -32,39 +30,55 @@ public class user {
         super.finalize();
     }
 
-    public user(@NotNull Connection connection, int user_id)        //from session id
-    {
-        fillDetails(connection, user_id);
+    private static boolean validate(@NotNull Connection connection, String email, String mobile, String userName) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ? OR user_name = ? OR mobile_number = ?");
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, userName);
+            preparedStatement.setString(3, mobile);
+            ResultSet rs = preparedStatement.executeQuery();
+            return (! rs.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
-    static boolean validate(){
-        //code for validation
-        return  true;
-    }
-
-    public user(@NotNull Connection connection, String input, String password) {    //for Servlet.login purpose
-        try{
+    public void login(@NotNull Connection connection, String input, String password) throws IllegalArgumentException {    //for login purpose
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where (email_id = ? OR user_name = ? OR mobile_number = ?) and password = ?");
             preparedStatement.setString(1, input);
             preparedStatement.setString(2, input);
             preparedStatement.setString(3, input);
-            preparedStatement.setString(4, password);
+            preparedStatement.setString(4, hashpass(password));
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 this.userid = resultSet.getInt(1);
-                fillDetails(connection, this.userid);
             } else {
                 throw new IllegalArgumentException("Entered invalid credentials");
             }
-        } catch(SQLException se){
+        } catch (SQLException se) {
             se.printStackTrace();
         }
     }
 
-    void fillDetails(@NotNull Connection connection, int user_id){
+    void fillProduct(@NotNull Connection connection) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT first_name, profile_pic from users where user_id= ?");
+            preparedStatement.setInt(1, userid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            this.firstName = resultSet.getString(1);
+            this.profilePic = resultSet.getString(2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void fillDetails(@NotNull Connection connection) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from users where user_id= ?");
-            preparedStatement.setInt(1, user_id);
+            preparedStatement.setInt(1, userid);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();   //set pointer to first row
 
@@ -78,42 +92,72 @@ public class user {
             this.firstCreated = resultSet.getTimestamp(10);
             this.lastActive = resultSet.getTimestamp(13);
             this.profilePic = resultSet.getString(14);
-            /*this.numOfPost = resultSet.getInt(15);
-            this.city = resultSet.getString(18);
+            this.numOfPost = resultSet.getInt(15);
             this.emailVerified = resultSet.getBoolean(12);
             this.mobileVerified = resultSet.getBoolean(11);
-            this.verifiedUser = resultSet.getBoolean(20);
-            this.TCverified = resultSet.getBoolean(19);*/
+            this.verifiedUser = resultSet.getBoolean(19);
+            this.TCverified = resultSet.getBoolean(18);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public user(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String password, boolean TCverified)  //for signUp
+    public void signup(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String mobile, String password, boolean TCverified) throws IllegalArgumentException//for signUp
     {
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, password, TC_verified) VALUES (?, ?, ?, ?, ?, ?)");
+        try {
+            if (! validate(connection, email, userName, mobile)) {
+                throw new IllegalArgumentException("Account already exists for this information");
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, TC_verified) VALUES (?, ?, ?, ?, ?, ?, ?)");
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, userName);
             preparedStatement.setString(4, email);
-            preparedStatement.setString(5, hashpass(password));
-            preparedStatement.setBoolean(6, TCverified);
+            preparedStatement.setString(5, mobile);
+            preparedStatement.setString(6, hashpass(password));
+            preparedStatement.setBoolean(7, TCverified);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
             preparedStatement.setString(1, email);
-            preparedStatement.executeUpdate();
-            if(!validate()){
-                throw new IllegalArgumentException("Account already exists for this information");
-            }
-            fillDetails(connection, userid);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            this.userid = rs.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public String getLastActive(int user_id,@NotNull Connection connection) {
+    public void googleLogin(@NotNull Connection connection, String firstName, String lastName, String email, String google_auth, boolean emailVerified, String profilePic) {  //for google login/signup
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ?");
+            preparedStatement.setString(1, email);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                preparedStatement = connection.prepareStatement("update users set first_name= ? , last_name = ?, email_id = ?, google_auth = ?, email_verified = ?, profile_pic = ? where user_id = ?");
+                preparedStatement.setInt(7, id);
+            } else {
+                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic) values (?, ?, ?, ?, ?, ?)");
+            }
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, google_auth);
+            preparedStatement.setBoolean(5, emailVerified);
+            preparedStatement.setString(6, profilePic);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
+            preparedStatement.setString(1, email);
+            rs = preparedStatement.executeQuery();
+            rs.next();
+            this.userid = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getLastActive(int user_id, @NotNull Connection connection) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT last_active from users where user_id= ?");
             preparedStatement.setInt(1, user_id);
@@ -127,17 +171,17 @@ public class user {
             long M = ChronoUnit.MONTHS.between(now, then);
             long y = ChronoUnit.YEARS.between(now, then);
             //last active found. If more than 1 year then no need for months and days and all.
-            if(y>=1) {
-                return ("Last Active: "+y+" year(s) ago");
-            } else if(M>=1) {
-                return ("Last Active: "+M+" month(s) ago");
-            } else if(d>=1) {
-                return ("Last Active: "+d+" month(s) ago");
-            } else if(h>=1) {
-                return ("Last Active: "+h+" hour(s) ago");
-            } else if(m>=2) {
-                return ("Last Active: "+m+" minutes ago");
-            } else{
+            if (y >= 1) {
+                return ("Last Active: " + y + " year(s) ago");
+            } else if (M >= 1) {
+                return ("Last Active: " + M + " month(s) ago");
+            } else if (d >= 1) {
+                return ("Last Active: " + d + " month(s) ago");
+            } else if (h >= 1) {
+                return ("Last Active: " + h + " hour(s) ago");
+            } else if (m >= 2) {
+                return ("Last Active: " + m + " minutes ago");
+            } else {
                 return "Active";
             }
         } catch (SQLException e) {
@@ -147,7 +191,7 @@ public class user {
     }
 
     public int getUnreadMessages(@NotNull Connection connection) {
-        try{
+        try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT distinct conversation_id from messages where recipient= ?");
             preparedStatement.setInt(1, userid);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -156,7 +200,7 @@ public class user {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+        return - 1;
     }
 
     public void deleteUser(@NotNull Connection connection) {
@@ -173,13 +217,13 @@ public class user {
     }
 
     public int getProfileCompletion() {
-        int i=0;
-        if (facebook_auth!=null) i++;
-        if (google_auth!=null) i++;
-        if (profilePic!=null) i++;
+        int i = 0;
+        if (facebook_auth != null) i++;
+        if (google_auth != null) i++;
+        if (profilePic != null) i++;
         if (mobileVerified) i++;
         if (emailVerified) i++;
-        i*=20;
+        i *= 20;
         return i;
     }
 
@@ -188,37 +232,20 @@ public class user {
     }
 
     private String hashpass(@NotNull String base) {
-        try{
+        try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(base.getBytes("UTF-8"));
             StringBuffer hexString = new StringBuffer();
 
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if(hex.length() == 1) hexString.append('0');
+            for (byte aHash : hash) {
+                String hex = Integer.toHexString(0xff & aHash);
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
 
             return hexString.toString();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
-    /*
-    Add Objects.user on
-    public void addUser()
-    {
-
-    }
-
-
-
-    public void addUserFb()
-    {
-    }
-
-    public void addUserGoogle()
-    {
-    }
-     */
 }

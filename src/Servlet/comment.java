@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.DB;
-import Objects.user;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,31 +12,35 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "/login")
-public class login extends HttpServlet {
+@WebServlet(name = "comment")
+public class comment extends HttpServlet {
     private Connection connection;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String input = request.getParameter("login");
-        String password = request.getParameter("password");
-        user u = null;
-        if (input != null && password != null && ! input.equals("") && ! password.equals(""))
-            u = new user();
-        try {
-            u.login(connection, input, password);
-        } catch (IllegalArgumentException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Username or password does not match.");
-        }
-
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("user", u.userid);
-        response.setStatus(HttpServletResponse.SC_OK);
-
+        int user = (int) session.getAttribute("user");
+        int product = (int) session.getAttribute("product");
+        if (user != 0 && product != 0) {
+            String r = request.getParameter("rating");
+            String review = request.getParameter("review");
+            double rating = Double.parseDouble(r);
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
+                preparedStatement.setInt(1, product);
+                preparedStatement.setInt(2, user);
+                preparedStatement.setDouble(3, rating);
+                preparedStatement.setString(4, review);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
         rd.forward(request, response);

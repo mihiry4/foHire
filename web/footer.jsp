@@ -14,7 +14,6 @@
                     <h5>Get started</h5>
                     <ul>
                         <li><a href="#">Home</a></li>
-                        <li><a href="#">Downloads<br></a></li>
                         <li><a href="#">Sign Up</a></li>
                         <li><a href="#">Other Links</a></li>
                     </ul>
@@ -32,9 +31,7 @@
                     <h5>Support</h5>
                     <ul>
                         <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help Desk<br></a></li>
                         <li><a href="#">Forums</a></li>
-                        <li><a href="#">External Links</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 col-lg-3 social-networks">
