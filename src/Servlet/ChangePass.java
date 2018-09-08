@@ -1,6 +1,7 @@
 package Servlet;
 
 import Objects.DB;
+import Objects.user;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,40 +9,41 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.io.PrintWriter;
+import java.sql.*;
 
-@WebServlet(name = "comment")
-public class comment extends HttpServlet {
+@WebServlet(name = "ChangePass")
+public class ChangePass extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        int user = (int) session.getAttribute("user");
-        int product = (int) session.getAttribute("product");
-        if (user != 0 && product != 0) {
-            String r = request.getParameter("rating");
-            String review = request.getParameter("review");
-            double rating = Double.parseDouble(r);
+        int user_id = (int) request.getSession().getAttribute("user");
+        String Opasswd = request.getParameter("old_pass");
+        String Npasswd = request.getParameter("new_pass");
+        String Cpasswd = request.getParameter("conf_pass");
+        if (Npasswd.equals(Cpasswd)) {
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
-                preparedStatement.setInt(1, product);
-                preparedStatement.setInt(2, user);
-                preparedStatement.setDouble(3, rating);
-                preparedStatement.setString(4, review);
-                preparedStatement.executeUpdate();
+                PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_id =? and password = ?");
+                preparedStatement.setInt(1, user_id);
+                preparedStatement.setString(2, user.hashpass(Opasswd));
+                ResultSet rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    preparedStatement = connection.prepareStatement("update users set password = ? where user_id = ?");
+                    preparedStatement.setString(1, user.hashpass(Npasswd));
+                    preparedStatement.setInt(2, user_id);
+                    preparedStatement.executeUpdate();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            PrintWriter out = response.getWriter();
+            out.print("Your password has been successfully updated");
+        } else {
+            request.getRequestDispatcher("404.jsp").forward(request, response);
         }
-        response.setHeader("REFRESH", "0");
     }
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
         rd.forward(request, response);

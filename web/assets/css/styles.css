@@ -1,3 +1,11 @@
+.nodisp {
+    display: none;
+}
+
+.disp {
+    display: block;
+}
+
 .lendform {
   margin-top:20px;
   box-shadow:2px 2px 5px rgb(135,135,135);
@@ -12,42 +20,4 @@
 .qbtn:hover {
   background-color:#f8af31;
 }
-
-.rating {
-    border: none;
-    float: left;
-}
-
-.rating > input {
-    display: none;
-}
-
-.rating > label:before {
-    margin: 5px;
-    font-size: 1.25em;
-    font-family: FontAwesome;
-    display: inline-block;
-    content: "\f005";
-}
-
-.rating > .half:before {
-    content: "\f089";
-    position: absolute;
-}
-
-.rating > label {
-    color: #ddd;
-    float: right;
-}
-
-/***** CSS Magic to Highlight Stars on Hover *****/
-
-.rating > input:checked ~ label, /* show gold star when clicked */
-.rating:not(:checked) > label:hover, /* hover current star */
-.rating:not(:checked) > label:hover ~ label {
-    color: #f8b645;
-}
-
-/* hover previous stars in list */
-
 

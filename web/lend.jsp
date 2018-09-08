@@ -81,11 +81,13 @@
                                     <tbody>
                                     <tr>
                                         <td>Thumbnail image:</td>
-                                        <td colspan="2"><input name="thumbnail" type="file" accept="image/*"></td>
+                                        <td colspan="2"><input name="thumbnail" type="file" accept="image/*" onchange="readURL(this);"><img src="#" id="blah" style="height:0;width:0;"/></td>
                                     </tr>
                                     <tr>
-                                        <td>Product images:</td>
-                                        <td colspan="2"><input name="images" type="file" accept="image/*" multiple="true"></td>
+                                        <td>Product images:<span class="d-block" style="font-size:13px;">(Maximum 3 images)</span></td>
+                                        <td colspan="2"><input name="images" type="file" accept="image/*" multiple="multiple" id="gallery-photo-add" max="3">
+                                            <div class="gallery"></div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Location:</td>

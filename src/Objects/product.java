@@ -20,8 +20,9 @@ public class product {
     public String category;
     public String description;
     public String region;
+    public String city;
     public String[] img;
-    double rating;
+    public double rating;
     int favourites;
     public int price;
     public int deposit;
@@ -43,7 +44,7 @@ public class product {
     public comment[] getComments(@NotNull Connection connection) {
         comment[] comments = null;
         /*try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, profile_pic) from reviews natural join users where product_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, profile_pic, user_id) from reviews natural join users where product_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.last();
@@ -52,14 +53,14 @@ public class product {
             resultSet.beforeFirst();
             for (int i=0; i<comments.length; i++) {
                 resultSet.next();
-                comments[i] = new comment( resultSet.getDouble(1), resultSet.getString(2), resultSet.getTimestamp(3), resultSet.getString(4), resultSet.getString(5));
+                comments[i] = new comment( resultSet.getDouble(1), resultSet.getString(2), resultSet.getTimestamp(3), resultSet.getString(4), resultSet.getString(5), resultSet.getInt(6));
             }
         }
         catch (SQLException e){
             e.printStackTrace();
         }*/
         comments = new comment[1];
-        comments[0] = new comment(4.3, "dgkfxg Good product", new Timestamp(System.currentTimeMillis()), "manan", "assets/img/user-photo4.jpg");
+        comments[0] = new comment(4.3, "dgkfxg Good product", new Timestamp(System.currentTimeMillis()), "manan", "assets/img/user-photo4.jpg", 1);
         return comments;
     }
     public product(){

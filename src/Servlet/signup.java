@@ -70,12 +70,13 @@ public class signup extends HttpServlet {
                     String password = request.getParameter("password");
                     String email = request.getParameter("email");
                     String otp = request.getParameter("otp");
+                    String referral = request.getParameter("referral");
 
                     if (map.containsKey(mobileNumber) && map.get(mobileNumber).toString().equals(otp)) {
                         map.remove(mobileNumber);
                         user u = new user();
                         try {
-                            u.signup(connection, firstname, lastname, username, email, mobileNumber, password, true);
+                            u.signup(connection, firstname, lastname, username, email, mobileNumber, password, true, referral);
                         } catch (IllegalArgumentException e) {
                             response.sendError(HttpServletResponse.SC_CONFLICT, "User with this details already exists");
                         }
@@ -94,13 +95,31 @@ public class signup extends HttpServlet {
                     } else {
                         num = map.get(mobile);
                     }
-                    String url = "http://www.smsidea.co.in/sendsms.aspx?mobile=7984180139&pass=VQKZO&senderid=SMSBUZ&to=" + mobile + "&msg=Your one time passcode for fohire is " + num;
-                    URL obj = new URL(url);
-                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                    con.setRequestMethod("GET");
-                    int responseCode = con.getResponseCode();
-                    System.out.println("GET Response Code :: " + responseCode);
-
+                    URL sendUrl = new URL("http://smsidea.co.in/sendsms.aspx");
+                    HttpURLConnection httpConnection = (HttpURLConnection) sendUrl
+                            .openConnection();
+                    httpConnection.setRequestMethod("POST");
+                    httpConnection.setDoInput(true);
+                    httpConnection.setDoOutput(true);
+                    httpConnection.setUseCaches(false);
+                    DataOutputStream dataStreamToServer = new DataOutputStream(
+                            httpConnection.getOutputStream());
+                    dataStreamToServer.writeBytes("mobile="
+                            + URLEncoder.encode("7984180139", "UTF-8") + "&pass="
+                            + URLEncoder.encode("VQKZO", "UTF-8") + "&senderid="
+                            + URLEncoder.encode("SMSBUZ", "UTF-8") + "&to="
+                            + URLEncoder.encode("7984180139", "UTF-8") + "&msg="
+                            + URLEncoder.encode("Your one time passcode for fohire is " + num, "UTF-8"));
+                    dataStreamToServer.flush();
+                    dataStreamToServer.close();
+                    BufferedReader dataStreamFromUrl = new BufferedReader(
+                            new InputStreamReader(httpConnection.getInputStream()));
+                    String dataFromUrl = "", dataBuffer;
+                    while ((dataBuffer = dataStreamFromUrl.readLine()) != null) {
+                        dataFromUrl += dataBuffer;
+                    }
+                    dataStreamFromUrl.close();
+                    System.out.println("Response: " + dataFromUrl);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -119,31 +138,9 @@ public class signup extends HttpServlet {
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");
         int responseCode = con.getResponseCode();*/
-        URL sendUrl = new URL("http://smsidea.co.in/sendsms.aspx");
-        HttpURLConnection httpConnection = (HttpURLConnection) sendUrl
-                .openConnection();
-        httpConnection.setRequestMethod("POST");
-        httpConnection.setDoInput(true);
-        httpConnection.setDoOutput(true);
-        httpConnection.setUseCaches(false);
-        DataOutputStream dataStreamToServer = new DataOutputStream(
-                httpConnection.getOutputStream());
-        dataStreamToServer.writeBytes("mobile="
-                + URLEncoder.encode("7984180139", "UTF-8") + "&pass="
-                + URLEncoder.encode("VQKZO", "UTF-8") + "&senderid="
-                + URLEncoder.encode("SMSBUZ", "UTF-8") + "&to="
-                + URLEncoder.encode("7984180139", "UTF-8") + "&msg="
-                + URLEncoder.encode("mmdgfkxc.hgk.xghuk", "UTF-8"));
-        dataStreamToServer.flush();
-        dataStreamToServer.close();
-        BufferedReader dataStreamFromUrl = new BufferedReader(
-                new InputStreamReader(httpConnection.getInputStream()));
-        String dataFromUrl = "", dataBuffer = "";
-        while ((dataBuffer = dataStreamFromUrl.readLine()) != null) {
-            dataFromUrl += dataBuffer;
-        }
-        dataStreamFromUrl.close();
-        System.out.println("Response: " + dataFromUrl);
+        doPost(request, response);
+        PrintWriter out = response.getWriter();
+        out.print("fdlxhhfksdjgfkusdgzfsdjyf");
     }
 
     @Override

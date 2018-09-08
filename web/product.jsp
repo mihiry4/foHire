@@ -7,6 +7,7 @@
 <%@ page import="Objects.comment" %>
 <%! Connection connection;
 
+    @Override
     public void jspInit() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -16,6 +17,7 @@
         }
     }
 
+    @Override
     public void jspDestroy() {
         try {
             connection.close();
@@ -34,6 +36,7 @@
         request.getRequestDispatcher("500.jsp").forward(request,response);
     }%>--%>
 <% product p = new product();
+    int uid = (int) session.getAttribute("user");
     try {
         String id = request.getParameter("id");
         p.product_id = Integer.parseInt(id);
@@ -44,6 +47,7 @@
         request.getRequestDispatcher("404.jsp").forward(request, response);
     }
     comment[] comments = p.getComments(connection);
+
 %>
 <div class="modal fade" role="dialog" tabindex="-1" id="book">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -157,7 +161,7 @@
                 <h4 style="color:#adadad;"><%=p.region%>
                 </h4>
                 <div>
-                    <h6><c:out value="${des}" escapeXml="true"/></h6>
+                    <h6><c:out value="${des}" escapeXml="true"/></h6> <%--for escaping html tags--%>
                     <hr>
                 </div>
                 <div>
@@ -177,8 +181,40 @@
                 </div>
                 <div>
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29336.062459368477!2d72.61464429085115!3d23.206386086975506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395c2a3c9618d2c5%3A0xc54de484f986b1fa!2sDhirubhai+Ambani+Institute+of+Information+and+Communication+Technology!5e0!3m2!1sen!2sin!4v1530942375698" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    <div id="map" width="100%" style="border:0; height:200px"></div>
                 </div>
                 <hr>
+                <div>
+                    <div class="d-inline">
+                        <h3 class="d-inline"><%=comments.length%> Reviews</h3>
+                    </div>
+                    <div class="d-inline float-right">
+                        <p style="font-weight:600;font-size:24px;"><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>
+                    </div>
+                </div>
+                <hr>
+                <% for (comment c : comments) {
+                    if (c.user_id == uid) {%>
+                <div class="media" style="overflow:visible;">
+                    <div><img src="<%=c.user_propic%>" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>
+                    <div class="media-body" style="overflow:visible;">
+                        <div class="row no-gutters">
+                            <div class="col-md-12">
+                                <p style="margin-bottom:0px;"><a href="#" style="color:rgb(0,0,0);text-decoration:none;font-weight:600;"><%=c.user_firstname%>
+                                </a> <%=c.review%><br>
+                                    <small class="text-muted"><%=c.time.toGMTString()%>&nbsp;</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row no-gutters">
+                            <div class="col-md-12">
+                                <p class="d-inline"><i class="fa fa-star" style="color:#f8b645;"></i><%=c.rating%>
+                                </p><a class="float-right" href="#"><i class="fa fa-trash-o" style="font-size:21px;color:black;"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <%
+                } else {%>
                 <div>
                     <form method="post" action="comment">
                         <div class="form-row">
@@ -212,31 +248,12 @@
                     </form>
                 </div>
                 <hr>
-                <div>
-                    <div class="d-inline">
-                        <h3 class="d-inline"><%=comments.length%> Reviews</h3>
-                    </div>
-                    <div class="d-inline float-right">
-                        <p style="font-weight:600;font-size:24px;"><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>
-                    </div>
-                </div>
-                <hr>
-                <%--<div class="media" style="overflow:visible;">
-                    <div><img src="assets/img/user-photo4.jpg" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>
-                    <div class="media-body" style="overflow:visible;">
-                        <div class="row no-gutters">
-                            <div class="col-md-12">
-                                <p style="margin-bottom:0px;"><a href="#" style="color:rgb(0,0,0);text-decoration:none;font-weight:600;">Brennan Prill</a> This guy has been going 100+ MPH on side streets. <br>
-                                    <small class="text-muted">August 6, 2016&nbsp;</small></p>
-                            </div>
-                        </div>
-                        <div class="row no-gutters">
-                            <div class="col-md-12">
-                                <p class="d-inline"><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p><a class="float-right" href="#"><i class="fa fa-trash-o" style="font-size:21px;color:black;"></i></a></div>
-                        </div>
-                    </div>
-                </div>--%>
-                <% for (comment c : comments) {%>
+                <%
+                        }
+                    }
+                %>
+                <% for (comment c : comments) {
+                    if (c.user_id != uid) {%>
                 <div class="media" style="overflow:visible;">
                     <div><img src="<%=c.user_propic%>" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>
                     <div class="media-body" style="overflow:visible;">
@@ -251,13 +268,47 @@
                         <div class="row no-gutters">
                             <div class="col-md-12">
                                 <p class="d-inline"><i class="fa fa-star" style="color:#f8b645;"></i><%=c.rating%>
-                                </p><a class="float-right" href="#"><i class="fa fa-trash-o" style="font-size:21px;color:black;"></i></a></div>
+                                </p></div>
                         </div>
                     </div>
                 </div>
-                <%}%>
+                <%
+                        }
+                    }
+                %>
             </div>
         </div>
     </div>
 </section>
+<script>
+    var geocoder;
+    var map;
+    var address = "gnfc township, bharuch";
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: {lat: -34.397, lng: 150.644}
+        });
+        geocoder = new google.maps.Geocoder();
+        codeAddress(geocoder, map);
+    }
+
+    function codeAddress(geocoder, map) {
+        geocoder.geocode({'address': address}, function (results, status) {
+            if (status === 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzjs-bUR6iIl8yGLr60p6-zbdFtRpuXTQ&callback=initMap">
+</script>
 <jsp:include page="footer.jsp"/>

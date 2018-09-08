@@ -15,33 +15,26 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "comment")
-public class comment extends HttpServlet {
+@WebServlet(name = "Deactivate")
+public class Deactivate extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        int user = (int) session.getAttribute("user");
-        int product = (int) session.getAttribute("product");
-        if (user != 0 && product != 0) {
-            String r = request.getParameter("rating");
-            String review = request.getParameter("review");
-            double rating = Double.parseDouble(r);
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
-                preparedStatement.setInt(1, product);
-                preparedStatement.setInt(2, user);
-                preparedStatement.setDouble(3, rating);
-                preparedStatement.setString(4, review);
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        int user_id = (int) request.getSession().getAttribute("user");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivate = 1 where user_id = ?");
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("update product set status = 0 where user_id = ?");
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.executeUpdate();
+            request.getSession().setAttribute("user", null);
+            response.sendRedirect("/");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        response.setHeader("REFRESH", "0");
     }
 
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
         rd.forward(request, response);

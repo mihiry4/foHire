@@ -57,17 +57,12 @@
 }
 
 .menu a:hover {
-  border-bottom:2px black solid;
-  transition:1s;
-}
-
-.menu a:hover {
-  border-bottom:2px black solid;
+    border-bottom: 2px rgba(255, 255, 255, 0.73) solid;
+    /*box-shadow:0px 0px 5px #f8b645;*/
 }
 
 .menu a {
-  border-bottom:2px transparent dashed;
-  transition:2s;
+    border-bottom: 2px transparent solid;
 }
 
 .btn.btn-light.log {
@@ -81,6 +76,8 @@
 .form-inline.mr-auto.searchbar {
   border-radius:5px;
   border:1px rgb(137,137,137) solid;
+    box-shadow: 2px 2px 5px rgb(58, 58, 58);
+    width: 50%;
 }
 
 .sidenav {
@@ -144,5 +141,76 @@
   .form-row {
     display:block;
   }
+}
+
+.d-flex.card-foot {
+    padding: 5px;
+    position: absolute;
+    top: 0;
+}
+
+.fohireclr {
+    color: #f8b645;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .form-inline.d-inline-block.mr-auto.searchbar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 920px) {
+    .form-inline.d-inline-block.mr-auto.searchbar {
+        width: 30%;
+    }
+}
+
+.prodbtn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.carousel-indicators li {
+    background-color: black;
+}
+
+.tbdy tr td {
+    /*font-size:2vw;*/
+}
+
+.d-table.fohireclr:hover {
+    color: #996306;
+}
+
+.fohireclr:hover {
+    color: #b3750a;
+    text-decoration: none;
+}
+
+.catblocka img {
+    text-decoration: none;
+}
+
+.nodec {
+    text-decoration: none;
+}
+
+.nodec a:hover {
+    text-decoration: none;
+}
+
+.nodec a {
+    color: #595959;
+}
+
+.nodec:hover {
+    box-shadow: 2px 2px 5px grey;
+}
+
+.gallery img {
+    height: 50px;
+    width: 50px;
 }
 

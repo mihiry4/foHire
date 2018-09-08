@@ -47,7 +47,7 @@
                     <div class="dropdown-menu dropdown-menu-right" role="menu"
                          style="background-color:rgba(0,0,0,0.5);"><a class="dropdown-item" role="presentation"
                                                                       href="editprofile.html" style="color:#f8b645;">Edit
-                        Profile</a><a class="dropdown-item" role="presentation" href="setting.html"
+                        Profile</a><a class="dropdown-item" role="presentation" href="setting.jsp"
                                       style="color:#f8b645;">Account Setting</a><a class="dropdown-item"
                                                                                    role="presentation" href="#"
                                                                                    style="color:#f8b645;">Logout</a>

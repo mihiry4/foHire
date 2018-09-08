@@ -50,7 +50,7 @@ public class user {
             preparedStatement.setString(1, input);
             preparedStatement.setString(2, input);
             preparedStatement.setString(3, input);
-            preparedStatement.setString(4, hashpass(password));
+            preparedStatement.setString(4, password);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 this.userid = resultSet.getInt(1);
@@ -73,6 +73,43 @@ public class user {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public message[] getMessages(@NotNull Connection connection) {
+        message[] messages = null;
+        try {
+            /*PreparedStatement preparedStatement = connection.prepareStatement("SELECT message_id, content, sender, receiver, time, u.email_id as sender_email, CONCAT(u.first_name, \" \", u.last_name) as sender_name, u1.email_id as rec_email, CONCAT(u1.first_name, \" \", u1.last_name) as rec_name FROM `messages` JOIN `users` AS u JOIN `users` as u1 ON (u.user_id=sender AND u1.user_id=receiver) WHERE message_id in (SELECT MAX(message_id) FROM messages WHERE sender = ? or receiver = ? GROUP BY (sender+receiver), (ABS(sender-receiver))) ");
+            preparedStatement.setInt(1,userid);
+            ResultSet rs = preparedStatement.executeQuery();*/
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return messages;
+    }
+
+    public conversion[] getConversions(@NotNull Connection connection) {
+        conversion[] conversions = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT content, sender, receiver, time, u.email_id as sender_email, CONCAT(u.first_name, \" \", u.last_name) as sender_name, u.profile_pic as sender_pic, u1.email_id as rec_email, CONCAT(u1.first_name, \" \", u1.last_name) as rec_name, u1.profile_pic as receiver_pic FROM `messages` JOIN `users` AS u JOIN `users` as u1 ON (u.user_id=sender AND u1.user_id=receiver) WHERE message_id in (SELECT MAX(message_id) FROM messages WHERE sender = ? or receiver = ? GROUP BY (sender+receiver), (ABS(sender-receiver))) ");
+            preparedStatement.setInt(1, userid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.last();
+            int row = resultSet.getRow();
+            conversions = new conversion[row];
+            resultSet.beforeFirst();
+            for (int i = 0; i < conversions.length; i++) {
+                resultSet.next();
+                if (resultSet.getInt(2) == userid) {
+                    conversions[i] = new conversion(resultSet.getString(1), resultSet.getTimestamp(4), resultSet.getString(9), resultSet.getString(8), resultSet.getString(10));
+                } else {
+                    conversions[i] = new conversion(resultSet.getString(1), resultSet.getTimestamp(4), resultSet.getString(6), resultSet.getString(5), resultSet.getString(7));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conversions;
     }
 
     void fillDetails(@NotNull Connection connection) {
@@ -103,13 +140,21 @@ public class user {
         }
     }
 
-    public void signup(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String mobile, String password, boolean TCverified) throws IllegalArgumentException//for signUp
+    public void signup(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String mobile, String password, boolean TCverified, String referral) throws IllegalArgumentException//for signUp
     {
         try {
             if (! validate(connection, email, userName, mobile)) {
                 throw new IllegalArgumentException("Account already exists for this information");
             }
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, TC_verified) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+            ResultSet rsp = preparedStatement.executeQuery();
+            if (! rsp.next()) {
+                throw new ArithmeticException("promo code does not exist");
+            } else {
+                preparedStatement = connection.prepareStatement("update users set referral_amt = referral_amt+1 where user_name = ? and referral_amt<=5");
+                preparedStatement.executeUpdate();
+            }
+            preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, TC_verified, referral_amt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, userName);
@@ -117,6 +162,7 @@ public class user {
             preparedStatement.setString(5, mobile);
             preparedStatement.setString(6, hashpass(password));
             preparedStatement.setBoolean(7, TCverified);
+            preparedStatement.setInt(8, 1);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
             preparedStatement.setString(1, email);
@@ -128,8 +174,9 @@ public class user {
         }
     }
 
-    public void googleLogin(@NotNull Connection connection, String firstName, String lastName, String email, String google_auth, boolean emailVerified, String profilePic) {  //for google login/signup
+    public void googleLogin(@NotNull Connection connection, String firstName, String lastName, String email, String google_auth, boolean emailVerified, String profilePic) {  //for google login/signup     //too be improved   //user_name to be checked
         try {
+            String generatedUid;
             PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ?");
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
@@ -138,7 +185,15 @@ public class user {
                 preparedStatement = connection.prepareStatement("update users set first_name= ? , last_name = ?, email_id = ?, google_auth = ?, email_verified = ?, profile_pic = ? where user_id = ?");
                 preparedStatement.setInt(7, id);
             } else {
-                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic) values (?, ?, ?, ?, ?, ?)");
+                generatedUid = email.split("@")[0];
+                preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+                preparedStatement.setString(1, generatedUid);
+                rs = preparedStatement.executeQuery();
+                if (rs.next()) {
+                    generatedUid = randomAlphaNumeric(10);
+
+                }
+                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic, referral, user_name) values (?, ?, ?, ?, ?, ?, ?, ?)");
             }
             preparedStatement.setString(1, firstName);
             preparedStatement.setString(2, lastName);
@@ -146,6 +201,8 @@ public class user {
             preparedStatement.setString(4, google_auth);
             preparedStatement.setBoolean(5, emailVerified);
             preparedStatement.setString(6, profilePic);
+            preparedStatement.setString(7, randomAlphaNumeric(7));
+            //preparedStatement.setString(8, generatedUid);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
             preparedStatement.setString(1, email);
@@ -231,7 +288,7 @@ public class user {
         //to be added
     }
 
-    private String hashpass(@NotNull String base) {
+    public static String hashpass(@NotNull String base) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(base.getBytes("UTF-8"));
@@ -247,5 +304,23 @@ public class user {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    private static String randomAlphaNumeric(int count) {
+
+        StringBuilder builder = new StringBuilder();
+
+        while (count-- != 0) {
+
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+
+        }
+
+        return builder.toString();
+
     }
 }

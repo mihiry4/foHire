@@ -1,12 +1,13 @@
 .click {
-  font-size:33px;
+    font-size: 20px;
   color:rgba(0,0,0,.5);
   width:38px;
   height:38px;
   margin:0 0 0 auto;
-  position:relative;
+    /*position:absolute;*/
   cursor:pointer;
   display:block;
+    transition: all .32s ease;
 }
 
 .click span {
@@ -14,14 +15,17 @@
   margin-top:3px;
   z-index:999;
   position:absolute;
+    transition: all .32s ease;
 }
 
 span:hover {
   opacity:0.8;
+    transition: all .32s ease;
 }
 
 span:active {
   transform:scale(0.93,0.93) translateY(2px);
+    transition: all .32s ease;
 }
 
 .ring, .ring2 {
@@ -87,9 +91,5 @@ span:active {
   position:relative;
   top:45px;
   opacity:1;
-}
-
-* {
-  transition:all .32s ease;
 }
 
