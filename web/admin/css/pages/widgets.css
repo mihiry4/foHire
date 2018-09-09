@@ -285,7 +285,7 @@
     margin-top: 10px;
 }
 
-/*.user-name1 {*/
+/*.Objects.user-name1 {*/
 /*height: 260px;*/
 /*}*/
 .user-name1 .fa.fa-plus.fa-stack-1x {
@@ -638,7 +638,7 @@ ul {
     font-size: 24px;
 }
 
-/*=====login widget=====*/
+/*=====Servlet.login widget=====*/
 
 .btn-facebook {
     background: #3b5998;

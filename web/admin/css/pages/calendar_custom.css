@@ -109,7 +109,7 @@ a:not([href]):not([tabindex]) {
     min-width: 120% !important;
 }
 
-/*View user*/
+/*View Objects.user*/
 #calendar_mini .header td {
     width: 20%;
 }

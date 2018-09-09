@@ -1,4 +1,3 @@
-
 // var click= $('.click');
 // var span= $(click[0]).find('span');
 // $(click[0]).click(function() {
@@ -59,5 +58,55 @@ var span= $(click[ide]).find('span');
 		},1000)
 	}
 }
+
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah')
+                .attr('src', e.target.result)
+                .width(50)
+                .height(50);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+var imagesPreview = function (input, placeToInsertImagePreview) {
+
+    if (input.files) {
+
+        var filesAmount = input.files.length;
+
+
+        for (i = 0; i < 3; i++) {
+
+            // if(!/\.(jpe?g|png|gif)$/i.test(input.files[i]))
+            // {
+            //     return alert(" is not an image");
+            // }
+
+            var reader = new FileReader();
+
+            reader.onload = function (event) {
+                $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+            }
+
+            reader.readAsDataURL(input.files[i]);
+        }
+    }
+
+};
+
+$('#gallery-photo-add').on('change', function () {
+
+    $('.gallery').empty();
+    imagesPreview(this, 'div.gallery');
+});
+
 
     

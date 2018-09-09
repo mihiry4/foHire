@@ -1,3 +1,11 @@
+.nodisp {
+    display: none;
+}
+
+.disp {
+    display: block;
+}
+
 .lendform {
   margin-top:20px;
   box-shadow:2px 2px 5px rgb(135,135,135);

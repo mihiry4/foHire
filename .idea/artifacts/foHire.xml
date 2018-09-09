@@ -2,8 +2,21 @@
   <artifact type="exploded-war" build-on-make="true" name="foHire">
     <output-path>$PROJECT_DIR$/out/artifacts/foHire</output-path>
     <root id="root">
-      <element id="module-output" name="foHire" />
       <element id="javaee-facet-resources" facet="foHire/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="foHire" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/mysql-connector.jar" />
+          <element id="library" level="project" name="com.google.apis:google-api-services-oauth2:v2-rev66-1.17.0-rc" />
+          <element id="library" level="project" name="com.google.http-client:google-http-client-jackson:1.23.0" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/mysql-connector.jar" />
+          <element id="library" level="project" name="commons-fileupload:commons-fileupload:1.3.3" />
+          <element id="library" level="project" name="commons-io:commons-io:2.6" />
+          <element id="library" level="project" name="javax.servlet:jstl:1.2" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
