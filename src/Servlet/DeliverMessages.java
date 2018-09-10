@@ -1,7 +1,8 @@
 package Servlet;
 
 import Objects.DB;
-import com.pusher.rest.Pusher;
+import rkj.pusher.chatkit.ApiResponse;
+import rkj.pusher.chatkit.ChatKit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,18 +11,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.awt.print.Printable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "DeliverMessages")
 public class DeliverMessages extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Pusher pusher = new Pusher("594981", "5489f23731a659f68496", "b5746c3440f5d60fccca");
+        Map<String, String> options = new HashMap<>();
+        options.put("instanceLocator","");
+        options.put("key","");
+        options.put("expireIn","");
+        try {
+            ChatKit chatKit = new ChatKit(options);
+            ApiResponse a =  chatKit.authenticate("sg");
 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();

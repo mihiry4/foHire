@@ -21,9 +21,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Random;
-
-import static org.apache.http.params.CoreProtocolPNames.USER_AGENT;
 
 //Handle exceptional request still remaining
 //otp expiry remaining
@@ -114,9 +111,10 @@ public class signup extends HttpServlet {
                     dataStreamToServer.close();
                     BufferedReader dataStreamFromUrl = new BufferedReader(
                             new InputStreamReader(httpConnection.getInputStream()));
-                    String dataFromUrl = "", dataBuffer;
+                    StringBuilder dataFromUrl = new StringBuilder();
+                    String dataBuffer;
                     while ((dataBuffer = dataStreamFromUrl.readLine()) != null) {
-                        dataFromUrl += dataBuffer;
+                        dataFromUrl.append(dataBuffer);
                     }
                     dataStreamFromUrl.close();
                     System.out.println("Response: " + dataFromUrl);
@@ -129,18 +127,8 @@ public class signup extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
-        rd.forward(request, response);*/
-        /*String mobile = request.getParameter("mob");
-        String num = "4df";
-        String url = "http://www.smsidea.co.in/sendsms.aspx?mobile=7984180139&pass=VQKZO&senderid=SMSBUZ&to=" + mobile + "&msg=Your one time passcode for fohire is " + num;
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        int responseCode = con.getResponseCode();*/
-        doPost(request, response);
-        PrintWriter out = response.getWriter();
-        out.print("fdlxhhfksdjgfkusdgzfsdjyf");
+        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        rd.forward(request, response);
     }
 
     @Override
