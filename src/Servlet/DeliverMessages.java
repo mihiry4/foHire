@@ -1,8 +1,6 @@
 package Servlet;
 
 import Objects.DB;
-import rkj.pusher.chatkit.ApiResponse;
-import rkj.pusher.chatkit.ChatKit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,14 +24,6 @@ public class DeliverMessages extends HttpServlet {
         options.put("instanceLocator","");
         options.put("key","");
         options.put("expireIn","");
-        try {
-            ChatKit chatKit = new ChatKit(options);
-            ApiResponse a =  chatKit.authenticate("sg");
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
