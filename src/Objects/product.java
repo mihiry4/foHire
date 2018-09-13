@@ -2,11 +2,11 @@ package Objects;
 
 import com.sun.istack.internal.NotNull;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Timestamp;
 import java.util.Date;
-import java.util.InvalidPropertiesFormatException;
 
-public class product {
+public final class product {
 
 
     @Override
@@ -63,13 +63,14 @@ public class product {
         comments[0] = new comment(4.3, "dgkfxg Good product", new Timestamp(System.currentTimeMillis()), "manan", "assets/img/user-photo4.jpg", 1);
         return comments;
     }
-    public product(){
 
-        this.user_id=1;
+    public product() {
+
+        this.user_id = 1;
         this.description = "";
-}
+    }
 
-    private boolean checkValid(){
+    private boolean checkValid() {
         //check for valid object
         return false;
     }

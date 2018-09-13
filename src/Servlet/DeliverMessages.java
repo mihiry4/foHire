@@ -1,8 +1,6 @@
 package Servlet;
 
 import Objects.DB;
-import rkj.pusher.chatkit.ApiResponse;
-import rkj.pusher.chatkit.ChatKit;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,21 +12,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Enumeration;
 
 @WebServlet(name = "DeliverMessages")
 public class DeliverMessages extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, String> options = new HashMap<>();
-        options.put("instanceLocator","");
-        options.put("key","");
-        options.put("expireIn","");
         try {
-            ChatKit chatKit = new ChatKit(options);
-            ApiResponse a =  chatKit.authenticate("sg");
+            Enumeration e = request.getParameterNames();
+            while (e.hasMoreElements()) {
+                request.getParameter((String) e.nextElement());
+            }
 
 
         } catch (Exception e) {

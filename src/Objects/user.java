@@ -7,7 +7,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
-public class user {
+public final class user {
     public int userid;
     public String firstName;
     public String lastName;
