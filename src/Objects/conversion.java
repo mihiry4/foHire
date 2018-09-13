@@ -2,7 +2,7 @@ package Objects;
 
 import java.sql.Timestamp;
 
-public class conversion {
+public final class conversion {
     public String last_msg;
     public Timestamp time;
     public String name;

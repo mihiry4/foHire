@@ -46,7 +46,7 @@
 }
 
 #myFooter .social-networks a {
-  font-size:32px;
+    font-size: 25px;
   color:#000000;
   padding:10px;
   transition:0.2s;

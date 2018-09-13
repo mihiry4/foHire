@@ -212,5 +212,84 @@
 .gallery img {
     height: 50px;
     width: 50px;
+    margin: 2px;
+}
+
+.media.fcard {
+    overflow: visible;
+    padding: 6px 0px;
+}
+
+.form-control.searchqirayaa {
+    border-radius: 5px 0px 0px 5px;
+    border: 0px;
+    width: 90%;
+    height: 68px;
+}
+
+.share {
+    position: fixed;
+    right: -55px;
+    top: 90%;
+    transition: 1s;
+}
+
+.share button {
+    border: 0;
+    background-color: #f8b645;
+}
+
+.share:hover {
+    right: 0;
+    transition: 1s;
+}
+
+.share:hover button {
+    background-color: white;
+    color: #f8b645;
+    border: 1px solid #f8b645;
+}
+
+.share button:focus {
+    box-shadow: 0 0;
+}
+
+.dropdown-toggle.nav-link.dropdown-toggle.msg::after {
+    display: none;
+}
+
+.dropdown-toggle.nav-link.dropdown-toggle.msg::after {
+    display: none;
+}
+
+.dropdown-menu.dropdown-menu-right.show.not {
+    background-color: white;
+}
+
+.dropdown-item.notmsg {
+    padding: 4px 10px;
+    color: #f8b645;
+}
+
+.dropdown-item.notmsg:hover {
+    background-color: rgba(89, 89, 89, 0.2);
+}
+
+.dropdown-item.notmsgtop {
+    color: gray;
+    padding: 4px 10px;
+}
+
+.dropdown-item.notmsgtop.seeall {
+    font-size: 10px;
+    text-align: right;
+}
+
+.dropdown-item.notmsgtop.seeall:hover {
+    text-decoration: underline;
+}
+
+.dropdown-item.credit:hover {
+    cursor: default;
 }
 

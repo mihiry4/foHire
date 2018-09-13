@@ -2,7 +2,7 @@ package Objects;
 
 import java.sql.Timestamp;
 
-public class comment {
+public final class comment {
     public double rating;
     public String review;
     public Timestamp time;

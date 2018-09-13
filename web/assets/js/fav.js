@@ -29,34 +29,34 @@
 // })
 
 function heartcng(ide){
-     var click= $('.click');
+    var click= $('.click');
 var span= $(click[ide]).find('span');
 
-	if ($(span).hasClass("fa-heart")) {
-			$(click[ide]).removeClass('active')
-		setTimeout(function() {
-			$(click[ide]).removeClass('active-2')
-		}, 30)
-			$(click[ide]).removeClass('active-3')
-		setTimeout(function() {
-			$(span).removeClass('fa-heart')
-			$(span).addClass('fa-heart-o')
-		}, 15)
-	} else {
-		$(click[ide]).addClass('active')
-		$(click[ide]).addClass('active-2')
-		setTimeout(function() {
-			$(span).addClass('fa-heart')
-			$(span).removeClass('fa-heart-o')
-		}, 150)
-		setTimeout(function() {
-			$(click[ide]).addClass('active-3')
-		}, 150)
-		$('.info').addClass('info-tog')
-		setTimeout(function(){
-			$('.info').removeClass('info-tog')
-		},1000)
-	}
+    if ($(span).hasClass("fa-heart")) {
+        $(click[ide]).removeClass('active')
+        setTimeout(function() {
+            $(click[ide]).removeClass('active-2')
+        }, 30)
+        $(click[ide]).removeClass('active-3')
+        setTimeout(function() {
+            $(span).removeClass('fa-heart')
+            $(span).addClass('fa-heart-o')
+        }, 15)
+    } else {
+        $(click[ide]).addClass('active')
+        $(click[ide]).addClass('active-2')
+        setTimeout(function() {
+            $(span).addClass('fa-heart')
+            $(span).removeClass('fa-heart-o')
+        }, 150)
+        setTimeout(function() {
+            $(click[ide]).addClass('active-3')
+        }, 150)
+        $('.info').addClass('info-tog')
+        setTimeout(function(){
+            $('.info').removeClass('info-tog')
+        },1000)
+    }
 }
 
 
@@ -107,6 +107,14 @@ $('#gallery-photo-add').on('change', function () {
     $('.gallery').empty();
     imagesPreview(this, 'div.gallery');
 });
+
+$('.delet').click(function () {
+    return confirm('Are you sure you want to delete this comment?');
+});
+$('#deact').click(function () {
+    return confirm('Are you sure you want to deactivate your account?');
+})
+
 
 
     
