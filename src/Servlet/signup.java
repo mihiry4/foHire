@@ -1,10 +1,13 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.DB;
 import Objects.IdTokenVerifierAndParser;
 import Objects.user;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -43,8 +47,7 @@ public class signup extends HttpServlet {
                 String lastName = (String) payload.get("family_name");
                 String firstName = (String) payload.get("given_name");
                 user u = new user();
-                u.googleLogin(connection, firstName, lastName, email, googleAuth, emailVerified, pictureUrl);
-                //user u = new user(connection, firstName, lastName, email, googleAuth, emailVerified, pictureUrl);
+                u.SocialLogin(connection, firstName, lastName, email, googleAuth, emailVerified, pictureUrl, true);
                 if (u.userid != 0) {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", u.userid);
@@ -55,7 +58,8 @@ public class signup extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             try {
                 String type = request.getParameter("type");
                 if (type.equals("d")) {
@@ -127,8 +131,61 @@ public class signup extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String Fb_token = request.getParameter("code");
+        if(Fb_token!=null){
+            String token = null;
+            try {
+                String g = "https://graph.facebook.com/oauth/access_token?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup", "UTF-8") + "&client_secret=67e651ef05aa3c820351ede01ff7b4a2&code=" + Fb_token;
+                URL u = new URL(g);
+                URLConnection c = u.openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                String inputLine;
+                StringBuffer b = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                    b.append(inputLine + "\n");
+                in.close();
+                token = b.toString();
+                if (token.startsWith("{"))
+                    throw new Exception("error on requesting token: " + token + " with code: " + Fb_token);
+            } catch (Exception e) {
+                // an error occurred, handle this
+            }
+
+            String graph = null;
+            try {
+                String g = "https://graph.facebook.com/me?" + token;
+                URL u = new URL(g);
+                URLConnection c = u.openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                String inputLine;
+                StringBuffer b = new StringBuffer();
+                while ((inputLine = in.readLine()) != null)
+                    b.append(inputLine + "\n");
+                in.close();
+                graph = b.toString();
+            } catch (Exception e) {
+                // an error occurred, handle this
+            }
+
+            String facebook_Auth;
+            String firstName;
+            String lastName;
+            String email;
+
+            try {
+                JSONObject json = new JSONObject(graph);
+                facebook_Auth = json.getString("id");
+                firstName = json.getString("first_name");
+                lastName = json.getString("last_name");
+                email = json.getString("email");
+                user u = new user();
+                u.SocialLogin(connection, firstName, lastName, email, facebook_Auth, true, "to be added", false);
+            } catch (JSONException e) {
+                // an error occurred, handle this
+            }
+        }else{
         RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
-        rd.forward(request, response);
+        rd.forward(request, response);}
     }
 
     @Override
@@ -146,7 +203,7 @@ public class signup extends HttpServlet {
         super.init();
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(DB.DBclass, DB.user, DB.pass);
+            connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }

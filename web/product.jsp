@@ -25,30 +25,32 @@
             e.printStackTrace();
         }
     }%>
+<% product p = (product) request.getAttribute("product");               /*ToDo: comment to be removed*/
+    int uid = (int) session.getAttribute("user");
+    if(p==null) {
+        request.getRequestDispatcher("500.jsp").forward(request,response);
+    }
+    else{
+        request.setAttribute("des", p.description);
+        session.setAttribute("product", p.product_id);
+        comment[] comments = p.getComments(connection);
+%>
 <jsp:include page="importLinks.jsp">
-    <jsp:param name="title" value="Lend"/>
+    <jsp:param name="title" value="<%=p.product_name%>"/>
 </jsp:include>
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="nonindex"/>
 </jsp:include>
-<%--<% product p = (product) request.getAttribute("product");
-    if(p==null) {
-        request.getRequestDispatcher("500.jsp").forward(request,response);
-    }%>--%>
-<% product p = new product();
-    int uid = (int) session.getAttribute("user");
-    try {
-        String id = request.getParameter("id");
-        p.product_id = Integer.parseInt(id);
-        //p.fillDetails(connection);        //comment to be removed
-        request.setAttribute("des", p.description);
-        session.setAttribute("product", p.product_id);
-    } catch (Exception e) {
-        request.getRequestDispatcher("404.jsp").forward(request, response);
-    }
-    comment[] comments = p.getComments(connection);
 
-%>
+<script>
+    $(document).ready(function () {
+        $("#Contact").click(function () {
+            $.post("ChatWith",{
+                rec: <%=p.user_name%>
+            });
+        });
+    });
+</script>
 <div class="modal fade" role="dialog" tabindex="-1" id="book">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -110,7 +112,7 @@
                         <li data-target="#carousel-1" data-slide-to="1"></li>
                         <li data-target="#carousel-1" data-slide-to="2"></li>
                     </ol>
-                    <%--to be written with rudra--%>
+                    <%--ToDo:to be written with rudra--%>
                 </div>
             </div>
         </div>
@@ -140,7 +142,7 @@
                             <h5 style="color:#adadad;">End Date:</h5><input class="form-control" type="date" style="color:#adadad;"></div>
                     </div>
                     <button class="btn btn-primary" type="button" style="background-color:#f8b645;width:100%;margin:5px 0px;" data-toggle="modal" data-target="#book">Book</button>
-                    <button class="btn btn-primary" type="button" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>
+                    <button class="btn btn-primary" type="button" id="Contact" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>
                 </form>
             </div>
             <div class="col offset-lg-1">
@@ -312,3 +314,4 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzjs-bUR6iIl8yGLr60p6-zbdFtRpuXTQ&callback=initMap">
 </script>
 <jsp:include page="footer.jsp"/>
+<%}%>

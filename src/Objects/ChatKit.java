@@ -18,10 +18,10 @@ import java.util.*;
 
 public final class ChatKit {
     private String apiEndPoint;
-    private String instance = "";
-    private String key = "";
-    private String secret = "";
-    private Date expireIn = null;
+    private String instance;
+    private String key;
+    private String secret;
+    private Date expireIn;
     private String token = null;
 
     public ChatKit(Map<String, String> options) throws Exception {
@@ -30,8 +30,8 @@ public final class ChatKit {
         } else if (! options.containsKey("key")) {
             throw new Exception("You must provide a key");
         } else {
-            String[] instanceSplit = ((String) options.get("instanceLocator")).split(":");
-            String[] keySplit = ((String) options.get("key")).split(":");
+            String[] instanceSplit = (options.get("instanceLocator")).split(":");
+            String[] keySplit = (options.get("key")).split(":");
             if (instanceSplit.length != 3) {
                 throw new MissingFormatArgumentException("v1:us1:instance");
             } else if (keySplit.length != 2) {
@@ -42,7 +42,7 @@ public final class ChatKit {
                 this.secret = keySplit[1];
                 this.apiEndPoint = "https://us1.pusherplatform.io/services/chatkit/v1/" + this.instance + "/";
                 if (options.containsKey("expireIn")) {
-                    this.expireIn = this.getDateFromMinute(Long.parseLong((String) options.get("expireIn")));
+                    this.expireIn = this.getDateFromMinute(Long.parseLong(options.get("expireIn")));
                 } else {
                     this.expireIn = this.getDateFromMinute(86400L);
                 }
@@ -51,23 +51,23 @@ public final class ChatKit {
         }
     }
 
-    protected Date getDateFromMinute(long seconds) {
+    private Date getDateFromMinute(long seconds) {
         long ttlMillis = seconds * 1000L;
         long expMillis = System.currentTimeMillis() + ttlMillis;
         return new Date(expMillis);
     }
 
-    protected ApiResponse apiRequest(String service) throws Exception {
-        return this.apiRequest(service, "get", (Map) null);
+    private ApiResponse apiRequest(String service) throws Exception {
+        return this.apiRequest(service, "get", null);
     }
 
-    protected ApiResponse apiRequest(String service, String method) throws Exception {
-        return this.apiRequest(service, method, (Map) null);
+    private ApiResponse apiRequest(String service, String method) throws Exception {
+        return this.apiRequest(service, method, null);
     }
 
-    protected ApiResponse apiRequest(String service, String method, Map<String, Object> requestData) throws Exception {
+    private ApiResponse apiRequest(String service, String method, Map<String, Object> requestData) throws Exception {
         String requestUrl = this.apiEndPoint + service;
-        ApiResponse apiResponse = null;
+        ApiResponse apiResponse;
         String var6 = method.toLowerCase();
         byte var7 = - 1;
         switch (var6.hashCode()) {
@@ -108,14 +108,14 @@ public final class ChatKit {
         return apiResponse;
     }
 
-    protected ApiResponse getRequest(String requestUrl) throws Exception {
+    private ApiResponse getRequest(String requestUrl) throws Exception {
         GetRequest getRequest = Unirest.get(requestUrl);
         HttpResponse<JsonNode> response = getRequest.header("Authorization", "Bearer " + this.token).header("Content-Type", "application/json").asJson();
         return response != null ? this.handleResponse(response) : null;
     }
 
-    protected ApiResponse requestWithBody(String requestUrl, Map<String, Object> requestData, String method) throws Exception {
-        HttpRequestWithBody requestWithBody = null;
+    private ApiResponse requestWithBody(String requestUrl, Map<String, Object> requestData, String method) throws Exception {
+        HttpRequestWithBody requestWithBody;
         if (method.equals("put")) {
             requestWithBody = Unirest.put(requestUrl);
         } else if (method.equals("delete")) {
@@ -134,19 +134,19 @@ public final class ChatKit {
         return response != null ? this.handleResponse(response) : null;
     }
 
-    protected ApiResponse handleResponse(HttpResponse<JsonNode> response) throws JSONException {
+    private ApiResponse handleResponse(HttpResponse<JsonNode> response) throws JSONException {
         ApiResponse apiResponse = new ApiResponse();
         if (response.getStatus() != 201 && response.getStatus() != 200 && response.getStatus() != 204) {
-            JSONObject responseBody = ((JsonNode) response.getBody()).getObject();
+            JSONObject responseBody = (response.getBody()).getObject();
             apiResponse.setStatus(response.getStatus()).setPayload("error", responseBody.optString("error")).setMessage(responseBody.optString("error_description"));
         } else {
-            apiResponse.setStatus(200).setPayload("payload", this.handleResponseData((JsonNode) response.getBody()));
+            apiResponse.setStatus(200).setPayload("payload", this.handleResponseData(response.getBody()));
         }
 
         return apiResponse;
     }
 
-    protected Object handleResponseData(JsonNode responseBody) throws JSONException {
+    private Object handleResponseData(JsonNode responseBody) throws JSONException {
         if (responseBody == null) {
             return null;
         } else if (! responseBody.isArray()) {
@@ -163,11 +163,11 @@ public final class ChatKit {
         }
     }
 
-    protected String generateRefreshToken(String userId, boolean su) {
+    private String generateRefreshToken(String userId, boolean su) {
         return this.generateToken(userId, su, true);
     }
 
-    protected String generateToken(String userId, boolean su) {
+    private String generateToken(String userId, boolean su) {
         return this.generateToken(userId, su, false);
     }
 
@@ -211,7 +211,7 @@ public final class ChatKit {
             String accessToken = this.generateToken(userId, false);
             String refreshToken = this.generateRefreshToken(userId, false);
             ApiResponse responseBody = new ApiResponse();
-            responseBody.setStatus(200).setPayload("access_token", accessToken).setPayload("token_type", "access_token").setPayload("refresh_token", refreshToken).setPayload("expires_in", this.expireIn.getTime() / 1000L).setPayload("user_id", userId);
+            responseBody.setStatus(200).setPayload("access_token", accessToken).setPayload("token_type", "access_token").setPayload("refresh_token", refreshToken).setPayload("expires_in", this.expireIn.getTime() / 1000L).setPayload("user_name", userId);
             return responseBody;
         }
     }

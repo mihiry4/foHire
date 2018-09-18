@@ -7,6 +7,10 @@
 --%>
 <% String type = request.getParameter("type"); %>
 <% response.setHeader("Access-Control-Allow-Origin", "https://accounts.google.com");%>
+<%@page import="java.net.URLEncoder" %>
+<%
+    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup") + "&scope=email";
+%>
 <body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background: #465765 url('assets/img/back1.jpg') no-repeat fixed center;" <%}%>>
 <nav class="navbar navbar-light navbar-expand-md sticky-top" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5);");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;");} %>">
     <div class="container-fluid">
@@ -141,10 +145,9 @@
             <div class="modal-footer d-block">
                 <div class="row">
                     <div class="col">
-                        <button class="btn btn-primary" type="button"
-                                style="width:100%;background-color:rgb(48,51,137);"><a href="#"
-                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
-                                class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with Facebook</a></button>
+                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
+                            <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
+                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with Facebook</a></button>
                         <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
 

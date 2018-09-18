@@ -8,14 +8,8 @@ import java.util.Date;
 
 public final class product {
 
-
-    @Override
-    protected final void finalize() throws Throwable {
-        super.finalize();
-    }
-
     public int product_id;
-    int user_id;
+    public String user_name;
     public String product_name;
     public String category;
     public String description;
@@ -32,8 +26,8 @@ public final class product {
     Date availTill;
     boolean status;
 
-    public void lend(int user_id, String product_name, String category, String description, String region, String img[], String price, String deposit, String availFrom, String availTill, String late, String policy) {
-        //to be added
+    public void lend(int user_name, String product_name, String category, String description, String region, String img[], String price, String deposit, String availFrom, String availTill, String late, String policy) {
+        //ToDo: to be added change user name int to string
 
     }
 
@@ -44,7 +38,7 @@ public final class product {
     public comment[] getComments(@NotNull Connection connection) {
         comment[] comments = null;
         /*try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, profile_pic, user_id) from reviews natural join users where product_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, profile_pic, user_name) from reviews natural join users where product_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.last();
@@ -66,7 +60,7 @@ public final class product {
 
     public product() {
 
-        this.user_id = 1;
+        this.user_name = "";
         this.description = "";
     }
 

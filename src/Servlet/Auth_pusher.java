@@ -24,7 +24,7 @@ public class Auth_pusher extends HttpServlet {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             int user_id = (int) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
-            String user_name = request.getParameter("user_id");
+            String user_name = request.getParameter("user_name");
             Map<String, String> map = new HashMap<>();
             map.put("instanceLocator", Const.instanceLocator);
             map.put("key", Const.secret);

@@ -13,9 +13,9 @@ public final class user {
     public String lastName;
     public String userName;
     public String email;
-    String mobile;
-    String facebook_auth;
-    String google_auth;
+    public String mobile;
+    public String facebook_auth;
+    public String google_auth;
     Timestamp firstCreated;
     Timestamp lastActive;
     String profilePic;
@@ -24,6 +24,8 @@ public final class user {
     boolean TCverified;
     boolean emailVerified;
     boolean mobileVerified;
+    public boolean showMobile;
+    public boolean showEmail;
 
     @Override
     protected final void finalize() throws Throwable {
@@ -75,44 +77,7 @@ public final class user {
         }
     }
 
-    public message[] getMessages(@NotNull Connection connection) {
-        message[] messages = null;
-        try {
-            /*PreparedStatement preparedStatement = connection.prepareStatement("SELECT message_id, content, sender, receiver, time, u.email_id as sender_email, CONCAT(u.first_name, \" \", u.last_name) as sender_name, u1.email_id as rec_email, CONCAT(u1.first_name, \" \", u1.last_name) as rec_name FROM `messages` JOIN `users` AS u JOIN `users` as u1 ON (u.user_id=sender AND u1.user_id=receiver) WHERE message_id in (SELECT MAX(message_id) FROM messages WHERE sender = ? or receiver = ? GROUP BY (sender+receiver), (ABS(sender-receiver))) ");
-            preparedStatement.setInt(1,userid);
-            ResultSet rs = preparedStatement.executeQuery();*/
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return messages;
-    }
-
-    public conversion[] getConversions(@NotNull Connection connection) {
-        conversion[] conversions = null;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT content, sender, receiver, time, u.email_id as sender_email, CONCAT(u.first_name, \" \", u.last_name) as sender_name, u.profile_pic as sender_pic, u1.email_id as rec_email, CONCAT(u1.first_name, \" \", u1.last_name) as rec_name, u1.profile_pic as receiver_pic FROM `messages` JOIN `users` AS u JOIN `users` as u1 ON (u.user_id=sender AND u1.user_id=receiver) WHERE message_id in (SELECT MAX(message_id) FROM messages WHERE sender = ? or receiver = ? GROUP BY (sender+receiver), (ABS(sender-receiver))) ");
-            preparedStatement.setInt(1, userid);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.last();
-            int row = resultSet.getRow();
-            conversions = new conversion[row];
-            resultSet.beforeFirst();
-            for (int i = 0; i < conversions.length; i++) {
-                resultSet.next();
-                if (resultSet.getInt(2) == userid) {
-                    conversions[i] = new conversion(resultSet.getString(1), resultSet.getTimestamp(4), resultSet.getString(9), resultSet.getString(8), resultSet.getString(10));
-                } else {
-                    conversions[i] = new conversion(resultSet.getString(1), resultSet.getTimestamp(4), resultSet.getString(6), resultSet.getString(5), resultSet.getString(7));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return conversions;
-    }
-
-    void fillDetails(@NotNull Connection connection) {
+    public void fillDetails(@NotNull Connection connection) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * from users where user_id= ?");
             preparedStatement.setInt(1, userid);
@@ -174,47 +139,73 @@ public final class user {
         }
     }
 
-    public void googleLogin(@NotNull Connection connection, String firstName, String lastName, String email, String google_auth, boolean emailVerified, String profilePic) {  //for google login/signup     //too be improved   //user_name to be checked
+    public void SocialLogin(@NotNull Connection connection, String firstName, String lastName, String email, String social_auth, boolean emailVerified, String profilePic, boolean google/*if signIn with google*/) {  //for google login/signup     //ToDo:to be improved and user_name to be checked
         try {
             String generatedUid;
-            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ?");
+            PreparedStatement preparedStatement;
+            if (google) {preparedStatement = connection.prepareStatement("select user_id, google_auth from users where email_id = ?");}
+            else {preparedStatement = connection.prepareStatement("select user_id, facebook_auth from users where email_id = ?");}
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 int id = rs.getInt(1);
-                preparedStatement = connection.prepareStatement("update users set first_name= ? , last_name = ?, email_id = ?, google_auth = ?, email_verified = ?, profile_pic = ? where user_id = ?");
-                preparedStatement.setInt(7, id);
+                if (google){if(rs.getString("google_auth")==null) {
+                    preparedStatement = connection.prepareStatement("update users set google_auth = ?, email_verified = ? where user_id = ?");
+                    preparedStatement.setInt(3, id);
+                    preparedStatement.setBoolean(2, emailVerified);
+                    preparedStatement.setString(1, social_auth);
+                    preparedStatement.executeUpdate();
+                }}else{
+                if(rs.getString("facebook_auth")==null) {
+                    preparedStatement = connection.prepareStatement("update users set facebook_auth = ?, email_verified = ? where user_id = ?");
+                    preparedStatement.setInt(3, id);
+                    preparedStatement.setBoolean(2, emailVerified);
+                    preparedStatement.setString(1, social_auth);
+                    preparedStatement.executeUpdate();
+                }}
+                this.userid=id;
             } else {
                 generatedUid = email.split("@")[0];
                 preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
                 preparedStatement.setString(1, generatedUid);
                 rs = preparedStatement.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     generatedUid = randomAlphaNumeric(10);
-
+                    preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+                    preparedStatement.setString(1, generatedUid);
+                    rs = preparedStatement.executeQuery();
                 }
-                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic, referral, user_name) values (?, ?, ?, ?, ?, ?, ?, ?)");
+                if (google){preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic, user_name) values (?, ?, ?, ?, ?, ?, ?)");}
+                else{preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, facebook_auth, email_verified, profile_pic, user_name) values (?, ?, ?, ?, ?, ?, ?)");}
+                preparedStatement.setString(1, firstName);
+                preparedStatement.setString(2, lastName);
+                preparedStatement.setString(3, email);
+                preparedStatement.setString(4, social_auth);
+                preparedStatement.setBoolean(5, emailVerified);
+                preparedStatement.setString(6, profilePic);
+                preparedStatement.setString(7, generatedUid);
+                preparedStatement.executeUpdate();
+                preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
+                preparedStatement.setString(1, email);
+                rs = preparedStatement.executeQuery();
+                rs.next();
+                this.userid = rs.getInt(1);
             }
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, google_auth);
-            preparedStatement.setBoolean(5, emailVerified);
-            preparedStatement.setString(6, profilePic);
-            preparedStatement.setString(7, randomAlphaNumeric(7));
-            //preparedStatement.setString(8, generatedUid);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
-            preparedStatement.setString(1, email);
-            rs = preparedStatement.executeQuery();
-            rs.next();
-            this.userid = rs.getInt(1);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public String getLastActive(int user_id, @NotNull Connection connection) {
+    public void fbLogin(@NotNull Connection connection, String firstName, String lastName, String email, String fbAuth){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement("");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    /*public String getLastActive(int user_id, @NotNull Connection connection) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT last_active from users where user_id= ?");
             preparedStatement.setInt(1, user_id);
@@ -245,22 +236,9 @@ public final class user {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-    public int getUnreadMessages(@NotNull Connection connection) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT distinct conversation_id from messages where recipient= ?");
-            preparedStatement.setInt(1, userid);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();   //set pointer to first row
-            return resultSet.getInt(1);     //different conversations id for our recipient
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return - 1;
-    }
-
-    public void deleteUser(@NotNull Connection connection) {
+    public void deleteUser(@NotNull Connection connection) {        //ToDo: delete flag true
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert into deleted_users select * from users where user_id=?");
             preparedStatement.setInt(1, userid);
@@ -282,10 +260,6 @@ public final class user {
         if (emailVerified) i++;
         i *= 20;
         return i;
-    }
-
-    public void deleteMessageThread(@NotNull Connection connection) {
-        //to be added
     }
 
     public static String hashpass(@NotNull String base) {

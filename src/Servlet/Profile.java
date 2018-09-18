@@ -3,6 +3,7 @@ package Servlet;
 import Objects.Const;
 import Objects.DB;
 import Objects.product;
+import Objects.user;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +14,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "/Product")
-public class Product extends HttpServlet {
+@WebServlet(name = "Profile")
+public class Profile extends HttpServlet {
     Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,12 +31,29 @@ public class Product extends HttpServlet {
         String s = request.getRequestURI();
         String arr[] = s.split("/");
         s = arr[3];
-        int productId = Integer.parseInt(s);
-        product p = new product();
-        p.product_id = productId;
-        p.fillDetails(connection);
-        request.setAttribute("product", p);
-        request.getRequestDispatcher("product.jsp").forward(request, response);
+        int user_id=0;
+        boolean signedUser = false;
+        if (request.getSession().getAttribute("user")!=null){
+            user_id = (int) request.getSession().getAttribute("user");
+        }
+        user u = new user();
+        if (user_id!=0){
+            try {
+                PreparedStatement ps = connection.prepareStatement("select user_id from users where user_id = ? and user_name = ?");
+                ps.setInt(1, user_id);
+                ps.setString(2, s);
+                if(ps.executeQuery().next()){
+                    signedUser = true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        u.userid = user_id;
+        u.fillDetails(connection);
+        request.setAttribute("Profile_user", u);
+        request.setAttribute("signedUser", signedUser);
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
     @Override
