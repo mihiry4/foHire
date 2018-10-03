@@ -38,5 +38,9 @@
     <orderEntry type="library" name="org.json:json:20180130" level="project" />
     <orderEntry type="library" name="chatkit" level="application" />
     <orderEntry type="library" name="javax.mail:mail:1.5.0-b01" level="project" />
+    <orderEntry type="library" name="api" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="platform" level="application" />
+    <orderEntry type="library" name="handlebars" level="application" />
   </component>
 </module>

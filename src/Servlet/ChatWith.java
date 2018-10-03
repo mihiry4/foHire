@@ -22,8 +22,8 @@ public class ChatWith extends HttpServlet {
     Connection connection;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Map<String, String> map = new HashMap<>();
-        map.put("instanceLocator", Const.instanceLocator);
-        map.put("key", Const.secret);
+        map.put("instanceLocator", Const.Pusher_instanceLocator);
+        map.put("key", Const.Pusher_secret);
         ChatKit chatKit = null;
         try {
             chatKit = new ChatKit(map);
@@ -50,7 +50,7 @@ public class ChatWith extends HttpServlet {
                     JSONArray members = room.getJSONArray("member_user_ids");
                     if (members.getString(0).equals(receiver)||members.getString(1).equals(receiver)){
                         request.setAttribute("room_open", room.getInt("id"));
-                        request.getRequestDispatcher("messages.jsp").forward(request, response);
+                        request.getRequestDispatcher("message.jsp").forward(request, response);
                         return;
                     }
                 }
@@ -59,7 +59,7 @@ public class ChatWith extends HttpServlet {
                 map1.put("user_ids",new String[]{Sender,receiver});
                 ApiResponse newRoom = chatKit.createRoom(Sender, map1);
                 request.setAttribute("room_open", newRoom.getInt("id"));
-                request.getRequestDispatcher("messages.jsp").forward(request, response);
+                request.getRequestDispatcher("message.jsp").forward(request, response);
             } catch (Exception e) {
                 e.printStackTrace();
             }

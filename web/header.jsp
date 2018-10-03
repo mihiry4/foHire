@@ -8,6 +8,7 @@
 <% String type = request.getParameter("type"); %>
 <% response.setHeader("Access-Control-Allow-Origin", "https://accounts.google.com");%>
 <%@page import="java.net.URLEncoder" %>
+<%@ page import="Objects.Const" %>
 <%
     String fbURL = "http://www.facebook.com/dialog/oauth?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup") + "&scope=email";
 %>
@@ -83,7 +84,7 @@
                 $("#incorrect").text("Invalid username or password");
             });
         });
-        $("#sup").click(function () {
+        <%--$("#sup").click(function () {
             $.post("signup", {
                 username: $("#username").val(),
                 firstName: $("#firstname").val(),
@@ -95,7 +96,7 @@
                 otp: $("#otp").val(),
                 type: "d"
             });
-        });
+        });--%>
         $("#nextbtn").click(function () {
             $.post("signup", {
                 mobileNumber: $("#Mobilenumber").val(),
@@ -192,6 +193,7 @@
                             <input id="Password" class="form-control" type="password" required="">
                             <label for="Confirm password">Confirm password:</label>
                             <input id="Confirm password" class="form-control" type="password" required="">
+                            <div class="g-recaptcha" data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" required="" id="formCheck-2">
                                 <label class="form-check-label" for="formCheck-2">

@@ -26,8 +26,8 @@ public class Auth_pusher extends HttpServlet {
             PrintWriter out = response.getWriter();
             String user_name = request.getParameter("user_name");
             Map<String, String> map = new HashMap<>();
-            map.put("instanceLocator", Const.instanceLocator);
-            map.put("key", Const.secret);
+            map.put("instanceLocator", Const.Pusher_instanceLocator);
+            map.put("key", Const.Pusher_secret);
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_name = ? and user_id =  ?");
                 preparedStatement.setString(1, user_name);

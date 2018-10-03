@@ -17,6 +17,7 @@ public final class product {
     public String city;
     public String[] img;
     public double rating;
+    public boolean favourite;
     int favourites;
     public int price;
     public int deposit;

@@ -1,230 +1,69 @@
-<%@ page import="Objects.user" %>
-<%@ page import="Objects.message" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.DriverManager" %>
-<%@ page import="Objects.DB" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="Objects.Const" %><%--
   Created by IntelliJ IDEA.
   User: Manan
-  Date: 29-08-2018
-  Time: 05:35 PM
+  Date: 11-09-2018
+  Time: 08:44 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%! Connection connection;
-
-    @Override
-    public void jspInit() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(DB.DBclass, DB.user, DB.pass);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<jsp:include page="importLinks.jsp">
-    <jsp:param name="title" value="messages"/>
-</jsp:include>
-<jsp:include page="header.jsp">
-    <jsp:param name="type" value="nonindex"/>
-</jsp:include>
-<%
-    if (session == null || session.getAttribute("user") == null) {
-        request.getRequestDispatcher("404.jsp").forward(request, response);
-    } else {
-        int user_id = (int) session.getAttribute("user");
-        user u = new user();
-        u.userid = user_id;
-        message[] m = u.getMessages(connection);
+<%int room_open = (int) request.getAttribute("room_open");%>    <%--Todo: add room_open to Front end--%>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Chatkit demo</title>
+</head>
+<body>
+<ul id="message-list"></ul>
+<form id="message-form">
+    <input type='text' id='message-text'>
+    <input type="submit">
+</form>
 
-%>
+<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
 <script>
-    $(document.ready(function () {
-        $(".conversation").click(function (e) {
-            var btn = $(e.target);
-            var i = btn.id;
-            $.post("DeliverMessages", {
-                EMail: i
-            }, function (data) {
-                $("#mesgs").html(data);
-            }).fail(function () {
-                $("#mesgs").text("Could not load the messages");
+    const tokenProvider = new Chatkit.TokenProvider({
+        url: "Auth_pusher"
+    });
+    const chatManager = new Chatkit.ChatManager({
+        instanceLocator: "<%=Const.Pusher_instanceLocator%>",
+        userId: "ru",
+        tokenProvider: tokenProvider
+    });
+
+    chatManager
+        .connect()
+        .then(currentUser => {
+            currentUser.subscribeToRoom({
+                roomId: currentUser.rooms[0].id,
+                hooks: {
+                    onNewMessage: message => {
+
+                        const ul = document.getElementById("message-list");
+                        const li = document.createElement("li");
+                        var senid = message.senderId;
+                        var msg = message.text;
+                        li.appendChild(
+                            document.createTextNode(senid + ':' + msg)
+                        );
+                        ul.appendChild(li);
+                    }
+                }
             });
+
+            const form = document.getElementById("message-form");
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                const input = document.getElementById("message-text");
+                currentUser.sendMessage({
+                    text: input.value,
+                    roomId: currentUser.rooms[0].id
+                });
+                input.value = "";
+            });
+        })
+        .catch(error => {
+            console.error("error:", error);
         });
-    }));
 </script>
-<section style="margin-top:25px;">
-    <div class="container">
-
-        <div class="messaging">
-            <div class="inbox_msg">
-                <div class="inbox_people">
-
-                    <div class="inbox_chat">
-                        <div class="chat_list active_chat">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat_list">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                                    <p>Test, which is a new approach to have all solutions
-                                        astrology under one roof.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="mesgs">
-                    <div class="msg_history">
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test which is a new approach to have all
-                                        solutions</p>
-                                    <span class="time_date"> 11:01 AM    |    June 9</span></div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Test which is a new approach to have all
-                                    solutions</p>
-                                <span class="time_date"> 11:01 AM    |    June 9</span></div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>Test, which is a new approach to have</p>
-                                    <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-                            </div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM    |    Today</span></div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM    |    Today</span></div>
-                        </div>
-                        <div class="outgoing_msg">
-                            <div class="sent_msg">
-                                <p>Apollo University, Delhi, India Testpollo University, Delhi, India Testpollo University, Delhi, India Testpollo University, Delhi, India Testpollo University, Delhi, India Test</p>
-                                <span class="time_date"> 11:01 AM    |    Today</span></div>
-                        </div>
-                        <div class="incoming_msg">
-                            <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>
-                            <div class="received_msg">
-                                <div class="received_withd_msg">
-                                    <p>We work directly with our designers and suppliers,
-                                        and sell direct to you, which means quality, exclusive
-                                        products, at a price anyone can afford.</p>
-                                    <span class="time_date"> 11:01 AM    |    Today</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="type_msg">
-                        <div class="input_msg_write">
-                            <input type="text" class="write_msg" placeholder="Type a message"/>
-                            <button class="msg_send_btn" type="button"><i class="fa fa-space-shuttle" aria-hidden="true"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<%}%>
-<jsp:include page="footer.jsp"/>
+</body>
+</html>

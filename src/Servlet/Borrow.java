@@ -21,12 +21,15 @@ public final class Borrow extends HttpServlet {
         String item = request.getParameter("item");
         String category = request.getParameter("category");
         String city = request.getParameter("city");
+        int user_id = 0 ;
+        if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
+            user_id = (int) request.getSession().getAttribute("user");}
 
         if (item == null || category == null || city == null || item.equals("") || category.equals("") || city.equals("")) {
             response.setStatus(404);
         } else {
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement("select product_id from product where product_name like ? and category = ? and city = ?");
+                PreparedStatement preparedStatement = connection.prepareStatement("select product_id from product where product_name like ? and category = ? and city = ?");        //ToDo: can be improved: Sql query(Join fav and product table)
                 preparedStatement.setString(1, "%" + item + "%");
                 preparedStatement.setString(2, category);
                 preparedStatement.setString(3, city);
@@ -35,6 +38,11 @@ public final class Borrow extends HttpServlet {
                 while (rs.next()) {
                     product p = new product();
                     p.product_id = rs.getInt(1);
+                    preparedStatement = connection.prepareStatement("select * from favorites where (user_id = ? and product_id =?)");
+                    preparedStatement.setInt(1, user_id);
+                    preparedStatement.setInt(2, p.product_id);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+                    p.favourite = resultSet.next();
                     p.fillDetails(connection);
                     out.print("<div class=\"col-md-6 col-lg-3 filtr-item\" data-category=\"2,3\">\n" +
                             "                    <div class=\"card border-dark\">\n" +
@@ -44,8 +52,8 @@ public final class Borrow extends HttpServlet {
                             "                        <img class=\"img-fluid card-img w-100 d-block rounded-0\" src=\"" + p.img[1] + "\">\n" +
                             "                        <div class=\"d-flex card-footer\">\n" +
                             "                            <button class=\"btn btn-dark btn-sm btn-orng\" type=\"button\" style=\"background-color:#f8b645;\"><i class=\"icon ion-android-star-half\"></i>" + p.rating + "</button>\n" +
-                            "                            <div class=\"click\" onclick=\"heartcng(" + p.product_id + ")\">\n" +
-                            "                                <span class=\"fa fa-heart-o\"></span>\n" +
+                            "                            <div class=\"click\" onclick=\"heartcng(this)\">\n" +
+                            "                                <span class=\"fa fa-heart-o\"></span>\n" +     //ToDo: change fa fa-heart-o
                             "                                <div class=\"ring\"></div>\n" +
                             "                                <div class=\"ring2\"></div>\n" +
                             "                            </div>\n" +

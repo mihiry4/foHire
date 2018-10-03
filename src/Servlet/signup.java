@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.Const;
-import Objects.DB;
 import Objects.IdTokenVerifierAndParser;
 import Objects.user;
 
@@ -21,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -58,39 +58,43 @@ public class signup extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
+        } else {
             try {
                 String type = request.getParameter("type");
-                if (type.equals("d")) {
+                if (type == null) {
                     String username = request.getParameter("username");
                     String firstname = request.getParameter("firstName");
                     String lastname = request.getParameter("lastName");
-                    String companyName = request.getParameter("companyName");   //what to do???
+                    String companyName = request.getParameter("companyName");   //ToDO:what to do???
                     String mobileNumber = request.getParameter("mobileNumber");
                     String password = request.getParameter("password");
                     String email = request.getParameter("email");
                     String otp = request.getParameter("otp");
                     String referral = request.getParameter("referral");
+                    String reCAPTCHA = request.getParameter("g-recaptcha-response");
 
-                    if (map.containsKey(mobileNumber) && map.get(mobileNumber).toString().equals(otp)) {
-                        map.remove(mobileNumber);
-                        user u = new user();
-                        try {
-                            u.signup(connection, firstname, lastname, username, email, mobileNumber, password, true, referral);
-                        } catch (IllegalArgumentException e) {
-                            response.sendError(HttpServletResponse.SC_CONFLICT, "User with this details already exists");
+                    if (isCaptchaValid(reCAPTCHA)) {
+                        if (map.containsKey(mobileNumber) && map.get(mobileNumber).toString().equals(otp)) {
+                            map.remove(mobileNumber);
+                            user u = new user();
+                            try {
+                                u.signup(connection, firstname, lastname, username, email, mobileNumber, password, true, referral);
+                            } catch (IllegalArgumentException e) {
+                                response.sendError(HttpServletResponse.SC_CONFLICT, "User with this details already exists");
+                            }
+                            HttpSession httpSession = request.getSession();
+                            httpSession.setAttribute("user", u.userid);
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid OTP");
                         }
-                        HttpSession httpSession = request.getSession();
-                        httpSession.setAttribute("user", u.userid);
-                        response.setStatus(HttpServletResponse.SC_OK);
                     } else {
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid OTP");
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid reCAPTCHA");
                     }
-                } else {
+                } else if (type.equals("o")) {
                     String mobile = request.getParameter("mobileNumber");
                     int num;
-                    if (! map.containsKey(mobile)) {
+                    if (!map.containsKey(mobile)) {
                         num = 1000 + (int) (Math.random() * (9999 - 1000));
                         map.put(mobile, num);
                     } else {
@@ -132,7 +136,7 @@ public class signup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String Fb_token = request.getParameter("code");
-        if(Fb_token!=null){
+        if (Fb_token != null) {
             String token = null;
             try {
                 String g = "https://graph.facebook.com/oauth/access_token?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup", "UTF-8") + "&client_secret=67e651ef05aa3c820351ede01ff7b4a2&code=" + Fb_token;
@@ -179,13 +183,14 @@ public class signup extends HttpServlet {
                 lastName = json.getString("last_name");
                 email = json.getString("email");
                 user u = new user();
-                u.SocialLogin(connection, firstName, lastName, email, facebook_Auth, true, "to be added", false);
+                u.SocialLogin(connection, firstName, lastName, email, facebook_Auth, true, null, false);
             } catch (JSONException e) {
                 // an error occurred, handle this
             }
-        }else{
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
-        rd.forward(request, response);}
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+            rd.forward(request, response);
+        }
     }
 
     @Override
@@ -206,6 +211,29 @@ public class signup extends HttpServlet {
             connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static boolean isCaptchaValid(String response) {
+        try {
+            String url = "https://www.google.com/recaptcha/api/siteverify?"
+                    + "secret=" + Const.reCAPTCHA_secret
+                    + "&response=" + response;
+            InputStream res = new URL(url).openStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(res, Charset.forName("UTF-8")));
+
+            StringBuilder sb = new StringBuilder();
+            int cp;
+            while ((cp = rd.read()) != -1) {
+                sb.append((char) cp);
+            }
+            String jsonText = sb.toString();
+            res.close();
+
+            JSONObject json = new JSONObject(jsonText);
+            return json.getBoolean("success");
+        } catch (Exception e) {
+            return false;
         }
     }
 }
