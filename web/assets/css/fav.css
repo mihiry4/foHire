@@ -1,95 +1,95 @@
 .click {
-    font-size: 20px;
-  color:rgba(0,0,0,.5);
-  width:38px;
-  height:38px;
-  margin:0 0 0 auto;
-    /*position:absolute;*/
-  cursor:pointer;
-  display:block;
-    transition: all .32s ease;
+  font-size: 20px;
+  color: rgba(0,0,0,.5);
+  width: 38px;
+  height: 38px;
+  margin: 0 0 0 auto;
+  /*position: absolute;*/
+  cursor: pointer;
+  display: block;
+  transition: all .32s ease;
 }
 
 .click span {
-  margin-left:4px;
-  margin-top:3px;
-  z-index:999;
-  position:absolute;
-    transition: all .32s ease;
+  margin-left: 4px;
+  margin-top: 3px;
+  z-index: 999;
+  position: absolute;
+  transition: all .32s ease;
 }
 
 span:hover {
-  opacity:0.8;
-    transition: all .32s ease;
+  opacity: 0.8;
+  transition: all .32s ease;
 }
 
 span:active {
-  transform:scale(0.93,0.93) translateY(2px);
-    transition: all .32s ease;
+  transform: scale(0.93,0.93) translateY(2px);
+  transition: all .32s ease;
 }
 
 .ring, .ring2 {
-  opacity:0;
-  background:grey;
-  width:1px;
-  height:1px;
-  position:absolute;
-  top:19px;
-  left:18px;
-  border-radius:50%;
-  cursor:pointer;
+  opacity: 0;
+  background: grey;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: 19px;
+  left: 18px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .active span, .active-2 span {
-  color:#F5CC27 !important;
+  color: #F5CC27 !important;
 }
 
 .active-2 .ring {
-  width:58px !important;
-  height:58px !important;
-  top:-10px !important;
-  left:-10px !important;
-  position:absolute;
-  border-radius:50%;
-  opacity:1 !important;
+  width: 58px !important;
+  height: 58px !important;
+  top: -10px !important;
+  left: -10px !important;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 1 !important;
 }
 
 .active-2 .ring {
-  background:#f8b645 !important;
+  background: #f8b645 !important;
 }
 
 .active-2 .ring2 {
-  background:#fff !important;
+  background: #fff !important;
 }
 
 .active-3 .ring2 {
-  width:60px !important;
-  height:60px !important;
-  top:-11px !important;
-  left:-11px !important;
-  position:absolute;
-  border-radius:50%;
-  opacity:1 !important;
+  width: 60px !important;
+  height: 60px !important;
+  top: -11px !important;
+  left: -11px !important;
+  position: absolute;
+  border-radius: 50%;
+  opacity: 1 !important;
 }
 
 .info {
-  font-family:'Open Sans', sans-serif;
-  font-size:12px;
-  font-weight:600;
-  text-transform:uppercase;
-  white-space:nowrap;
-  color:grey;
-  position:relative;
-  top:30px;
-  left:-46px;
-  opacity:0;
-  transition:all 0.3s ease;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: grey;
+  position: relative;
+  top: 30px;
+  left: -46px;
+  opacity: 0;
+  transition: all 0.3s ease;
 }
 
 .info-tog {
-  color:#f8b645;
-  position:relative;
-  top:45px;
-  opacity:1;
+  color: #f8b645;
+  position: relative;
+  top: 45px;
+  opacity: 1;
 }
 

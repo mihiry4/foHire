@@ -12,60 +12,58 @@
 <%
     String fbURL = "http://www.facebook.com/dialog/oauth?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup") + "&scope=email";
 %>
-<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background: #465765 url('assets/img/back1.jpg') no-repeat fixed center;" <%}%>>
-<nav class="navbar navbar-light navbar-expand-md sticky-top" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5);");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;");} %>">
+<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background-image: url('assets/img/adalaj.jpeg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
+<nav class="navbar navbar-light navbar-expand-md" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5); z-index:1000;");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;z-index:1000;");} %>">
     <div class="container-fluid">
         <a class="navbar-brand" href="#" style="color:rgb(248,182,69);">
-            <div style="margin-top:5px;"><img src="assets/img/fohireTransparent1.png" style="width:80px;"></div>
+            <div style="margin-top:5px;"><img src="assets/img/fohireTransparent.png" style="width:80px;"></div>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-2">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse menu" id="navcol-2">
-            <form class="form-inline d-inline-block mr-auto searchbar" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;">
+            <form class="form-inline <% if(type.equals("index")){%>d-none<%}else{%>d-inline-block<%}%> mr-auto searchbar" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;" action="borrow">       <%--ToDo:Borrow page for top search bar--%>
                 <div class="form-group" style="margin-bottom:0px;padding:5px;"><label for="search-field">
                     <i class="fa fa-search" style="color:rgb(200,159,12);font-size:18px;"></i></label><input class="form-control form-control-sm search-field" type="search" name="search" placeholder="Search" autocomplete="on" id="search-field"></div>
             </form>
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="#" style="color:rgb(248,182,69);">Borrow</a>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="#" style="color:rgb(248,182,69);">Lend</a>
+                    <a class="nav-link" href="lend.jsp" style="color:rgb(248,182,69);">Lend</a>
                 </li>
                 <%--if not logged in--%>
                 <% if (session == null || session.getAttribute("user") == null) {%>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="padding: 0;">
-                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#signup" style="background-color:rgba(0,123,255,0);color:rgb(248,182,69);">Sign up</button>
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);" data-toggle="modal" data-target="#signup">
+                    Sign up
                 </a>
                 </li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="padding: 0;">
-                    <button class="btn btn-light log" type="button" data-toggle="modal" data-target="#login"
-                            style="background-color:rgba(0,123,255,0);color:rgb(248,182,69);">
-                        Login
-                    </button>
+
+                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);" data-toggle="modal" data-target="#login">
+                    Login
                 </a></li>
                 <%} else { %>   <%--if  logged in--%>
-                <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
-                                        aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu"
-                         style="background-color:rgba(0,0,0,0.5);"><a class="dropdown-item" role="presentation"
-                                                                      href="editprofile.html" style="color:#f8b645;">Edit
-                        Profile</a><a class="dropdown-item" role="presentation" href="setting.jsp"
-                                      style="color:#f8b645;">Account Setting</a><a class="dropdown-item"
-                                                                                   role="presentation" href="#"
-                                                                                   style="color:#f8b645;">Logout</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
+                        <a class="dropdown-item" href="profile.jsp" style="color:#f8b645;">Edit Profile</a>
+                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Setting</a>
+                        <a class="dropdown-item" href="logout.jsp" style="color:#f8b645;">Logout</a>
                     </div>
                 </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle nav-link dropdown-toggle msg" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Notifications
+                        <div style="height:10px;width:10px;position:absolute;border-radius:50%;top:0px;right:0px;">
+                            <p style="color:#ee1212;font-size:20px;">*</p>
+                        </div>
+                    </a>
+                </li>
                 <%} %>  <%--upto this--%>
-                <li
-                        class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown"
-                                            aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu"
-                         style="background-color:rgba(0,0,0,0.5);"><a class="dropdown-item" role="presentation" href="#"
-                                                                      style="color:#f8b645;">How it works?</a><a
-                            class="dropdown-item" role="presentation" href="#" style="color:#f8b645;">FAQs</a></div>
+                <li class="dropdown">
+                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
+                        <a class="dropdown-item" href="HowItWorks.jsp" style="color:#f8b645;">How it works?</a>
+                        <a class="dropdown-item" href="FAQs.jsp" style="color:#f8b645;">FAQs</a>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -123,23 +121,18 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color:#f8b645;">
                 <h4 class="text-monospace modal-title">Login</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&#9587;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
+                    <i class="fa fa-close"></i></span>
+                </button>
             </div>
             <div class="modal-body">
                 <div>
-                    <label for="login_user">E-mail or Phone no:</label><input id="login_user" class="form-control"
-                                                                              type="text" required=""><label
-                        for="login_pass">Password:</label><input
-                        id="login_pass" class="form-control" type="password" required=""><a class="d-table" href="#"
-                                                                                            style="font-size:10px;">Forgot
-                    your
-                    password?</a>
-                    <button
-                            id="log" class="btn btn-primary"
-                            style="background-color:#f8b645;margin-top:10px;">
-                        Login
-                    </button>
+                    <label for="login_user">E-mail or Phone no:</label>
+                    <input id="login_user" class="form-control" type="text" required="">
+                    <label for="login_pass">Password:</label>
+                    <input id="login_pass" class="form-control" type="password" required="">
+                    <a class="d-table" href="ForgotPassword.jsp" style="font-size:10px;">Forgot your password?</a>
+                    <button id="log" class="btn btn-primary" style="background-color:#f8b645;margin-top:10px;">Login</button>
                     <span id="incorrect"></span>
                 </div>
             </div>
@@ -148,18 +141,14 @@
                     <div class="col">
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
-                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with Facebook</a></button>
+                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>Login with Facebook</a></button>
                         <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
-
-                    <div
-                            class="col">
-                        <button class="btn btn-primary" type="button"
-                                style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
-                                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
-                                class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with Google</a></button>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(189,29,29);margin-top:10px;">
+                            <a href="#" style="color:rgb(255,255,255);font-size:20px;"><i class="fab fa-google-plus-square" style="font-size:30px;"></i>Login with Google</a>
+                        </button>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -170,8 +159,9 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color:#f8b645;">
                 <h4 class="modal-title">Sign up</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&#9587;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                </button>
             </div>
             <div class="modal-body">
                 <div>
@@ -193,7 +183,7 @@
                             <input id="Password" class="form-control" type="password" required="">
                             <label for="Confirm password">Confirm password:</label>
                             <input id="Confirm password" class="form-control" type="password" required="">
-                            <div class="g-recaptcha" data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>
+                            <div class="g-recaptcha" data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>     <%--ToDo:leave some space around reCaptcha--%>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" required="" id="formCheck-2">
                                 <label class="form-check-label" for="formCheck-2">
@@ -210,22 +200,18 @@
                     </form>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-block">
                 <div class="row">
                     <div class="col">
-                        <button class="btn btn-primary" type="button"
-                                style="width:100%;background-color:rgb(48,51,137);"><a href="#"
-                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
-                                class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp; Login with
-                            Facebook</a></button>
+                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
+                            <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
+                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
-                    <div
-                            class="col">
-                        <button class="btn btn-primary" type="button"
-                                style="width:100%;background-color:rgb(189,29,29);margin-top:10px;"><a href="#"
-                                                                                                       style="color:rgb(255,255,255);font-size:20px;"><i
-                                class="fab fa-google-plus-square" style="font-size:30px;"></i>&nbsp; Login with
-                            Google</a></button>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(189,29,29);margin-top:10px;">
+                            <a href="#" style="color:rgb(255,255,255);font-size:20px;"><i class="fab fa-google-plus-square" style="font-size:30px;"></i>SignUp with Google</a>
+                        </button>
                     </div>
                 </div>
             </div>

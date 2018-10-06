@@ -6,7 +6,6 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="Objects.comment" %>
 <%! Connection connection;
-
     @Override
     public void jspInit() {
         try {

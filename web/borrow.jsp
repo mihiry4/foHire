@@ -1,4 +1,4 @@
-p<jsp:include page="importLinks.jsp">
+<jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="Choose from catalouge"/>
 </jsp:include>
 <jsp:include page="header.jsp">
