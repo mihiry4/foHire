@@ -3,8 +3,8 @@ package Servlet;
 import Objects.Const;
 import Objects.IdTokenVerifierAndParser;
 import Objects.user;
-
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +22,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -139,14 +138,14 @@ public class signup extends HttpServlet {
         if (Fb_token != null) {
             String token = null;
             try {
-                String g = "https://graph.facebook.com/oauth/access_token?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup", "UTF-8") + "&client_secret=67e651ef05aa3c820351ede01ff7b4a2&code=" + Fb_token;
+                String g = "https://graph.facebook.com/oauth/access_token?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup", "UTF-8") + "&client_secret=" + Const.Fb_clientSecret + "&code=" + Fb_token;
                 URL u = new URL(g);
                 URLConnection c = u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
                 String inputLine;
-                StringBuffer b = new StringBuffer();
+                StringBuilder b = new StringBuilder();
                 while ((inputLine = in.readLine()) != null)
-                    b.append(inputLine + "\n");
+                    b.append(inputLine).append("\n");
                 in.close();
                 token = b.toString();
                 if (token.startsWith("{"))
@@ -162,9 +161,9 @@ public class signup extends HttpServlet {
                 URLConnection c = u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));
                 String inputLine;
-                StringBuffer b = new StringBuffer();
+                StringBuilder b = new StringBuilder();
                 while ((inputLine = in.readLine()) != null)
-                    b.append(inputLine + "\n");
+                    b.append(inputLine).append("\n");
                 in.close();
                 graph = b.toString();
             } catch (Exception e) {
@@ -207,9 +206,13 @@ public class signup extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
-        } catch (ClassNotFoundException | SQLException e) {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

@@ -4,6 +4,25 @@
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="nonindex"/>
 </jsp:include>
+<%
+    String Item = request.getParameter("item");
+    String Category = request.getParameter("category");
+    String City = request.getParameter("city");
+
+    if ((Item != null) && !(Item.equals(""))) {
+%>
+<script>$(document).ready(function () {
+    $.post("Borrow", {
+        item: <%=Item%>,
+        category: <%=Category%>,
+        city: <%=City%>
+    }, function (data) {
+        $("#results").innerText = data
+    }).fail(function () {
+        $("#fail").text("Could not find any item like this");
+    });
+});</script>
+<%}%>
 <script>$(document).ready(function () {
     $("#search").click(function () {
         $.post("Borrow", {
@@ -17,7 +36,7 @@
         });
     });
 });</script>
-<section style="margin-top:3%;">
+<section style="margin-top:3%;">            <%--ToDo: add spinner by rudra--%>
     <div class="container">
         <form>
             <div class="form-row">
@@ -42,7 +61,7 @@
     <section class="py-5">
         <div class="container">
             <div id="results" class="row filtr-container">
-                <div class="col-md-6 col-lg-3 filtr-item" data-category="2,3">
+                <%--<div class="col-md-6 col-lg-3 filtr-item" data-category="2,3">
                     <div class="card border-dark">
                         <div class="card-header text-light" style="background-color:#f8b645;">
                             <h5 class="d-inline-block m-0" style="width:75%;">This girl</h5>
@@ -121,7 +140,7 @@
                         <p style="margin-bottom:0px;"><strong>Ahmedabad</strong></p>
                         <p>Rs.100000 Per Day</p>
                     </div>
-                </div>
+                </div>--%>
             </div>
         </div>
     </section>

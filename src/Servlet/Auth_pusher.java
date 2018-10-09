@@ -3,6 +3,7 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,9 +68,13 @@ public class Auth_pusher extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
-        } catch (ClassNotFoundException | SQLException e) {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

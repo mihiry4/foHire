@@ -44,5 +44,7 @@
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
     <orderEntry type="library" name="bootstrap-better-nav" level="application" />
+    <orderEntry type="library" name="commons-dbcp:commons-dbcp:1.4" level="project" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.12" level="project" />
   </component>
 </module>

@@ -19,7 +19,7 @@
     <div>
         <div class="container">
             <form>
-                <div class="form-row formres" style="padding:50px 0px;">
+                <div class="form-row formres" style="padding:50px 0;">
                     <div class="col-lg-8 offset-lg-2">
                         <div class="form-group d-flex">
                             <input class="form-control searchqirayaa" type="text" placeholder="Search ">
@@ -87,9 +87,12 @@
                                             <div>
                                                 <div class="card"><img class="img-fluid card-img-top w-100 d-block rounded-0" src="assets/img/back1.jpg"></div>
                                                 <div class="pricetag">
-                                                    <p style="margin-bottom:0px;color:#f8b645;"><strong>Product name&nbsp;&middot;&nbsp;</strong><i class="icon ion-android-star-half"></i><strong>4.5</strong><br></p>
-                                                    <p style="margin-bottom:0px;font-size:22px;"><strong>Ahmedabad</strong></p>
-                                                    <p>Rs.100000 Per Day</p>
+                                                    <p style="margin-bottom:0;color:#f8b645;"><strong>Product name&nbsp;&middot;&nbsp;</strong><i
+                                                            class="icon ion-android-star-half"></i><strong>4.5</strong><br>
+                                                    </p>
+                                                    <p style="margin-bottom:0;font-size:22px;">
+                                                        <strong>Ahmedabad</strong></p>
+                                                    <p>&#8377; 100000 Per Day</p>
                                                 </div>
                                             </div>
                                         </a>

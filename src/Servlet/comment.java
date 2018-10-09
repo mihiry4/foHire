@@ -1,6 +1,7 @@
 package Servlet;
 
-import Objects.DB;
+import Objects.Const;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -61,9 +61,13 @@ public class comment extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(DB.DBclass, DB.user, DB.pass);
-        } catch (ClassNotFoundException | SQLException e) {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

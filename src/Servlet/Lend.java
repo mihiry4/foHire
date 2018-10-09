@@ -1,7 +1,9 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.DB;
 import Objects.product;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,18 +13,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.nio.file.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(name = "Lend")
 @MultipartConfig
 public class Lend extends HttpServlet {
+    Connection connection;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productName = request.getParameter("productName");
         String category = request.getParameter("category");
@@ -76,6 +81,15 @@ public class Lend extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
+        try {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

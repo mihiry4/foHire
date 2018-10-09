@@ -1,8 +1,8 @@
 package Servlet;
 
 import Objects.Const;
-import Objects.DB;
 import Objects.product;
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @WebServlet(name = "/Product")
@@ -51,9 +50,13 @@ public class Product extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
-        } catch (ClassNotFoundException | SQLException e) {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

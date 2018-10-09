@@ -7,8 +7,8 @@
 --%>
 <% String type = request.getParameter("type"); %>
 <% response.setHeader("Access-Control-Allow-Origin", "https://accounts.google.com");%>
-<%@page import="java.net.URLEncoder" %>
-<%@ page import="Objects.Const" %>
+<%@page import="Objects.Const" %>
+<%@ page import="java.net.URLEncoder" %>
 <%
     String fbURL = "http://www.facebook.com/dialog/oauth?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup") + "&scope=email";
 %>
@@ -185,14 +185,13 @@
                             <input id="Confirm password" class="form-control" type="password" required="">
                             <div class="g-recaptcha" data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>     <%--ToDo:leave some space around reCaptcha--%>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" required="" id="formCheck-2">
-                                <label class="form-check-label" for="formCheck-2">
-                                    By clicking sign up you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.</label>
+                                By clicking sign up you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
+                                that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
                             </div>
                             <button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>
                         </div>
                         <div class="d-none" id="secpg">
-                            <label>OTP:</label>
+                            <label for="otp">OTP:</label>
                             <input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">
                             <button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>
                             <button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>
