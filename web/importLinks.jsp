@@ -13,6 +13,7 @@
     <title><%= request.getParameter("title")%>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apis.google.com/js/api:client.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-scope" content="profile email">
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/-Filterable-Cards-.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
     <link rel="stylesheet" href="assets/css/Article-Cards.css">
     <link rel="stylesheet" href="assets/css/Bold-BS4-Footer-Big-Logo.css">
     <link rel="stylesheet" href="assets/css/Community-ChatComments.css">

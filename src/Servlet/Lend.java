@@ -1,8 +1,13 @@
 package Servlet;
 
 import Objects.Const;
-import Objects.DB;
 import Objects.product;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.RequestDispatcher;
@@ -13,12 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -28,44 +29,51 @@ import java.util.stream.Collectors;
 @MultipartConfig
 public class Lend extends HttpServlet {
     Connection connection;
+    private AmazonS3 s3;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String productName = request.getParameter("productName");
         String category = request.getParameter("category");
         String availTill = request.getParameter("availTill");
         String availFrom = request.getParameter("availFrom");
         String rent = request.getParameter("rent");
+        String region = request.getParameter("region");
+        String city = request.getParameter("city");
         String deposit = request.getParameter("deposit");
-        String location = request.getParameter("location");
         String description = request.getParameter("description");
-        String late = request.getParameter("late");
-        String policy = request.getParameter("policy");
-        int user_id = (int) request.getSession().getAttribute("user");
-        String img[] = new String[5];
+        int user_id = 0;
+        user_id = (Integer) request.getSession().getAttribute("user");    //todo:if user not logged in prompt him to log in
         product p = new product();
-
+        p.lend(connection, user_id, productName, category, description, region, city, rent, deposit, availFrom, availTill);
+        if (p.product_id != 0) {
 
         //image handling
         int i = 0;
         Part filePart = request.getPart("thumbnail"); // Retrieves <input type="file" name="file">
-        String thumbnail = Paths.get(filePart.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
         InputStream thumbnailContent = filePart.getInputStream();
-        img[i] = "C:/Users/Manan/Pictures/" + thumbnail;
-        File target = new File(img[i]);
-        Files.copy(thumbnailContent, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType("image/png");
+            PutObjectRequest objectRequest = new PutObjectRequest("fohire", "product/" + p.product_id + "_" + i, thumbnailContent, metadata);
+            s3.putObject(objectRequest);
+            ++i;
 
         List<Part> fileParts = request.getParts().stream().filter(part -> "images".equals(part.getName())).collect(Collectors.toList()); // Retrieves <input type="file" name="file" multiple="true">
 
         for (Part filePart1 : fileParts) {
-            String fileName1 = Paths.get(filePart1.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
-            InputStream fileContent1 = filePart1.getInputStream();
-            img[++ i] = DB.path + fileName1;
-            File target1 = new File(img[i]);
-            Files.copy(fileContent1, target1.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            InputStream Content = filePart1.getInputStream();
+            ObjectMetadata metadata1 = new ObjectMetadata();
+            metadata.setContentType("image/png");
+            PutObjectRequest objectRequest1 = new PutObjectRequest("fohire", "product/" + p.product_id + "_" + i, Content, metadata1);
+            s3.putObject(objectRequest1);
+            if (++i > 3) break;
         }
 
-        p.lend(user_id, productName, category, description, location, img, rent, deposit, availFrom, availTill, late, policy);
-        RequestDispatcher rd = request.getRequestDispatcher("successLend.jsp");
-        rd.forward(request, response);
+            p.setImg(connection, i);
+            RequestDispatcher rd = request.getRequestDispatcher("LendSuccess.jsp");
+            rd.forward(request, response);
+        } else {
+            //error in uploading product    ToDo:edited with rudra
+            //out.println(""):
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -87,7 +95,7 @@ public class Lend extends HttpServlet {
             dataSource.setUser(Const.user);
             dataSource.setPassword(Const.pass);
             connection = dataSource.getConnection();
-
+            s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).build();
         } catch (SQLException e) {
             e.printStackTrace();
         }

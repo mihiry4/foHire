@@ -1,10 +1,14 @@
-<%--
+<%@ page import="Objects.Const" %><%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 28-07-2018
   Time: 11:02 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%
+    if (request.getSession().getAttribute("user") == null)
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+%>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="Lend your product"/>
 </jsp:include>
@@ -33,7 +37,8 @@
                                     <tr>
                                         <td>Product category:</td>
                                         <td colspan="3"><select name="category" class="form-control">
-                                            <option value="game">Games</option>
+                                            <option value="1" selected="">Books</option>
+                                            <option value="2">Blu-ray and console games</option>
                                         </select></td>
                                     </tr>
                                     <tr>
@@ -91,7 +96,8 @@
                                     </tr>
                                     <tr>
                                         <td>Location:</td>
-                                        <td colspan="2"><input name="location" id="autocomplete" placeholder="Enter your address"
+                                        <td colspan="2"><input name="region" id="autocomplete"
+                                                               placeholder="Enter your address"
                                                                onFocus="geolocate()" class="form-control" type="text"></td>
                                     </tr>
                                     <tr>
@@ -110,11 +116,15 @@
                                         <td colspan="2"><select name="policy" class="form-control"></select></td>
                                     </tr>
                                     <tr>
-                                        <td><button class="btn btn-primary qbtn" type="button" id="prvbtn">Previous</button></td>
+                                        <td>
+                                            <button class="btn btn-primary qbtn" type="button" id="prvbtn1">Previous
+                                            </button>
+                                        </td>
                                         <td><button class="btn btn-primary float-right qbtn" type="submit">Submit</button></td>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <input type="hidden" name="city" id="cty">
                             </div>
                         </fieldset>
                     </div>
@@ -125,15 +135,18 @@
 </div>
 <script>
     function initAutocomplete() {
-        // Create the autocomplete object, restricting the search to geographical
-        // location types.
         autocomplete = new google.maps.places.Autocomplete(
             (document.getElementById('autocomplete')),
             {types: ['geocode']});
 
-        // When the user selects an address from the dropdown, populate the address
-        // fields in the form.
-        /*autocomplete.addListener('place_changed', fillInAddress);*/
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            for (let i = 0; i < place.address_components.length; i++) {
+                if (place.address_components[i].types[0] === "locality") {
+                    document.getElementById("cty").value = place.address_components[i].long_name;
+                }
+            }
+        });
     }
 
     function geolocate() {
@@ -152,5 +165,8 @@
         }
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPwGMMnn1OVOVOC8Uk_cPKYxH1xHZyVFY&libraries=places&callback=initAutocomplete" async defer></script>
-<jsp:include page="footer.jsp"/>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%=Const.Maps_APIKey%>&libraries=places&callback=initAutocomplete"
+        async defer></script>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="no"/>
+</jsp:include>

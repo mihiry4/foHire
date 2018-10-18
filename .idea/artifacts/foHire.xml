@@ -8,17 +8,15 @@
           <element id="module-output" name="foHire" />
         </element>
         <element id="directory" name="lib">
-          <element id="file-copy" path="$PROJECT_DIR$/mysql-connector.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/lib/mysql-connector.jar" />
-          <element id="library" level="project" name="com.google.apis:google-api-services-oauth2:v2-rev66-1.17.0-rc" />
-          <element id="library" level="project" name="com.google.http-client:google-http-client-jackson:1.23.0" />
           <element id="library" level="project" name="javax.servlet:jstl:1.2" />
-          <element id="library" level="project" name="com.mashape.unirest:unirest-java:1.4.5" />
-          <element id="library" level="project" name="io.jsonwebtoken:jjwt:0.6.0" />
-          <element id="library" level="project" name="org.json:json:20180130" />
           <element id="library" level="project" name="javax.mail:mail:1.5.0-b01" />
           <element id="library" level="project" name="commons-dbcp:commons-dbcp:1.4" />
           <element id="library" level="project" name="mysql:mysql-connector-java:8.0.12" />
+          <element id="library" level="project" name="com.amazonaws:aws-java-sdk-s3:1.11.41" />
+          <element id="library" level="project" name="com.google.apis:google-api-services-oauth2:v2-rev141-1.25.0" />
+          <element id="library" level="project" name="com.google.http-client:google-http-client-jackson:1.25.0" />
+          <element id="library" level="project" name="com.mashape.unirest:unirest-java:1.4.9" />
+          <element id="library" level="project" name="io.jsonwebtoken:jjwt:0.9.1" />
         </element>
       </element>
     </root>

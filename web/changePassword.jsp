@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if (request.getSession().getAttribute("user") == null)
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+%>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="Change the password"/>
 </jsp:include>

@@ -1,10 +1,3 @@
-const chatManager = new Chatkit.ChatManager({
-    instanceLocator: "v1:us1:0ee28cf9-46f6-49ca-ae03-5f06d486aee6",
-    userId: "ru",
-    tokenProvider: new Chatkit.TokenProvider({url: "auth.php"})
-});
-
-
 chatManager.connect().then(currentUser => {
     let sequence = Promise.resolve();
     currentUser.rooms.forEach(function (room) {

@@ -21,14 +21,18 @@ public class comment extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int user = (int) session.getAttribute("user");
-        int product = (int) session.getAttribute("product");
+        int user = (Integer) session.getAttribute("user");
+        int product = (Integer) session.getAttribute("product");
         if (user != 0 && product != 0) {
             String r = request.getParameter("rating");
             String review = request.getParameter("review");
             double rating = Double.parseDouble(r);
             try {
-                PreparedStatement preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
+                PreparedStatement preparedStatement = connection.prepareStatement("update fohire.reviews set deleted = true where product_id = ? and user_id = ?");
+                preparedStatement.setInt(1, product);
+                preparedStatement.setInt(2, user);
+                preparedStatement.executeUpdate();
+                preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
                 preparedStatement.setInt(1, product);
                 preparedStatement.setInt(2, user);
                 preparedStatement.setDouble(3, rating);

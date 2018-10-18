@@ -8,14 +8,15 @@
     String Item = request.getParameter("item");
     String Category = request.getParameter("category");
     String City = request.getParameter("city");
-
+    String typ = request.getParameter("type");
     if ((Item != null) && !(Item.equals(""))) {
 %>
 <script>$(document).ready(function () {
     $.post("Borrow", {
         item: <%=Item%>,
         category: <%=Category%>,
-        city: <%=City%>
+        city: <%=City%>,
+        typ: <%=typ%>
     }, function (data) {
         $("#results").innerText = data
     }).fail(function () {
@@ -42,10 +43,9 @@
             <div class="form-row">
                 <div class="col"><input id="item" class="form-control" type="text" placeholder="What are you looking for?"></div>
                 <div class="col"><select id="category" class="form-control">
-                    <optgroup label="This is a group">
-                        <option value="12" selected="">This is item 1</option>
-                        <option value="13">This is item 2</option>
-                        <option value="14">This is item 3</option>
+                    <optgroup label="Select Category">
+                        <option value="1" selected="">Books</option>
+                        <option value="2">Blu-ray and console games</option>
                     </optgroup>
                 </select></div>
                 <div

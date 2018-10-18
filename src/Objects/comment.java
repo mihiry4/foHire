@@ -6,16 +6,16 @@ public final class comment {
     public double rating;
     public String review;
     public Timestamp time;
-    public String user_firstname;
-    public String user_propic;
-    public int user_id;
+    public String user_firstName;
+    public String user_lastName;
+    public String user_name;
 
-    public comment(double rating, String review, Timestamp time, String user_firstname, String user_propic, int user_id) {
+    public comment(double rating, String review, Timestamp time, String user_firstName, String user_lastName, String user_name) {
         this.rating = rating;
         this.review = review;
         this.time = time;
-        this.user_firstname = user_firstname;
-        this.user_propic = user_propic;
-        this.user_id = user_id;
+        this.user_firstName = user_firstName;
+        this.user_lastName = user_lastName;
+        this.user_name = user_name;
     }
 }

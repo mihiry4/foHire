@@ -9,8 +9,14 @@
 }
 
 #chat::-webkit-scrollbar-thumb {
-  background-color: #F90;
-  background-image: -webkit-linear-gradient(45deg,rgba(255, 255, 255, .2) 25%,transparent 25%,transparent 50%,rgba(255, 255, 255, .2) 50%,rgba(255, 255, 255, .2) 75%,transparent 75%,transparent);
+  background: #F90 -webkit-linear-gradient(45deg,
+  rgba(255, 255, 255, .2) 25%,
+  transparent 25%,
+  transparent 50%,
+  rgba(255, 255, 255, .2) 50%,
+  rgba(255, 255, 255, .2) 75%,
+  transparent 75%,
+  transparent);
 }
 
 .container1 {
@@ -23,14 +29,13 @@
 .chat {
   max-width: 100%;
   background: #ffffff;
-  border: 2px solid #f8b645;
-  border-radius: 5px;
+  border: 1px solid rgba(203, 183, 183, 0.56);
   color: #434651;
 }
 
 .chat .chat-header {
   padding: 20px;
-  border-bottom: 2px dashed #f8b645;
+  border-bottom: 2px solid rgba(203, 183, 183, 0.56);
 }
 
 .chat .chat-header img {

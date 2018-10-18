@@ -5,7 +5,6 @@ import Objects.ChatKit;
 import Objects.Const;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,14 +27,14 @@ public class Auth_pusher extends HttpServlet {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             int user_id = (int) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
-            String user_name = request.getParameter("user_name");
+            String user_name = request.getParameter("user_id");
             Map<String, String> map = new HashMap<>();
             map.put("instanceLocator", Const.Pusher_instanceLocator);
             map.put("key", Const.Pusher_secret);
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_name = ? and user_id =  ?");
                 preparedStatement.setString(1, user_name);
-                preparedStatement.setInt(1, user_id);
+                preparedStatement.setInt(2, user_id);
                 ResultSet rs = preparedStatement.executeQuery();
                 if (rs.next()) {
                     ChatKit chatKit = new ChatKit(map);
@@ -50,8 +49,9 @@ public class Auth_pusher extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
-        rd.forward(request, response);
+        doPost(request, response);
+        /*RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        rd.forward(request, response);*/
     }
 
     @Override

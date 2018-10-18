@@ -138,7 +138,7 @@ public class signup extends HttpServlet {
         if (Fb_token != null) {
             String token = null;
             try {
-                String g = "https://graph.facebook.com/oauth/access_token?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup", "UTF-8") + "&client_secret=" + Const.Fb_clientSecret + "&code=" + Fb_token;
+                String g = "https://graph.facebook.com/oauth/access_token?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL, "UTF-8") + "&client_secret=" + Const.Fb_clientSecret + "&code=" + Fb_token;
                 URL u = new URL(g);
                 URLConnection c = u.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(c.getInputStream()));

@@ -1,3 +1,7 @@
+<%
+    if (request.getSession().getAttribute("user") == null)
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+%>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="Edit your profile"/>
 </jsp:include>
@@ -67,4 +71,6 @@
         </div>
     </div>
 </section>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="no"/>
+</jsp:include>

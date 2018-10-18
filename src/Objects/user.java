@@ -4,8 +4,6 @@ import com.sun.istack.internal.NotNull;
 
 import java.security.MessageDigest;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public final class user {
     public int userid;
@@ -44,6 +42,19 @@ public final class user {
             e.printStackTrace();
         }
         return true;
+    }
+
+    public String getUserName(@NotNull Connection connection) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_id = ?");
+            preparedStatement.setInt(1, userid);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            return rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void login(@NotNull Connection connection, String input, String password) throws IllegalArgumentException {    //for login purpose

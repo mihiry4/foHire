@@ -10,9 +10,11 @@
 <%@page import="Objects.Const" %>
 <%@ page import="java.net.URLEncoder" %>
 <%
-    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=647356462331818&redirect_uri=" + URLEncoder.encode("http://localhost:8080/foHire/signup") + "&scope=email";
+    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
 %>
 <body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background-image: url('assets/img/adalaj.jpeg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
+
+
 <nav class="navbar navbar-light navbar-expand-md" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5); z-index:1000;");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;z-index:1000;");} %>">
     <div class="container-fluid">
         <a class="navbar-brand" href="#" style="color:rgb(248,182,69);">
@@ -142,12 +144,13 @@
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
                                 <i class="fab fa-facebook-square" style="font-size:30px;"></i>Login with Facebook</a></button>
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(189,29,29);margin-top:10px;">
-                            <a href="#" style="color:rgb(255,255,255);font-size:20px;"><i class="fab fa-google-plus-square" style="font-size:30px;"></i>Login with Google</a>
-                        </button>
+                        <%--<div id="gSignInWrapper">--%>
+
+                        <%--<div id="customBtn" class="customGPlusSignIn">--%>
+                        <%--<span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>--%>
+                        <%--<span class="buttonText">Sign up with Google</span>--%>
+                        <%--</div>--%>
+                        <%--</div>--%>
                     </div>
                 </div>
             </div>
@@ -183,9 +186,11 @@
                             <input id="Password" class="form-control" type="password" required="">
                             <label for="Confirm password">Confirm password:</label>
                             <input id="Confirm password" class="form-control" type="password" required="">
-                            <div class="g-recaptcha" data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>     <%--ToDo:leave some space around reCaptcha--%>
-                            <div class="form-check">
-                                By clicking sign up you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
+                            <div class="g-recaptcha" style="margin-top: 5px;"
+                                 data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>
+                            <%--ToDo:leave some space around reCaptcha--%>
+                            <div class="">
+                                By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
                                 that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
                             </div>
                             <button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>
@@ -205,16 +210,20 @@
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
                                 <i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>
-                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(189,29,29);margin-top:10px;">
-                            <a href="#" style="color:rgb(255,255,255);font-size:20px;"><i class="fab fa-google-plus-square" style="font-size:30px;"></i>SignUp with Google</a>
-                        </button>
+                        <div id="gSignInWrapper">
+
+                            <div id="customBtn" class="customGPlusSignIn">
+                                <span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>
+                                <span class="buttonText">Sign up with Google</span>
+                            </div>
+                        </div>
+                        <div id="name"></div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <% }%>
