@@ -55,6 +55,25 @@ public final class Borrow extends HttpServlet {
         String category = request.getParameter("category");
         String city = request.getParameter("city");
         String type = request.getParameter("type");
+        String sort = request.getParameter("sort");
+        int s = Integer.parseInt(sort);
+        String Sort;
+        switch (s) {
+            case 0:
+                Sort = "price asc, product.upload_time desc";
+                break;
+            case 1:
+                Sort = "price desc, product.upload_time desc";
+                break;
+            case 3:
+                Sort = "product.rating desc, product.upload_time desc";
+                break;
+            case 2:
+            default:
+                Sort = "product.upload_time desc, product.rating desc";
+                break;
+        }
+
         int user_id = 0;
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             user_id = (Integer) request.getSession().getAttribute("user");
@@ -95,7 +114,7 @@ public final class Borrow extends HttpServlet {
                 response.setStatus(404);
             } else {
                 try {
-                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) order by product.upload_time desc");
+                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) order by " + Sort);
                     preparedStatement.setString(1, "%" + item + "%");
                     preparedStatement.setInt(2, Integer.parseInt(category));
                     preparedStatement.setString(3, city);

@@ -1,4 +1,7 @@
 var ouid = window.location.href.split('?').pop();
+var spinner = document.querySelector('.loader');
+spinner.classList.add('spin');
+
       chatManager.connect().then(currentUser => {
         for(var i=0;i<(currentUser.rooms).length;i++)
           {
@@ -31,6 +34,7 @@ var ouid = window.location.href.split('?').pop();
                     let templateScript = Handlebars.compile(template);
                   $('#chathistory').append( templateScript(data) ); 
                   s.scrollTop = s.scrollHeight;
+
                 }
                 else
                 {
@@ -39,8 +43,13 @@ var ouid = window.location.href.split('?').pop();
                   $('#chathistory').append( templateScript(data) ); 
                   s.scrollTop = s.scrollHeight;
                 }
+                  spinner.classList.remove('spin');
+
+
               }
+
             }
+
           });
 
 
@@ -58,3 +67,10 @@ var ouid = window.location.href.split('?').pop();
         .catch(error => {
           console.error("error:", error);
         });
+
+
+// .catch(function(error){
+//     if ( $('#chathistory').children().length < 1 ) {
+//         $('#chathistory').append(" <li style='color:gray'>No messages</li>");
+//     }
+// })

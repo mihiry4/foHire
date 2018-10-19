@@ -66,42 +66,6 @@
         userId: "<%=user_id%>",
         tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
     });
-
-
-    <%--chatManager
-        .connect()
-        .then(currentUser => {
-            currentUser.subscribeToRoom({
-                roomId: currentUser.rooms[0].id,
-                hooks: {
-                    onNewMessage: message => {
-
-                        const ul = document.getElementById("message-list");
-                        const li = document.createElement("li");
-                        var senid = message.senderId;
-                        var msg = message.text;
-                        li.appendChild(
-                            document.createTextNode(senid + ':' + msg)
-                        );
-                        ul.appendChild(li);
-                    }
-                }
-            });
-
-            const form = document.getElementById("message-form");
-            form.addEventListener("submit", e => {
-                e.preventDefault();
-                const input = document.getElementById("message-text");
-                currentUser.sendMessage({
-                    text: input.value,
-                    roomId: currentUser.rooms[0].id
-                });
-                input.value = "";
-            });
-        })
-        .catch(error => {
-            console.error("error:", error);
-        });--%>
 </script>
 <section style="margin-top:25px;">
     <div class="container1">
@@ -116,6 +80,7 @@
             </div> <!-- end chat-header -->
 
             <div class="chat-history" id="chat">
+                <div class="loader spin"></div>
                 <ul type="none" id="chathistory">
 
                 </ul>
@@ -161,7 +126,9 @@
             </li>
         </script>
     </div>
+
 </section>
+
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="yes"/>
 </jsp:include>

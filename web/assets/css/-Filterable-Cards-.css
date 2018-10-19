@@ -1,3 +1,24 @@
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 16px solid white;
+  border-top: 16px solid #BADA55;
+  border-radius: 50%;
+}
+
+.spin {
+  animation: spinner 1.5s linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 #customBtn {
     display: inline-block;
     background: white;

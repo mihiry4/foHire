@@ -29,7 +29,8 @@
         $.post("Borrow", {
             item: $("#item").val(),
             category: $("#category").val(),
-            city: $("#city").val()
+            city: $("#city").val(),
+            sort: $("#sort").val()
         }, function (data) {
             $("#results").innerText = data
         }).fail(function () {
@@ -42,14 +43,25 @@
         <form>
             <div class="form-row">
                 <div class="col"><input id="item" class="form-control" type="text" placeholder="What are you looking for?"></div>
-                <div class="col"><select id="category" class="form-control">
+                <div class="col">
+                    <select id="category" class="form-control">
                     <optgroup label="Select Category">
                         <option value="1" selected="">Books</option>
                         <option value="2">Blu-ray and console games</option>
                     </optgroup>
-                </select></div>
-                <div
-                        class="col"><input id="city" class="form-control" type="text" placeholder="Search region here"></div>
+                    </select>
+                </div>
+                <div class="col"><input id="city" class="form-control" type="text" placeholder="Search region here">
+                </div>
+                <div class="col">
+                    <select id="sort" class="form-control">
+                        <option value="0" disabled selected>Sort By:</option>
+                        <option value="1">Price:Low to High</option>
+                        <option value="2">Price:High to Low</option>
+                        <option value="3">Latest Arrivals</option>
+                        <option value="4">Avg. reviews</option>
+                    </select>
+                </div>
                 <div class="col">
                     <button id="search" class="btn btn-primary btn-block" type="button" style="background-color:#f8b645;">Search</button>
                 </div>
@@ -145,4 +157,6 @@
         </div>
     </section>
 </section>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="no"/>
+</jsp:include>
