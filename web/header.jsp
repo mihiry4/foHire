@@ -33,6 +33,13 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" href="lend.jsp" style="color:rgb(248,182,69);">Lend</a>
                 </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
+                        <a class="dropdown-item" href="HowItWorks.jsp" style="color:#f8b645;">How it works?</a>
+                        <a class="dropdown-item" href="FAQs.jsp" style="color:#f8b645;">FAQs</a>
+                    </div>
+                </li>
                 <%--if not logged in--%>
                 <% if (session == null || session.getAttribute("user") == null) {%>
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);" data-toggle="modal" data-target="#signup">
@@ -43,15 +50,9 @@
                 <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);" data-toggle="modal" data-target="#login">
                     Login
                 </a></li>
+
                 <%} else { %>   <%--if  logged in--%>
-                <li class="dropdown">
-                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
-                        <a class="dropdown-item" href="profile.jsp" style="color:#f8b645;">Edit Profile</a>
-                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Setting</a>
-                        <a class="dropdown-item" href="logout.jsp" style="color:#f8b645;">Logout</a>
-                    </div>
-                </li>
+
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle msg" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Notifications
                         <div style="height:10px;width:10px;position:absolute;border-radius:50%;top:0px;right:0px;">
@@ -59,14 +60,33 @@
                         </div>
                     </a>
                 </li>
-                <%} %>  <%--upto this--%>
                 <li class="dropdown">
-                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
-                        <a class="dropdown-item" href="HowItWorks.jsp" style="color:#f8b645;">How it works?</a>
-                        <a class="dropdown-item" href="FAQs.jsp" style="color:#f8b645;">FAQs</a>
+                    <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:#ffffff;">
+                        <a role="presentation" class="dropdown-item disabled credit" style="color:rgba(89,89,89,0.75);">
+                            <div>
+                                <div class="d-inline-block">
+                                    <h6 style="font-size:14px;">Credits</h6>
+                                </div>
+                                <div class="d-inline-block float-right">
+                                    <h6 style="font-size:14px;">25</h6>
+                                </div>
+                                <hr style="margin:2px;" />
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="profile.jsp" style="color:#f8b645;">Edit Profile</a>
+                        <a class="dropdown-item" href="conversations.jsp" style="color:#f8b645;position: relative;">Messages
+                            <div id="indic" style="height:10px;width:10px;position:absolute;border-radius:50%;top:5px;right:5px;">
+
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="favourites.jsp" style="color:#f8b645;">Favourites</a>
+                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Setting</a>
+                        <a class="dropdown-item" href="logout.jsp" style="color:#f8b645;">Logout</a>
                     </div>
                 </li>
+                <%} %>  <%--upto this--%>
+
             </ul>
         </div>
     </div>

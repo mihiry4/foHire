@@ -178,5 +178,5 @@
     </div>
 </section>
 <jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="no"/>
+    <jsp:param name="chatkit" value="yes"/>
 </jsp:include>

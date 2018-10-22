@@ -1,11 +1,56 @@
-<%--
+<%@ page import="Objects.Const" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %><%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 28-07-2018
   Time: 09:17 PM
   To change this template use File | Settings | File Templates.
 --%>
-<% String chatkit = request.getParameter("chatkit"); %>
+<%! Connection connection;
+
+    @Override
+    public void jspInit() {
+        try {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setURL(Const.DBclass);
+            dataSource.setUser(Const.user);
+            dataSource.setPassword(Const.pass);
+            connection = dataSource.getConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void jspDestroy() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }%>
+<% String chatkit = request.getParameter("chatkit");
+    int userid = 0;
+    String user_id = null;
+
+    if (session.getAttribute("user") != null) {
+        userid = (Integer) session.getAttribute("user");
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_id = ?");
+            preparedStatement.setInt(1, userid);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
+            user_id = rs.getString(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+%>
 <section style="background-color:#fefefe;">
     <footer id="myFooter" style="background-color:#ffffff;">
         <div class="container-fluid">
@@ -81,10 +126,18 @@
 </div>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<%if (chatkit.equals("yes")) {%>
+<%if (chatkit.equals("yes") && userid!=0) {%>
 <script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
+<script type="text/javascript">
+    const chatManager = new Chatkit.ChatManager({
+        instanceLocator: "<%=Const.Pusher_instanceLocator%>",
+        userId: "<%=user_id%>",
+        tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
+    });
+</script>
 <script src="assets/js/chatlist.js"></script>
 <script src="assets/js/chat.js"></script>
+<script src="assets/js/notification.js"></script>
 <%}%>
 <script src="assets/js/fav.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>
