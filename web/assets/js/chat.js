@@ -1,6 +1,6 @@
 var ouid = window.location.href.split('?').pop();
 var spinner = document.querySelector('.loader');
-spinner.classList.add('spin');
+//spinner.classList.add('spin');
 
       chatManager.connect().then(currentUser => {
         for(var i=0;i<(currentUser.rooms).length;i++)
@@ -44,6 +44,7 @@ spinner.classList.add('spin');
                   s.scrollTop = s.scrollHeight;
                 }
                   spinner.classList.remove('spin');
+                  spinner.classList.remove('loader');
 
 
               }
