@@ -49,6 +49,10 @@
         <servlet-name>getRequest</servlet-name>
         <servlet-class>Servlet.getRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>order</servlet-name>
+        <servlet-class>Servlet.Order</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>profile</servlet-name>
         <url-pattern>/Profile/*</url-pattern>
@@ -92,6 +96,10 @@
     <servlet-mapping>
         <servlet-name>getRequest</servlet-name>
         <url-pattern>/getRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>order</servlet-name>
+        <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

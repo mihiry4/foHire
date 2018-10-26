@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @WebServlet(name = "getRequest")
 public class getRequest extends HttpServlet {
@@ -26,23 +27,18 @@ public class getRequest extends HttpServlet {
         JSONArray array = new JSONArray();
         try {
             int user_id = (Integer) request.getSession().getAttribute("user");
-            PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount from Request inner join product using (product_id) where (Requestee = ? and Pending = ?) or (Requester = ? and Pending = ? and Accepted = ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id from (Request inner join product using (product_id)) inner join users on (Requestee=users.user_id) where (Requester = ? and Pending = ? and Accepted = ?)");
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.setBoolean(2, false);
+            preparedStatement.setBoolean(3, true);
+            ResultSet rs = preparedStatement.executeQuery();
+            putObj(array, rs, true);
+            preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id from (Request inner join product using (product_id)) inner join users on (Requester=users.user_id) where (Requestee = ? and Pending = ?)");
             preparedStatement.setInt(1, user_id);
             preparedStatement.setBoolean(2, true);
-            preparedStatement.setInt(3, user_id);
-            preparedStatement.setBoolean(4, false);
-            preparedStatement.setBoolean(5, true);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                JSONObject object = new JSONObject();
-                object.put("from", rs.getInt(1));
-                object.put("till", rs.getInt(2));
-                object.put("price", rs.getInt(3));
-                object.put("deposit", rs.getInt(4));
-                object.put("amount", rs.getInt(5));
-                array.put(object);
-            }
-            /*JSONArray array = new JSONArray();
+            rs = preparedStatement.executeQuery();
+            putObj(array, rs, false);
+            /*array = new JSONArray();
             JSONObject object = new JSONObject();
             object.put("from", "df");
             object.put("till", "sdfh");
@@ -56,6 +52,25 @@ public class getRequest extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void putObj(JSONArray array, ResultSet rs, boolean pay) throws SQLException {
+        while (rs.next()) {
+            JSONObject object = new JSONObject();
+            object.put("from", rs.getObject(1, LocalDate.class));
+            object.put("till", rs.getObject(2, LocalDate.class));
+            object.put("price", rs.getInt(3));
+            object.put("deposit", rs.getInt(4));
+            object.put("amount", rs.getInt(5));
+            object.put("first_name", rs.getString(6));
+            object.put("user_name", rs.getString(7));
+            object.put("time", rs.getTimestamp(8));
+            object.put("product_name", rs.getString(9));
+            object.put("pay", pay);
+            object.put("Request_id", rs.getString(10));
+            array.put(object);
+        }
+        rs.close();
     }
 
     @Override

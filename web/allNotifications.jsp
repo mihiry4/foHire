@@ -56,7 +56,7 @@
                             </a>
                         </li>
                         <li style="background-color: white;">
-                            <a href="#" data-toggle="modal" data-target="#book">
+                            <a href="#" onclick="fn(0)" data-toggle="modal" data-target="#book">
                                 <div class="p-2 chatpeople">
                                     <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
                                                                             class="rounded-circle"></div>
@@ -85,7 +85,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Summary</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
+                        aria-hidden="true">&#10005;</span></button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
@@ -93,7 +93,7 @@
                         <tbody>
                         <tr>
                             <td>Start date:</td>
-                            <td>25/3/18</td>
+                            <td id="s_date"></td>
                         </tr>
                         <tr>
                             <td>End date:</td>
@@ -104,7 +104,7 @@
                             <td><i class="fa fa-rupee"></i>1200/-</td>
                         </tr>
                         <tr>
-                            <td>1239×2 days<br></td>
+                            <td>1239&#10005;2 days<br></td>
                             <td><i class="fa fa-rupee"></i>1200/-</td>
                         </tr>
                         <tr>
@@ -128,7 +128,7 @@
             <div class="modal-header">
                 <h4 class="modal-title">Summary</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">×</span></button>
+                        aria-hidden="true">&#10005;</span></button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
@@ -136,7 +136,7 @@
                         <tbody>
                         <tr>
                             <td>Check in date:</td>
-                            <td id="s_date"></td>
+                            <td id="s_date1"></td>
                         </tr>
                         <tr>
                             <td>Check out date:</td>
@@ -147,7 +147,7 @@
                             <td><i class="fa fa-rupee"></i><i id="deposit">1200/-</i></td>
                         </tr>
                         <tr>
-                            <td>1239×2 days<br></td>
+                            <td>1239&#10005;2 days<br></td>
                             <td><i class="fa fa-rupee"></i>1200/-</td>
                         </tr>
                         <tr>

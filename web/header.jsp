@@ -291,7 +291,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" role="dialog" tabindex="-1" id="requests">
+<div class="modal fade" role="dialog" tabindex="-1" id="noti_requests">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
