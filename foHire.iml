@@ -41,5 +41,6 @@
     <orderEntry type="library" name="chatkit" level="application" />
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
+    <orderEntry type="library" name="checksum_2.0.0" level="project" />
   </component>
 </module>

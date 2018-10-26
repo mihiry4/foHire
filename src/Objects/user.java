@@ -208,12 +208,25 @@ public final class user {
         }
     }
 
-    public void fbLogin(@NotNull Connection connection, String firstName, String lastName, String email, String fbAuth){
+    public product[] getFavProducts(@NotNull Connection connection) {
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement("");
+            PreparedStatement preparedStatement = connection.prepareStatement("select product_id from fohire.favorites where favorites.user_id = ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            preparedStatement.setInt(1, userid);
+            ResultSet rs = preparedStatement.executeQuery();
+            rs.last();
+            int row = rs.getRow();
+            rs.beforeFirst();
+            product[] products = new product[row];
+            for (int i = 0; i < products.length; i++) {
+                products[i] = new product();
+                products[i].product_id = rs.getInt(1);
+                products[i].fillDetails(connection);
+            }
+            return products;
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return new product[0];
     }
 
     /*public String getLastActive(int user_id, @NotNull Connection connection) {

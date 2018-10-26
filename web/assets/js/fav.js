@@ -1,19 +1,24 @@
-function heartcng(elm){
+function heartcng(elm, pid) {
      //var click= $(elm);
 var span= $(elm).find('span');
 
 	if ($(span).hasClass("fa-heart")) {
 			$(elm).removeClass('active');
-		
-	
 			$(elm).removeClass('active-3');
+        $.post("favourites", {
+            pid: pid,
+            action: "delete"
+        });
 		setTimeout(function() {
 			$(span).removeClass('fa-heart');
 			$(span).addClass('fa-heart-o')
 		}, 15)
 	} else {
 		$(elm).addClass('active');
-		
+        $.post("favourites", {
+            pid: pid,
+            action: "add"
+        });
 		setTimeout(function() {
 			$(span).addClass('fa-heart');
 			$(span).removeClass('fa-heart-o')

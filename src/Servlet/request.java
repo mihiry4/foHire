@@ -1,6 +1,7 @@
 package Servlet;
 
 import Objects.Const;
+import Objects.product;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.servlet.RequestDispatcher;
@@ -30,21 +31,20 @@ public class request extends HttpServlet {
             LocalDate fromDate = LocalDate.parse(request.getParameter("fromDate"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             LocalDate tillDate = LocalDate.parse(request.getParameter("tillDate"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             if (tillDate.isAfter(fromDate) && fromDate.isAfter(LocalDate.now().plusDays(1))) {
-                PreparedStatement preparedStatement = connection.prepareStatement("select booked_from, booked_till from Booking where product_id = ? and booked_till < ? order by booked_till desc");
-                preparedStatement.setInt(1, product_id);
-                preparedStatement.setObject(2, LocalDate.now());
-                ResultSet rs = preparedStatement.executeQuery();
                 boolean flag = true;
-                while (rs.next()) {
-                    if (!(tillDate.isBefore(rs.getObject(1, LocalDate.class).minusDays(1)) || fromDate.isAfter(rs.getObject(2, LocalDate.class).plusDays(1)))) {
+                product p = new product();
+                p.product_id = product_id;
+                LocalDate[][] Dates = p.getBookedDates(connection);
+                for (LocalDate[] Date : Dates) {
+                    if (!(tillDate.isBefore(Date[0].minusDays(1)) || fromDate.isAfter(Date[1].plusDays(1)))) {
                         flag = false;
                         break;
                     }
                 }
                 if (flag) {
-                    preparedStatement = connection.prepareStatement("select user_id, price, deposit from fohire.product where product_id = ?");
+                    PreparedStatement preparedStatement = connection.prepareStatement("select user_id, price, deposit from fohire.product where product_id = ?");
                     preparedStatement.setInt(1, product_id);
-                    rs = preparedStatement.executeQuery();
+                    ResultSet rs = preparedStatement.executeQuery();
                     rs.next();
                     int requestee = rs.getInt(1);
                     int price = rs.getInt(2);

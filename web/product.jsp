@@ -5,6 +5,7 @@
 <%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.SQLException" %>
+<%@ page import="java.time.LocalDate" %>
 <%! Connection connection;
     @Override
     public void jspInit() {
@@ -30,6 +31,7 @@
     }%>
 <% product p = (product) request.getAttribute("product");
     String[] user_details = p.getLender(connection);
+    LocalDate[][] Dates = p.getBookedDates(connection);
     /*0-username
     1-firstname
     2-lastname
@@ -51,6 +53,44 @@
     <jsp:param name="type" value="nonindex"/>
 </jsp:include>
 
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/picker.js"></script>
+<script src="assets/js/picker.date.js"></script>
+<script src="assets/js/legacy.js"></script>
+<script>
+    var from_$input = $('#input_from').pickadate({
+        disable: [
+            <% int i=0;
+            for(i = 0; i < Dates.length-1; i++) {%>
+            {
+                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
+            },
+            <%}%>
+            {
+                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
+            }
+        ]
+    });
+
+
+    var to_$input = $('#input_to').pickadate({
+        disable: [
+            <% i=0;
+            for(i = 0; i < Dates.length-1; i++) {%>
+            {
+                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
+            },
+            <%}%>
+            {
+                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
+            }
+        ]
+    });
+</script>
 <script>
     $(document).ready(function () {
         $("#Contact").click(function () {
@@ -60,18 +100,20 @@
         });
     });
     $(document).ready(function () {
-        $("#book").click(function () {
+        $("#bookbtn").click(function () {
             $.post("request", {
-                product_id: <%=p.product_id%>, /*ToDo: add from calender widget*/
-                fromDate: 1,
-                tillDate: ad
+                product_id: <%=p.product_id%>,
+                fromDate: $("#input_from").val(),
+                tillDate: $("#input_to").val()
             }, function () {
 
             }).fail(function () {
-                $("#fail").text("Invalid username or password");
+                $("#fail").text("Booking failed.");
             });
         });
     });
+    var price = parseInt(<%=p.price%>);
+    var deposit = parseInt(<%=p.deposit%>);
 </script>
 <div class="modal fade" role="dialog" tabindex="-1" id="book">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -85,24 +127,24 @@
                     <table class="table">
                         <tbody>
                         <tr>
-                            <td>Check in date:</td>
-                            <td>25/3/18</td>
+                            <td>Start date:</td>
+                            <td id="frm"></td>
                         </tr>
                         <tr>
-                            <td>Check out date:</td>
-                            <td>30/3/19</td>
+                            <td>End date:</td>
+                            <td id="too"></td>
                         </tr>
                         <tr>
                             <td>Deposit amount:</td>
-                            <td><i class="fa fa-rupee"></i><%= p.deposit%>/-</td>
+                            <td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>
                         </tr>
                         <tr>
-                            <td><%= p.price%>&#9587;2 days<br></td>
-                            <td><i class="fa fa-rupee"></i><%= (p.price) * 2%>/-</td>
+                            <td><%= p.price%>&#9587;<i id="day"></i> days<br></td>
+                            <td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>
                         </tr>
                         <tr>
                             <td><strong>Total:</strong></td>
-                            <td><i class="fa fa-rupee"></i><strong>2400/-</strong></td>
+                            <td><i class="fa fa-rupee"></i><strong id="total"></strong>/-</td>
                         </tr>
                         </tbody>
                     </table>
@@ -110,7 +152,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary qbtn" type="button">Book</button>
+                <button class="btn btn-primary qbtn" type="button" id="bookbtn" disabled>Book</button>
             </div>
         </div>
     </div>
@@ -121,7 +163,7 @@
             <div class="modal-body">
                 <div class="carousel slide" data-ride="carousel" id="carousel-1">
                     <div class="carousel-inner" role="listbox">
-                        <% for (int i = 0; i < 4; i++) {%>
+                        <% for (i = 0; i < 4; i++) {%>
                         <div class="carousel-item <%if(i==0){%>active<%}%>"><img class="w-100 d-block"
                                                                                  src="<%=Const.S3URL+"product/"+p.product_id+"_0"%>"
                                                                                  alt="Slide Image"></div>
@@ -157,7 +199,7 @@
                 <h2 class="d-inline-block"><%=p.price%><br></h2>
                 <h6 class="d-inline-block">&nbsp;Per<br></h6>
                 <h6 class="d-inline-block">day<br></h6>
-                <h5><i class="fa fa-star" style="color:#f8b645;"></i>&nbsp;4.5<br></h5>
+                <h5><i class="fa fa-star" style="color:#f8b645;"></i>&nbsp;<%=p.rating%><br></h5>
                 <hr>
                 <h5>Dates<br></h5>
                 <form>
@@ -168,8 +210,11 @@
                     </div>
                         <div>
                             <h5 style="color:#adadad;">End Date:</h5><input class="form-control" type="text"
-                                                                            id="input_to"></div>
-                    <button class="btn btn-primary" type="button" style="background-color:#f8b645;width:100%;margin:5px 0px;" data-toggle="modal" data-target="#book">Book</button>
+                                                                            id="input_to" disabled></div>
+                    <button class="btn btn-primary" type="button"
+                            style="background-color:#f8b645;width:100%;margin:5px 0px;" data-toggle="modal"
+                            data-target="#book" id="showBook">Book
+                    </button>
                     <button class="btn btn-primary" type="button" id="Contact" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>
                 </form>
             </div>

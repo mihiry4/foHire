@@ -5,6 +5,7 @@ import Objects.ChatKit;
 import Objects.Const;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -49,9 +50,9 @@ public class Auth_pusher extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-        /*RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
-        rd.forward(request, response);*/
+        //doPost(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        rd.forward(request, response);
     }
 
     @Override

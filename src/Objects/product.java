@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 
 public final class product {
@@ -85,6 +86,28 @@ public final class product {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public LocalDate[][] getBookedDates(@NotNull Connection connection) {
+        LocalDate Dates[][] = null;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("select booked_from, booked_till from Booking where product_id = ? and booked_till < ? order by booked_till desc");
+            preparedStatement.setInt(1, product_id);
+            preparedStatement.setObject(2, LocalDate.now());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.last();
+            int row = resultSet.getRow();
+            Dates = new LocalDate[row][2];
+            resultSet.beforeFirst();
+            for (int i = 0; i < Dates.length; i++) {
+                resultSet.next();
+                Dates[i][0] = resultSet.getObject(1, LocalDate.class);
+                Dates[i][1] = resultSet.getObject(2, LocalDate.class);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Dates;
     }
 
     public String[] getLender(@NotNull Connection connection) {

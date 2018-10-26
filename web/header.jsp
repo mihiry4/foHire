@@ -59,6 +59,53 @@
                             <p style="color:#ee1212;font-size:20px;">*</p>
                         </div>
                     </a>
+                    <div class="dropdown-menu dropdown-menu-right not" role="menu">
+                        <a class="dropdown-item notmsgtop" role="presentation" href="#">
+                            <div>
+                                <div class="float-left">
+                                    <h6 style="font-size:13px;">Requests</h6>
+                                </div>
+                                <div class="float-right">
+                                    <h6 style="font-size:13px;">(0)</h6>
+                                </div>
+                            </div>
+                            <div style="clear:both;">
+                                <hr>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-inline-block notmsg" role="presentation" href="#" data-toggle="modal"
+                           data-target="#requests">
+                            <div>
+                                <div class="float-left">
+                                    <h6>Product name</h6>
+                                </div>
+                                <div class="float-right">
+                                    <h6 style="font-size:13px;">19:20</h6>
+                                </div>
+                            </div>
+                            <div style="clear:both;">
+                                <div class="float-left">
+                                    <h5 style="font-size: 13px;">A new booking request from manan<br></h5>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-inline-block notmsg" role="presentation" href="#">
+                            <div>
+                                <div class="float-left">
+                                    <h6>Product name</h6>
+                                </div>
+                                <div class="float-right">
+                                    <h6 style="font-size:13px;">19:20</h6>
+                                </div>
+                            </div>
+                            <div style="clear:both;">
+                                <div class="float-left">
+                                    <h5 style="font-size: 13px;">Your request has been accepted by name</h5>
+                                    <h5 style="font-size: 10px;color: rgb(96,96,177);">Click here for Payment</h5>
+                                </div>
+                            </div>
+                        </a><a class="dropdown-item notmsgtop seeall" role="presentation" href="#">See all</a>
+                    </div>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Profile</a>
@@ -209,7 +256,6 @@
                             <input id="Confirm password" class="form-control" type="password" required="">
                             <div class="g-recaptcha" style="margin-top: 5px;"
                                  data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>
-                            <%--ToDo:leave some space around reCaptcha--%>
                             <div class="">
                                 By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
                                 that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
@@ -246,5 +292,47 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" role="dialog" tabindex="-1" id="requests">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Summary</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Check in date:</td>
+                            <td>25/3/18</td>
+                        </tr>
+                        <tr>
+                            <td>Check out date:</td>
+                            <td>30/3/19</td>
+                        </tr>
+                        <tr>
+                            <td>Deposit amount:</td>
+                            <td><i class="fa fa-rupee"></i>1200/-</td>
+                        </tr>
+                        <tr>
+                            <td>1239×2 days<br></td>
+                            <td><i class="fa fa-rupee"></i>1200/-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total:</strong></td>
+                            <td><i class="fa fa-rupee"></i><strong>2400/-</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary qbtn" type="button">Book</button>
+            </div>
+        </div>
+    </div>
+</div>
 <% }%>
