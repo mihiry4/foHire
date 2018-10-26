@@ -128,7 +128,8 @@
                             </div>
                         </a>
                         <a class="dropdown-item" href="favourites.jsp" style="color:#f8b645;">Favourites</a>
-                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Setting</a>
+                        <a class="dropdown-item" href="myorders.jsp" style="color:#f8b645;">My orders</a>
+                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Settings</a>
                         <a class="dropdown-item" href="logout.jsp" style="color:#f8b645;">Logout</a>
                     </div>
                 </li>
