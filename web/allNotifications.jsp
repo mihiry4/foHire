@@ -26,7 +26,8 @@
         var price = jsArray[id].price;
         var deposit = jsArray[id].deposit;
 
-        $('#s_date').html(start);
+
+        $('#s_date').html('2');
         console.log(start);
 
     }
@@ -117,7 +118,23 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary qbtn" type="button">Confirm booking</button>
+
+                <form action="/purchase" method="POST">
+                    <!-- Note that the amount is in paise = 50 INR -->
+                    <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="rzp_test_NWQIuY0uK1cHQJ"
+                            data-amount="5000"
+                            data-buttontext="Confirm Booking"
+                            data-name="Merchant Name"
+                            data-description="Purchase Description"
+                            data-image="https://your-awesome-site.com/your_logo.jpg"
+                            data-prefill.name="Gaurav Kumar"
+                            data-prefill.email="test@test.com"
+                            data-theme.color="#F37254"
+                    ></script>
+                    <input type="hidden" value="Hidden Element" name="hidden">
+                </form>
             </div>
         </div>
     </div>
