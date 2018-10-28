@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+    $('.group').hide();
+    $('#bank').show();
+    $('#selectMe').change(function () {
+        $('.group').hide();
+        $('#'+$(this).val()).show();
+    });
+
     $("#nextbtn").click(function(){
 
         $("#fstpg").addClass("d-none");

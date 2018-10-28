@@ -15,20 +15,31 @@
 <script>
     var jsArray;
     $.post("getRequest", function (data) {
+
         jsArray = JSON.parse(data);
+        //console.log(jsArray[0]);
     });
 
     function fn(id) {
-        console.log(jsArray[id]);
-        var start = jsArray[id].from;
-        var end = jsArray[id].till;
-        var amount = jsArray[id].amount;
-        var price = jsArray[id].price;
-        var deposit = jsArray[id].deposit;
+        // console.log(jsArray[id]);
+        // var start = jsArray[id].from;
+        // var end = jsArray[id].till;
+        // var amount = jsArray[id].amount;
+        // var price = jsArray[id].price;
+        // var deposit = jsArray[id].deposit;
 
 
-        $('#s_date').html('2');
-        console.log(start);
+        // $('#s_date').html('2');
+        // console.log(start);
+
+        var not_data={
+            name: 'abc',
+            notification:'abc'
+        };
+        var template = $('#notifications').html();
+        var templateScript = Handlebars.compile(template);
+        $('#notification_list').append( templateScript(not_data) );
+
 
     }
 </script>
@@ -37,28 +48,28 @@
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <div style="background: #f8b645;">
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled" id="notification_list">
                         <li style="color: white;font-size: 24px;padding: 10px;"><strong>Notifications</strong></li>
                         <li style="background-color: white;">
-                            <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
-                                <div class="p-2 chatpeople">
-                                    <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
-                                                                            class="rounded-circle"></div>
-                                    <div class="d-inline-block p-2">
-                                        <h5 class="fohireclr">Manan</h5>
-                                        <div>
-                                            <p class="fohireclr">A new booking request.</p>
-                                        </div>
-                                    </div>
-                                    <div class="float-right" style="clear:both;">
-                                        <p class="black" style="font-size:13px;">Time</p>
+                        <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
+                            <div class="p-2 chatpeople" style="overflow: auto;">
+                                <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
+                                                                        class="rounded-circle"></div>
+                                <div class="d-inline-block p-2">
+                                    <h5 class="fohireclr">Manan</h5>
+                                    <div>
+                                        <p class="fohireclr">A new booking request.</p>
                                     </div>
                                 </div>
-                            </a>
-                        </li>
+                                <div class="float-right" style="clear:both;">
+                                    <p class="black" style="font-size:13px;">Time</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                         <li style="background-color: white;">
                             <a href="#" data-toggle="modal" data-target="#book">
-                                <div class="p-2 chatpeople">
+                                <div class="p-2 chatpeople" style="overflow: auto;">
                                     <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
                                                                             class="rounded-circle"></div>
                                     <div class="d-inline-block p-2">
@@ -182,6 +193,25 @@
         </div>
     </div>
 </div>
+<script id="notifications" type="text/x-handlebars-template" >
+    <li style="background-color: white;">
+        <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
+        <div class="p-2 chatpeople" style="overflow: auto;">
+        <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
+    class="rounded-circle"></div>
+        <div class="d-inline-block p-2">
+        <h5 class="fohireclr">{{name}}</h5>
+        <div>
+        <p class="fohireclr">{{notification}}.</p>
+    </div>
+    </div>
+    <div class="float-right" style="clear:both;">
+        <p class="black" style="font-size:13px;">Time</p>
+        </div>
+        </div>
+        </a>
+        </li>
+</script>
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="no"/>
 </jsp:include>
