@@ -362,8 +362,8 @@
 }
 
 .orders img {
-    max-height: 100px;
-    max-width: 200px;
+    height: 100px;
+    width: 100px;
 }
 
 .black {
@@ -378,3 +378,23 @@
     font-size: 24PX;
     color: GRAY;
 }
+
+.orders_link {
+    text-decoration: none;
+    color: black;
+}
+
+.orders_link:hover {
+    text-decoration: none;
+    color: #f8b645;
+}
+
+.address {
+    border: 2px solid #f8b645;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #595959;
+    margin: 10px;
+    clear: both;
+    overflow: auto;
+}
+

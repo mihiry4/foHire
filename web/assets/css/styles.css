@@ -15,6 +15,7 @@
 .qbtn {
   background-color: #f8b645;
   margin: 5px;
+    border: 0px;
 }
 
 .qbtn:hover {
