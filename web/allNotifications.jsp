@@ -19,15 +19,25 @@
     });
 
     function fn(id) {
-        console.log(jsArray[id]);
-        var start = jsArray[id].from;
-        var end = jsArray[id].till;
-        var amount = jsArray[id].amount;
-        var price = jsArray[id].price;
-        var deposit = jsArray[id].deposit;
+        // console.log(jsArray[id]);
+        // var start = jsArray[id].from;
+        // var end = jsArray[id].till;
+        // var amount = jsArray[id].amount;
+        // var price = jsArray[id].price;
+        // var deposit = jsArray[id].deposit;
 
-        $('#s_date').html(start);
-        console.log(start);
+
+        // $('#s_date').html('2');
+        // console.log(start);
+
+        var not_data={
+            name: 'abc',
+            notification:'abc'
+        };
+        var template = $('#notifications').html();
+        var templateScript = Handlebars.compile(template);
+        $('#notification_list').append( templateScript(not_data) );
+
 
     }
 </script>
@@ -36,28 +46,28 @@
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <div style="background: #f8b645;">
-                    <ul class="list-unstyled">
+                    <ul class="list-unstyled" id="notification_list">
                         <li style="color: white;font-size: 24px;padding: 10px;"><strong>Notifications</strong></li>
                         <li style="background-color: white;">
-                            <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
-                                <div class="p-2 chatpeople">
-                                    <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
-                                                                            class="rounded-circle"></div>
-                                    <div class="d-inline-block p-2">
-                                        <h5 class="fohireclr">Manan</h5>
-                                        <div>
-                                            <p class="fohireclr">A new booking request.</p>
-                                        </div>
-                                    </div>
-                                    <div class="float-right" style="clear:both;">
-                                        <p class="black" style="font-size:13px;">Time</p>
+                        <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
+                            <div class="p-2 chatpeople" style="overflow: auto;">
+                                <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
+                                                                        class="rounded-circle"></div>
+                                <div class="d-inline-block p-2">
+                                    <h5 class="fohireclr">Manan</h5>
+                                    <div>
+                                        <p class="fohireclr">A new booking request.</p>
                                     </div>
                                 </div>
-                            </a>
-                        </li>
+                                <div class="float-right" style="clear:both;">
+                                    <p class="black" style="font-size:13px;">Time</p>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                         <li style="background-color: white;">
-                            <a href="#" onclick="fn(0)" data-toggle="modal" data-target="#book">
-                                <div class="p-2 chatpeople">
+                            <a href="#" data-toggle="modal" data-target="#book">
+                                <div class="p-2 chatpeople" style="overflow: auto;">
                                     <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
                                                                             class="rounded-circle"></div>
                                     <div class="d-inline-block p-2">
@@ -117,7 +127,23 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary qbtn" type="button">Confirm booking</button>
+
+                <form action="/purchase" method="POST">
+                    <!-- Note that the amount is in paise = 50 INR -->
+                    <script
+                            src="https://checkout.razorpay.com/v1/checkout.js"
+                            data-key="rzp_test_NWQIuY0uK1cHQJ"
+                            data-amount="5000"
+                            data-buttontext="Confirm Booking"
+                            data-name="Merchant Name"
+                            data-description="Purchase Description"
+                            data-image="https://your-awesome-site.com/your_logo.jpg"
+                            data-prefill.name="Gaurav Kumar"
+                            data-prefill.email="test@test.com"
+                            data-theme.color="#F37254"
+                    ></script>
+                    <input type="hidden" value="Hidden Element" name="hidden">
+                </form>
             </div>
         </div>
     </div>
@@ -165,6 +191,25 @@
         </div>
     </div>
 </div>
+<script id="notifications" type="text/x-handlebars-template" >
+    <li style="background-color: white;">
+        <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
+        <div class="p-2 chatpeople" style="overflow: auto;">
+        <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
+    class="rounded-circle"></div>
+        <div class="d-inline-block p-2">
+        <h5 class="fohireclr">{{name}}</h5>
+        <div>
+        <p class="fohireclr">{{notification}}.</p>
+    </div>
+    </div>
+    <div class="float-right" style="clear:both;">
+        <p class="black" style="font-size:13px;">Time</p>
+        </div>
+        </div>
+        </a>
+        </li>
+</script>
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="no"/>
 </jsp:include>
