@@ -201,7 +201,7 @@
                     <input id="login_user" class="form-control" type="text" required="">
                     <label for="login_pass">Password:</label>
                     <input id="login_pass" class="form-control" type="password" required="">
-                    <a class="d-table" href="ForgotPassword.jsp" style="font-size:10px;">Forgot your password?</a>
+                    <%--<a class="d-table" href="ForgotPassword.jsp" style="font-size:10px;">Forgot your password?</a>--%>
                     <button id="log" class="btn btn-primary" style="background-color:#f8b645;margin-top:10px;">Login</button>
                     <span id="incorrect"></span>
                 </div>
@@ -212,13 +212,13 @@
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
                                 <i class="fab fa-facebook-square" style="font-size:30px;"></i>Login with Facebook</a></button>
-                        <%--<div id="gSignInWrapper">--%>
+                        <div id="gSignInWrapper">
 
-                        <%--<div id="customBtn" class="customGPlusSignIn">--%>
-                        <%--<span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>--%>
-                        <%--<span class="buttonText">Sign up with Google</span>--%>
-                        <%--</div>--%>
-                        <%--</div>--%>
+                            <%-- <div id="customBtn" class="customGPlusSignIn">
+                             <span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>
+                             <span class="buttonText">Sign up with Google</span>
+                             </div>--%>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -254,19 +254,22 @@
                             <input id="Password" class="form-control" type="password" required="">
                             <label for="Confirm password">Confirm password:</label>
                             <input id="Confirm password" class="form-control" type="password" required="">
-                            <div class="g-recaptcha" style="margin-top: 5px;"
-                                 data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>
+                            <%--<div class="g-recaptcha" style="margin-top: 5px;"
+                                 data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
                             <div class="">
                                 By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
                                 that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
                             </div>
-                            <button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>
+                            <button id="sup" class="btn btn-primary" type="submit"
+                                    style="background-color:#f8b645;margin-top:10px;">Sign up
+                            </button>
+                            <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
                         </div>
                         <div class="d-none" id="secpg">
                             <label for="otp">OTP:</label>
                             <input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">
                             <button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>
-                            <button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>
+                            <%--<button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>--%>
                         </div>
                     </form>
                 </div>
@@ -277,13 +280,13 @@
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
                                 <i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>
-                        <div id="gSignInWrapper">
+                        <%--<div id="gSignInWrapper">
 
                             <div id="customBtn" class="customGPlusSignIn">
                                 <span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>
                                 <span class="buttonText">Sign up with Google</span>
                             </div>
-                        </div>
+                        </div>--%>
                         <div id="name"></div>
 
                     </div>

@@ -29,14 +29,23 @@
             e.printStackTrace();
         }
     }%>
-<% product p = (product) request.getAttribute("product");
+
+<% String s = request.getParameter("product");
+    int productId = Integer.parseInt(s);
+    product p = new product();
+    p.product_id = productId;
+    p.fillDetails(connection);
+    request.setAttribute("product", p);
     String[] user_details = p.getLender(connection);
     LocalDate[][] Dates = p.getBookedDates(connection);
     /*0-username
     1-firstname
     2-lastname
     3-profilepic*/
-    int uid = (Integer) session.getAttribute("user");
+    int uid = 0;
+    Integer UID = (Integer) session.getAttribute("user");
+    if (UID != null)
+        uid = UID;
     if(p==null) {
         request.getRequestDispatcher("404.jsp").forward(request, response);
     }
@@ -45,6 +54,7 @@
         session.setAttribute("product", p.product_id);
         comment[] comments = p.getCommentsNU(connection, uid);
         comment c = p.getCommentU(connection, uid);
+        int i = 0;
 %>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="<%=p.product_name%>"/>
@@ -58,44 +68,16 @@
 <script src="assets/js/picker.date.js"></script>
 <script src="assets/js/legacy.js"></script>
 <script>
-    var from_$input = $('#input_from').pickadate({
-        disable: [
-            <% int i=0;
-            for(i = 0; i < Dates.length-1; i++) {%>
-            {
-                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
-                to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
-            },
-            <%}%>
-            {
-                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
-                to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
-            }
-        ]
-    });
 
 
-    var to_$input = $('#input_to').pickadate({
-        disable: [
-            <% i=0;
-            for(i = 0; i < Dates.length-1; i++) {%>
-            {
-                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
-                to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
-            },
-            <%}%>
-            {
-                from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
-                to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
-            }
-        ]
-    });
 </script>
+
+
 <script>
     $(document).ready(function () {
         $("#Contact").click(function () {
             $.post("ChatWith",{
-                rec: <%=user_details[0]%>
+                rec: "<%=user_details[0]%>"
             });
         });
     });
@@ -120,7 +102,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Summary</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#9587;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
@@ -139,7 +122,7 @@
                             <td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>
                         </tr>
                         <tr>
-                            <td><%= p.price%>&#9587;<i id="day"></i> days<br></td>
+                            <td><%= p.price%>&times;<i id="day"></i> days<br></td>
                             <td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>
                         </tr>
                         <tr>
@@ -163,9 +146,9 @@
             <div class="modal-body">
                 <div class="carousel slide" data-ride="carousel" id="carousel-1">
                     <div class="carousel-inner" role="listbox">
-                        <% for (i = 0; i < 4; i++) {%>
+                        <% for (i = 0; i < p.img; i++) {%>
                         <div class="carousel-item <%if(i==0){%>active<%}%>"><img class="w-100 d-block"
-                                                                                 src="<%=Const.S3URL+"product/"+p.product_id+"_0"%>"
+                                                                                 src="<%=Const.S3URL+"product/"+p.product_id+"_"+i%>"
                                                                                  alt="Slide Image"></div>
                         <%}%>
                         <%--<div class="carousel-item active"><img class="w-100 d-block" src="assets/img/back1.jpg" alt="Slide Image"></div>
@@ -265,7 +248,9 @@
                         <h3 class="d-inline"><%=comments.length%> Reviews</h3>
                     </div>
                     <div class="d-inline float-right">
-                        <p style="font-weight:600;font-size:24px;"><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>
+                        <p style="font-weight:600;font-size:24px;"><i class="fa fa-star"
+                                                                      style="color:#f8b645;"></i><%=p.rating%>
+                        </p>
                     </div>
                 </div>
                 <hr>
@@ -304,11 +289,16 @@
 
                             <div class="col-lg-5">
                                 <fieldset class="rating">
-                                    <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5" title="Awesome - 5 stars"></label>
-                                    <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-                                    <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3" title="Meh - 3 stars"></label>
-                                    <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-                                    <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                                    <input type="radio" id="star5" name="rating" value="5"/>
+                                    <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+                                    <input type="radio" id="star4" name="rating" value="4"/>
+                                    <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+                                    <input type="radio" id="star3" name="rating" value="3"/>
+                                    <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+                                    <input type="radio" id="star2" name="rating" value="2"/>
+                                    <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+                                    <input type="radio" id="star1" name="rating" value="1"/>
+                                    <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
                                 </fieldset>
                             </div>
 
@@ -376,6 +366,41 @@
         });
     }
 </script>
+<script>
+    var from_$input = $('#input_from').pickadate({
+            disable: [
+                <%for(i = 0; i < Dates.length-1; i++) {%>
+                {
+                    from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                    to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
+                },
+                    <%}
+                    if (i>0){%>{
+                    from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                    to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
+                }<%}%>
+            ]
+        }),
+        from_picker = from_$input.pickadate('picker');
+
+    var to_$input = $('#input_to').pickadate({
+            disable: [
+                <% i=0;
+                for(i = 0; i < Dates.length-1; i++) {%>
+                {
+                    from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                    to: [<%=(Dates[i][1].getYear())%>, <%=(Dates[i][1].getMonthValue()-1)%>, <%=(Dates[i][1].getDayOfMonth()-1)%>]
+                },
+                    <%}
+                if (i>0){%>{
+                    from: [<%=Dates[i][0].getYear()%>, <%=Dates[i][0].getMonthValue()-1%>, <%=Dates[i][0].getDayOfMonth()-1%>],
+                    to: [<%=Dates[i][1].getYear()%>, <%=Dates[i][1].getMonthValue()-1%>, <%=Dates[i][1].getDayOfMonth()-1%>]
+                }<%}%>
+            ]
+        }),
+        to_picker = to_$input.pickadate('picker');
+</script>
+<script src="assets/js/datepick.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=<%=Const.Maps_APIKey%>&callback=initMap">
 </script>

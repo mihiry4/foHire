@@ -30,7 +30,7 @@ public final class Borrow extends HttpServlet {
             StringBuilder sb = new StringBuilder();
             sb.append("<div class=\"col-md-6 col-lg-3 filtr-item nodec\" data-category=\"2,3\">\n")
                     .append("<div class=\"cardparent\">\n")
-                    .append("a href=\"#\" class=\"nodec\">\n").append("<div>\n")
+                    .append("<a href=\"product.jsp?product=").append(p.product_id).append("\" class=\"nodec\">\n").append("<div>\n")
                     .append("<div class=\"card\"><img class=\"img-fluid card-img-top w-100 d-block rounded-0\" src=\"")
                     .append(Const.S3URL).append("product/").append(p.product_id).append("_0").append("\"></div>\n").append("<div class=\"pricetag\">\n")
                     .append("<p style=\"margin-bottom:0;color:#f8b645;\"><strong>")
@@ -56,23 +56,7 @@ public final class Borrow extends HttpServlet {
         String city = request.getParameter("city");
         String type = request.getParameter("type");
         String sort = request.getParameter("sort");
-        int s = Integer.parseInt(sort);
-        String Sort;
-        switch (s) {
-            case 0:
-                Sort = "price asc, product.upload_time desc";
-                break;
-            case 1:
-                Sort = "price desc, product.upload_time desc";
-                break;
-            case 3:
-                Sort = "product.rating desc, product.upload_time desc";
-                break;
-            case 2:
-            default:
-                Sort = "product.upload_time desc, product.rating desc";
-                break;
-        }
+
 
         int user_id = 0;
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
@@ -114,6 +98,23 @@ public final class Borrow extends HttpServlet {
                 response.setStatus(404);
             } else {
                 try {
+                    int s = Integer.parseInt(sort);
+                    String Sort;
+                    switch (s) {
+                        case 0:
+                            Sort = "price asc, product.upload_time desc";
+                            break;
+                        case 1:
+                            Sort = "price desc, product.upload_time desc";
+                            break;
+                        case 3:
+                            Sort = "product.rating desc, product.upload_time desc";
+                            break;
+                        case 2:
+                        default:
+                            Sort = "product.upload_time desc, product.rating desc";
+                            break;
+                    }
                     PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) order by " + Sort);
                     preparedStatement.setString(1, "%" + item + "%");
                     preparedStatement.setInt(2, Integer.parseInt(category));

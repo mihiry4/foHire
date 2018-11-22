@@ -1,9 +1,9 @@
 <%@ page import="Objects.Const" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %><%--
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %><%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 28-07-2018
@@ -124,10 +124,9 @@
         </div>
     </div>
 </div>
-<script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <%if (chatkit.equals("yes") && userid!=0) {%>
-<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
+<%--<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
 <script type="text/javascript">
     const chatManager = new Chatkit.ChatManager({
         instanceLocator: "<%=Const.Pusher_instanceLocator%>",
@@ -136,7 +135,7 @@
     });
 </script>
 <script src="assets/js/chatlist.js"></script>
-<script src="assets/js/chat.js"></script>
+<script src="assets/js/chat.js"></script>--%>
 <script src="assets/js/notification.js"></script>
 <%}%>
 <script src="assets/js/fav.js"></script>
@@ -145,10 +144,6 @@
 <script src="assets/js/Review-rating-Star-Review-Button.js"></script>
 <script src="assets/js/step.js"></script>
 <script>startApp();</script>
-<script src="assets/js/picker.js"></script>
-<script src="assets/js/picker.date.js"></script>
-<script src="assets/js/legacy.js"></script>
-<script src="assets/js/datepick.js"></script>
 <script src="assets/js/bs-animation.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
 </body>

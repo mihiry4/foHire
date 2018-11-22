@@ -31,6 +31,8 @@ public class ChatWith extends HttpServlet {
         ChatKit chatKit = null;
         try {
             chatKit = new ChatKit(map);
+            ApiResponse a = chatKit.getUserRooms("m");
+            int i = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

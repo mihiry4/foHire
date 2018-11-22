@@ -11,14 +11,14 @@
     String typ = request.getParameter("type");
     if ((Item != null) && !(Item.equals(""))) {
 %>
-<script>$(document).ready(function () {
-    $.post("Borrow", {
-        item: <%=Item%>,
-        category: <%=Category%>,
-        city: <%=City%>,
-        typ: <%=typ%>
+<script>$(window).on('load', function () {
+    $.post("borrow", {
+        item: "<%=Item%>",
+        category: "<%=Category%>",
+        city: "<%=City%>",
+        type: "<%=typ%>"
     }, function (data) {
-        $("#results").innerText = data
+        $("#results").html(data)
     }).fail(function () {
         $("#fail").text("Could not find any item like this");
     });
@@ -26,13 +26,13 @@
 <%}%>
 <script>$(document).ready(function () {
     $("#search").click(function () {
-        $.post("Borrow", {
+        $.post("borrow", {
             item: $("#item").val(),
             category: $("#category").val(),
             city: $("#city").val(),
             sort: $("#sort").val()
         }, function (data) {
-            $("#results").innerText = data
+            $("#results").html(data)
         }).fail(function () {
             $("#fail").text("Could not find any item like this");
         });
@@ -55,8 +55,7 @@
                 </div>
                 <div class="col">
                     <select id="sort" class="form-control">
-                        <option value="0" disabled selected>Sort By:</option>
-                        <option value="1">Price:Low to High</option>
+                        <option value="1" selected="selected">Price:Low to High</option>
                         <option value="2">Price:High to Low</option>
                         <option value="3">Latest Arrivals</option>
                         <option value="4">Avg. reviews</option>
@@ -73,6 +72,7 @@
     <section class="py-5">
         <div class="container">
             <div id="results" class="row filtr-container">
+                <p id="fail"></p>
                 <%--<div class="col-md-6 col-lg-3 filtr-item" data-category="2,3">
                     <div class="card border-dark">
                         <div class="card-header text-light" style="background-color:#f8b645;">

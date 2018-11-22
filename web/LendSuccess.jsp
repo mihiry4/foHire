@@ -11,6 +11,7 @@
     <title>Success</title>
 </head>
 <body>
-
+Lent successfully.
+Now you sit back and let us bring you some money.
 </body>
 </html>

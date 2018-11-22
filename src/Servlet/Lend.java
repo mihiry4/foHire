@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -72,7 +73,8 @@ public class Lend extends HttpServlet {
             rd.forward(request, response);
         } else {
             //error in uploading product    ToDo:edited with rudra
-            //out.println(""):
+            PrintWriter out = response.getWriter();
+            out.println("error");
         }
     }
 

@@ -114,7 +114,7 @@
                             <td><i class="fa fa-rupee"></i>1200/-</td>
                         </tr>
                         <tr>
-                            <td>1239&#10005;2 days<br></td>
+                            <td>1239&#10005;2 days</td>
                             <td><i class="fa fa-rupee"></i>1200/-</td>
                         </tr>
                         <tr>
@@ -128,10 +128,9 @@
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
 
-                <form action="/purchase" method="POST">
+                <form action="purchase" method="POST">
                     <!-- Note that the amount is in paise = 50 INR -->
-                    <script
-                            src="https://checkout.razorpay.com/v1/checkout.js"
+                    <script src="https://checkout.razorpay.com/v1/checkout.js"
                             data-key="rzp_test_NWQIuY0uK1cHQJ"
                             data-amount="5000"
                             data-buttontext="Confirm Booking"

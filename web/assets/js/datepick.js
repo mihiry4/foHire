@@ -1,5 +1,3 @@
-from_picker = from_$input.pickadate('picker');
-to_picker = to_$input.pickadate('picker');
 from_picker.set('min', true);
 
 

@@ -22,10 +22,6 @@
         <servlet-class>Servlet.Lend</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>product</servlet-name>
-        <servlet-class>Servlet.Product</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>comment</servlet-name>
         <servlet-class>Servlet.comment</servlet-class>
     </servlet>
@@ -50,8 +46,8 @@
         <servlet-class>Servlet.getRequest</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>order</servlet-name>
-        <servlet-class>Servlet.Order</servlet-class>
+        <servlet-name>chat</servlet-name>
+        <servlet-class>Servlet.ChatWith</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>profile</servlet-name>
@@ -68,10 +64,6 @@
     <servlet-mapping>
         <servlet-name>lend</servlet-name>
         <url-pattern>/lend</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>product</servlet-name>
-        <url-pattern>/product/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>comment</servlet-name>
@@ -98,10 +90,9 @@
         <url-pattern>/getRequest</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>order</servlet-name>
-        <url-pattern>/Order</url-pattern>
+        <servlet-name>chat</servlet-name>
+        <url-pattern>/ChatWith</url-pattern>
     </servlet-mapping>
-
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

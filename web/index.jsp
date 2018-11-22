@@ -74,11 +74,12 @@
     </div>
     <div>
         <div class="container">
-            <form>
+            <form method="post" action="borrow.jsp">
                 <div class="form-row formres" style="padding:50px 0;">
                     <div class="col-lg-8 offset-lg-2">
                         <div class="form-group d-flex">
-                            <input class="form-control searchqirayaa" type="text" placeholder="Search ">
+                            <input class="form-control searchqirayaa" type="text" name="item" placeholder="Search ">
+                            <input type="hidden" name="type" value="item">
                             <button class="btn btn-primary d-inline searchbtn" type="submit">
                                 <i class="fa fa-search" style="color:#f8b645;"></i>
                             </button>
@@ -141,7 +142,7 @@
                                 <%for (product p : products) {%>
                                 <div class="col-md-6 col-lg-3 filtr-item nodec" data-category="2,3">        <%--start from this--%>
                                     <div class="cardparent">
-                                        <a href="Product/<%=p.product_id%>" class="nodec">
+                                        <a href="product.jsp?product=<%=p.product_id%>" class="nodec">
                                             <div>
                                                 <div class="card"><img
                                                         class="img-fluid card-img-top w-100 d-block rounded-0"

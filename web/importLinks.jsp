@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="assets/css/-Filterable-Cards-.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
     <link rel="stylesheet" href="assets/css/Article-Cards.css">
+    <link rel="stylesheet" href="assets/css/classic.date.css">
+    <link rel="stylesheet" href="assets/css/classic.css">
     <link rel="stylesheet" href="assets/css/Bold-BS4-Footer-Big-Logo.css">
     <link rel="stylesheet" href="assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">

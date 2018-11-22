@@ -43,13 +43,17 @@ public final class product {
                     Category = Integer.parseInt(category);
                     Price = Integer.parseInt(price);
                     Deposit = Integer.parseInt(deposit);
-                    AvailFrom = new java.sql.Date(Integer.parseInt(availFrom.substring(6, 10)), Integer.parseInt(availFrom.substring(3, 5)), Integer.parseInt(availFrom.substring(0, 2)));
-                    AvailTill = new java.sql.Date(Integer.parseInt(availTill.substring(6, 10)), Integer.parseInt(availTill.substring(3, 5)), Integer.parseInt(availTill.substring(0, 2)));
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//                    LocalDate AF = LocalDate.parse(availFrom, formatter);
+//                    AvailFrom = new java.sql.Date(Integer.parseInt(availFrom.substring(6, 10)), Integer.parseInt(availFrom.substring(3, 5)), Integer.parseInt(availFrom.substring(0, 2)));
+//                    AvailTill = new java.sql.Date(Integer.parseInt(availTill.substring(6, 10)), Integer.parseInt(availTill.substring(3, 5)), Integer.parseInt(availTill.substring(0, 2)));
+                    AvailFrom = java.sql.Date.valueOf(availFrom);
+                    AvailTill = java.sql.Date.valueOf(availTill);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
 
-                PreparedStatement preparedStatement = connection.prepareStatement("insert into fohire.product (user_id, product_name, category, description, region, city, rating, favorites, featured, price, deposit, available_from, available_till, status) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+                PreparedStatement preparedStatement = connection.prepareStatement("insert into fohire.product (user_id, product_name, category, description, region, city, rating, favourites, featured, price, deposit, available_from, available_till, status) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
                 preparedStatement.setInt(1, user_id);
                 preparedStatement.setString(2, product_name);
                 preparedStatement.setInt(3, Category);
@@ -122,6 +126,7 @@ public final class product {
             userDetails[1] = rs.getString(2);
             userDetails[2] = rs.getString(3);
             userDetails[3] = rs.getString(4);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -134,6 +139,7 @@ public final class product {
             preparedStatement.setInt(1, product_id);
             ResultSet rs = preparedStatement.executeQuery();
             rs.next();
+            user_id = rs.getInt("user_id");
             product_name = rs.getString("product_name");
             int cat = rs.getInt("category");
             description = rs.getString("description");
@@ -163,7 +169,7 @@ public final class product {
     public comment[] getCommentsNU(@NotNull Connection connection, int user_id) {
         comment[] comments = new comment[0];
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, last_name, user_name) from reviews natural join users where product_id = ? and user_id != ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id != ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             preparedStatement.setInt(2, user_id);
             preparedStatement.setBoolean(3, false);
@@ -185,7 +191,7 @@ public final class product {
     public comment getCommentU(@NotNull Connection connection, int user_id) {
         comment comment = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select (rating, review, timestamp, first_name, last_name, user_name) from reviews natural join users where product_id = ? and user_id = ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id = ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             preparedStatement.setInt(2, user_id);
             preparedStatement.setBoolean(3, false);
