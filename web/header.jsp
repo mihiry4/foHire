@@ -214,10 +214,10 @@
                                 <i class="fab fa-facebook-square" style="font-size:30px;"></i>Login with Facebook</a></button>
                         <div id="gSignInWrapper">
 
-                            <%-- <div id="customBtn" class="customGPlusSignIn">
-                             <span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>
+                             <div id="customBtn" class="customGPlusSignIn">
+                             <span class="icon"><img src="assets/img/google.png" height="5%" width="5%"></span>
                              <span class="buttonText">Sign up with Google</span>
-                             </div>--%>
+                             </div>
                         </div>
                     </div>
                 </div>
