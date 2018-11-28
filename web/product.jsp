@@ -6,9 +6,20 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.LocalDate" %>
-<%! Connection connection;
+<%@ page import="com.google.maps.GeoApiContext" %>
+<%@ page import="com.google.maps.DistanceMatrixApi" %>
+<%@ page import="com.google.maps.errors.ApiException" %>
+<%@ page import="com.google.maps.model.*" %>
+<%! private Connection connection;
+    private GeoApiContext geoApi;
+
     @Override
     public void jspInit() {
+        geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
+        if (geoApi == null){
+            GeoApiContext.Builder builder = new GeoApiContext.Builder();
+            getServletConfig().getServletContext().setAttribute("geoApi", builder.apiKey(Const.Maps_APIKey).build());
+        }
         try {
             MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setURL(Const.DBclass);
@@ -31,6 +42,7 @@
     }%>
 
 <% String s = request.getParameter("product");
+    boolean inRange = false;
     int productId = Integer.parseInt(s);
     product p = new product();
     p.product_id = productId;
@@ -55,6 +67,19 @@
         comment[] comments = p.getCommentsNU(connection, uid);
         comment c = p.getCommentU(connection, uid);
         int i = 0;
+        try {
+            DistanceMatrix matrix = DistanceMatrixApi.newRequest(geoApi).origins(new LatLng(4,6)).destinations(new LatLng(5,6)).await();
+            DistanceMatrixRow row = matrix.rows[0];
+            DistanceMatrixElement element = row.elements[0];
+            if (element.status == DistanceMatrixElementStatus.OK){
+                if (element.distance.inMeters <= 5000) {
+                    inRange = true;
+                }
+            }
+        } catch (ApiException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
 %>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="<%=p.product_name%>"/>

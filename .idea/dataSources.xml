@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="fohire" uuid="ef00c513-6896-4c11-aed0-e7a9a91c2780">
+    <data-source source="LOCAL" name="fohire@localhost" uuid="093a6798-1d3d-4fe7-b6db-a4c7ab4c8a22">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>MYSQL Database</remarks>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/fohire</jdbc-url>
-      <driver-properties>
-        <property name="autoReconnect" value="true" />
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
-        <property name="tinyInt1isBit" value="false" />
-        <property name="characterEncoding" value="utf8" />
-        <property name="characterSetResults" value="utf8" />
-        <property name="yearIsDateType" value="false" />
-      </driver-properties>
-    </data-source>
-    <data-source source="LOCAL" name="Amazon RDS" uuid="43af691a-7902-4798-951e-d691247381e1">
-      <driver-ref>mysql</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://aa1ed0lsx2eoe3d.ck2speht4yee.us-east-2.rds.amazonaws.com:3306/fohire</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

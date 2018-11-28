@@ -36,8 +36,13 @@
     <orderEntry type="library" name="chatkit" level="application" />
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
-    <orderEntry type="library" name="checksum_2.0.0" level="project" />
     <orderEntry type="library" name="com.razorpay:razorpay-java:1.3.8" level="project" />
     <orderEntry type="library" name="checkout" level="application" />
+    <orderEntry type="library" name="checkout" level="application" />
+    <orderEntry type="library" name="api:client" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="platform" level="application" />
+    <orderEntry type="library" name="api" level="application" />
+    <orderEntry type="library" name="com.google.maps:google-maps-services:0.9.0" level="project" />
   </component>
 </module>

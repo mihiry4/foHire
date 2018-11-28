@@ -27,13 +27,13 @@ public class getRequest extends HttpServlet {
         JSONArray array = new JSONArray();
         try {
             int user_id = (Integer) request.getSession().getAttribute("user");
-            PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id from (Request inner join product using (product_id)) inner join users on (Requestee=users.user_id) where (Requester = ? and Pending = ? and Accepted = ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requestee=users.user_id) where (Requester = ? and Pending = ? and Accepted = ?)");
             preparedStatement.setInt(1, user_id);
             preparedStatement.setBoolean(2, false);
             preparedStatement.setBoolean(3, true);
             ResultSet rs = preparedStatement.executeQuery();
             putObj(array, rs, true);
-            preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id from (Request inner join product using (product_id)) inner join users on (Requester=users.user_id) where (Requestee = ? and Pending = ?)");
+            preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requester=users.user_id) where (Requestee = ? and Pending = ?)");
             preparedStatement.setInt(1, user_id);
             preparedStatement.setBoolean(2, true);
             rs = preparedStatement.executeQuery();
@@ -68,6 +68,8 @@ public class getRequest extends HttpServlet {
             object.put("product_name", rs.getString(9));
             object.put("pay", pay);
             object.put("Request_id", rs.getString(10));
+            object.put("Order_id", rs.getString(11));
+            object.put("last_name", rs.getString(12));
             array.put(object);
         }
         rs.close();

@@ -2,6 +2,9 @@ package Servlet;
 
 import Objects.Const;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet(name = "answerRequest")
@@ -36,6 +40,25 @@ public class answerRequest extends HttpServlet {
             preparedStatement.setInt(3, request_id);
             preparedStatement.setInt(4, user_id);
             i = preparedStatement.executeUpdate();
+            if (i !=0 && accepted){
+                preparedStatement = connection.prepareStatement("select Amount from Request where Request_id = ?");
+                preparedStatement.setInt(1, request_id);
+                ResultSet rs = preparedStatement.executeQuery();
+                rs.next();
+                int amt = rs.getInt(1);
+                RazorpayClient razorpay = new RazorpayClient(Const.Razorpay_key, Const.Razorpay_secret);
+                JSONObject orderRequest = new JSONObject();
+                orderRequest.put("amount", amt*100); // amount in paise
+                orderRequest.put("currency", "INR");
+                orderRequest.put("receipt", Integer.toString(i));
+                orderRequest.put("payment_capture", true);
+
+                Order order = razorpay.Orders.create(orderRequest);
+                preparedStatement = connection.prepareStatement("update Request set PG_id = ? where Request_id = ?");
+                preparedStatement.setString(1, order.get("id"));
+                preparedStatement.setInt(2, request_id);
+                preparedStatement.executeUpdate();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

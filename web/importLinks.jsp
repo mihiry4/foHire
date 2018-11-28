@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/icon" href="assets/img/fohiretransparent1_FLM_icon.ico">
     <title><%= request.getParameter("title")%>
     </title>
