@@ -85,8 +85,8 @@
              var millisBetween =  t.getTime() - f.getTime() ;
              var days = millisBetween / millisecondsPerDay;
 
-             var total_rent=days*(not_data.price);
-             var total_payment=total_rent+(not_data.deposit);
+             var total_rent=days*(parseInt(not_data.price));
+             var total_payment=total_rent+(parseInt(not_data.deposit));
 
 
 

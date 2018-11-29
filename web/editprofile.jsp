@@ -58,13 +58,16 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-3" data-aos="slide-up">
+                <div class="col-lg-3">
                     <ul class="list-unstyled lmenu">
-                        <li><a href="#" class="sidenav" style="padding:10px;color:rgb(0,0,0);">Edit Profile</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;">Verification</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;">Notifications</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;">Security</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;">Settings</a></li>
+                        <li><a href="editprofile.jsp" class="sidenav" style="padding:10px;color:rgb(0,0,0);">Edit Profile</a></li>
+                        <li class="d-none"><a href="verification.html" class="sidenav" style="padding:10px;">Verification</a></li>
+                        <%--<li><a href="adresses.html" class="sidenav" style="padding:10px;">My addresses</a></li>--%>
+                        <li><a href="notification.jsp" class="sidenav" style="padding:10px;">Notifications</a></li>
+                        <li><a href="payment_op.html" class="sidenav" style="padding:10px;">Payment options</a></li>
+                        <li><a href="security.html" class="sidenav" style="padding:10px;">Security</a></li>
+                        <%--<li class="d-none"><a href="reviews.html" class="sidenav" style="padding:10px;">Reviews</a></li>--%>
+                        <li><a href="setting.jsp" class="sidenav" style="padding:10px;">Settings</a></li>
                     </ul>
                 </div>
             </div>
