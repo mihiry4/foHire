@@ -31,7 +31,7 @@
 
 .timeline > li .timeline-panel {
     position: relative;
-    float: left;
+    /*float: left;*/
     width: 41%;
     padding: 0 20px 20px 30px;
     text-align: right;
@@ -62,12 +62,6 @@
     width: 150px;
     height: 150px;
     margin-left: -100px;
-}
-
-.timeline > li .timeline-image h4 {
-    margin-top: 12px;
-    font-size: 10px;
-    line-height: 14px;
 }
 
 .timeline > li.timeline-inverted > .timeline-panel {
@@ -251,7 +245,6 @@
 
 @media only screen and (max-width: 767px) {
     .timeline > li:nth-child(even) {
-        margin-bottom: 0px;
         min-height: 0px;
         right: 0px;
     }
@@ -259,18 +252,15 @@
 
 @media only screen and (max-width: 767px) {
     .timeline > li:nth-child(odd) {
-        margin-bottom: 0px;
         min-height: 0px;
         left: 0px;
     }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 740px) {
     .timeline > li .timeline-image {
-        position: static;
-        width: 150px;
-        height: 150px;
-        margin-bottom: 0px;
+        width: 50px;
+        height: 50px;
     }
 }
 
@@ -303,10 +293,10 @@
     }
 }
 
-.timeline > li .line {
-}
-
-.timel {
+@media (max-width: 800px) {
+    .timeline > li .line {
+        display: none;
+    }
 }
 
 .timeline-image img {
@@ -315,5 +305,12 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 15%;
+}
+
+@media (max-width: 700px) {
+    .timeline-heading {
+        text-align: left;
+        margin-left: 70px;
+    }
 }
 
