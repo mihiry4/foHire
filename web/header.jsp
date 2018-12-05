@@ -12,7 +12,27 @@
 <%
     String fbURL = "http://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
 %>
-<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background-image: url('assets/img/aprt.jpg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
+<style>
+
+
+    .body1:before {
+        overscroll-behavior-y: none;
+        content: "";
+        display: block;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        background: url('assets/img/aprt.jpg') no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
+<body <% if(type.equals("index")){%> class="body1" style="background-size:cover;width:100%;background-image: url('assets/img/aprt.jpg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
 
 
 <nav class="navbar navbar-light navbar-expand-md" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5); z-index:1000;");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;z-index:1000;");} %>">
@@ -72,38 +92,41 @@
                                 <hr>
                             </div>
                         </a>
-                        <a class="dropdown-item d-inline-block notmsg" role="presentation" href="#" data-toggle="modal"
-                           data-target="#requests">
-                            <div>
-                                <div class="float-left">
-                                    <h6>Product name</h6>
-                                </div>
-                                <div class="float-right">
-                                    <h6 style="font-size:13px;">19:20</h6>
-                                </div>
-                            </div>
-                            <div style="clear:both;">
-                                <div class="float-left">
-                                    <h5 style="font-size: 13px;">A new booking request from manan<br></h5>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="dropdown-item d-inline-block notmsg" role="presentation" href="#">
-                            <div>
-                                <div class="float-left">
-                                    <h6>Product name</h6>
-                                </div>
-                                <div class="float-right">
-                                    <h6 style="font-size:13px;">19:20</h6>
-                                </div>
-                            </div>
-                            <div style="clear:both;">
-                                <div class="float-left">
-                                    <h5 style="font-size: 13px;">Your request has been accepted by name</h5>
-                                    <h5 style="font-size: 10px;color: rgb(96,96,177);">Click here for Payment</h5>
-                                </div>
-                            </div>
-                        </a><a class="dropdown-item notmsgtop seeall" role="presentation" href="#">See all</a>
+
+                        <h4 align="center">No notifications</h4>
+                        <%--<a class="dropdown-item d-inline-block notmsg" role="presentation" href="#" data-toggle="modal"--%>
+                           <%--data-target="#requests">--%>
+                            <%--<div>--%>
+                                <%--<div class="float-left">--%>
+                                    <%--<h6>Product name</h6>--%>
+                                <%--</div>--%>
+                                <%--<div class="float-right">--%>
+                                    <%--<h6 style="font-size:13px;">19:20</h6>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div style="clear:both;">--%>
+                                <%--<div class="float-left">--%>
+                                    <%--<h5 style="font-size: 13px;">A new booking request from manan<br></h5>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</a>--%>
+                        <%--<a class="dropdown-item d-inline-block notmsg" role="presentation" href="#">--%>
+                            <%--<div>--%>
+                                <%--<div class="float-left">--%>
+                                    <%--<h6>Product name</h6>--%>
+                                <%--</div>--%>
+                                <%--<div class="float-right">--%>
+                                    <%--<h6 style="font-size:13px;">19:20</h6>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div style="clear:both;">--%>
+                                <%--<div class="float-left">--%>
+                                    <%--<h5 style="font-size: 13px;">Your request has been accepted by name</h5>--%>
+                                    <%--<h5 style="font-size: 10px;color: rgb(96,96,177);">Click here for Payment</h5>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</a>--%>
+                        <a class="dropdown-item notmsgtop seeall" role="presentation" href="allNotifications.jsp">See all</a>
                     </div>
                 </li>
                 <li class="dropdown">
