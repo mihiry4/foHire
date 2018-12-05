@@ -29,7 +29,7 @@ public class Order extends HttpServlet {
         try {
 
             // get an hmac_sha256 key from the raw secret bytes
-            SecretKeySpec signingKey = new SecretKeySpec(Const.Razorpay_secret.getBytes(), "HmacSHA256");
+            SecretKeySpec signingKey = new SecretKeySpec(Const  .Razorpay_secret.getBytes(), "HmacSHA256");
 
             // get an hmac_sha256 Mac instance and initialize with the signing key
             Mac mac = Mac.getInstance("HmacSHA256");

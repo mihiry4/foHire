@@ -69,7 +69,7 @@
 %>
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
     <div class="tline" style="margin-top:0;padding-top:10%;">
-        <h1 class="text-monospace text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>
+        <h1 class="text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>
         <h5 class="text-center" style="color:rgb(248,182,69);">Fohire helps you find things you want to rent.<br></h5>
     </div>
     <div>
@@ -91,7 +91,7 @@
     </div>
     <div>
         <h2 class="text-center" style="color:#f8b645;">Be a lender yourself.</h2>
-        <h5 class="text-center" style="color:#f8b645;">Lend&nbsp;<a class="text-light" href="lend.jsp">here.</a></h5>
+        <h5 class="text-center" style="color:#f8b645;">Lend&nbsp;<a class="text-light" <% if (session == null || session.getAttribute("user") == null) {%>  data-toggle="modal" data-target="#login" href="#"<%} else { %> href="lend.jsp" <% } %> >here.</a></h5>
     </div>
 </section>
 <section style="background-color:#fffdfd;padding-top:60px;padding-bottom:60px;">

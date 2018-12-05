@@ -12,17 +12,16 @@
 <%
     String fbURL = "http://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
 %>
-<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background-image: url('assets/img/adalaj.jpeg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
+<body <% if(type.equals("index")){%>style="background-size:cover;width:100%;background-image: url('assets/img/aprt.jpg'); background-attachment: fixed; background-position:center; background-repeat: no-repeat;" <%}%>>
 
 
 <nav class="navbar navbar-light navbar-expand-md" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5); z-index:1000;");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;z-index:1000;");} %>">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#" style="color:rgb(248,182,69);">
+        <a class="navbar-brand" href="index.jsp" style="color:rgb(248,182,69);">
             <div style="margin-top:5px;"><img src="assets/img/fohireTransparent.png" style="width:80px;"></div>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-2">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon"></span>
+            <span><i class="fa fa-navicon hamb"></i></span>
         </button>
         <div class="collapse navbar-collapse menu" id="navcol-2">
             <form class="form-inline <% if(type.equals("index")){%>d-none<%}else{%>d-inline-block<%}%> mr-auto searchbar" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;" action="borrow">       <%--ToDo:Borrow page for top search bar--%>
@@ -31,7 +30,7 @@
             </form>
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" href="lend.jsp" style="color:rgb(248,182,69);">Lend</a>
+                    <a class="nav-link" <% if (session == null || session.getAttribute("user") == null) {%>  data-toggle="modal" data-target="#login" href="#"<%} else { %> href="lend.jsp" <% } %> style="color:rgb(248,182,69);">Lend</a>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
@@ -190,7 +189,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:#f8b645;">
-                <h4 class="text-monospace modal-title">Login</h4>
+                <h4 class="modal-title">Login</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
                     <i class="fa fa-close"></i></span>
                 </button>
