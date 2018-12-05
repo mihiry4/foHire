@@ -1,63 +1,15 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>qirayaa</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
-    <link rel="stylesheet" href="assets/fonts/typicons.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/-Filterable-Cards-.css">
-    <link rel="stylesheet" href="assets/css/Article-Cards.css">
-    <link rel="stylesheet" href="assets/css/howit.css">
-    <link rel="stylesheet" href="assets/css/Bold-BS4-Footer-Big-Logo.css">
-    <link rel="stylesheet" href="assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
-    <link rel="stylesheet" href="assets/css/News-Cards.css">
-    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge-1.css">
-    <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge.css">
-    <link rel="stylesheet" href="assets/css/fav.css">
-    <link rel="stylesheet" href="assets/css/classic.css">
-    <link rel="stylesheet" href="assets/css/classic.date.css">
-    <link rel="stylesheet" href="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.css">
-    <link rel="stylesheet" href="assets/css/Review-rating-Star-Review-Button-1.css">
-    <link rel="stylesheet" href="assets/css/Review-rating-Star-Review-Button.css">
-    <link rel="stylesheet" href="assets/css/untitled.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
-</head>
-
-<body>
-<nav class="navbar navbar-light navbar-expand-md sticky-top" style="color:#212529;background-color:#ffffff;border-bottom:1px gray solid;">
-    <div class="container-fluid"><a class="navbar-brand" href="#" style="color:rgb(248,182,69);font-size:30px;">Qirayaa.com<div></div></a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div
-                class="collapse navbar-collapse menu" id="navcol-2">
-            <form class="form-inline d-inline-block mr-auto searchbar" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;">
-                <div class="form-group" style="margin-bottom:0px;padding:5px;"><label for="search-field"><i class="fa fa-search" style="color:#f8b645;font-size:18px;"></i></label><input class="form-control form-control-sm search-field" type="search" name="search" placeholder="Search here.." autocomplete="on"
-                                                                                                                                                                                          id="search-field"></div>
-            </form>
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Borrow</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Lend</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);padding-top:5.5px;"><button class="btn btn-light log" type="button" data-toggle="modal" data-target="#signup" style="background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);">Sign up</button></a></li>
-                <li
-                        class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);padding-top:5.5px;"><button class="btn btn-light log" type="button" data-toggle="modal" data-target="#login" style="background-color:rgba(0,123,255,0);padding-top:0;padding-right:0;padding-bottom:0;padding-left:0;color:rgb(248,182,69);">Login</button></a></li>
-                <li
-                        class="nav-item" role="presentation"><a class="nav-link" href="#" style="color:rgb(248,182,69);">Profile</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<jsp:include page="importLinks.jsp">
+    <jsp:param name="title" value="foHire"/>
+</jsp:include>
+<jsp:include page="header.jsp">
+    <jsp:param name="type" value=""/>
+</jsp:include>
 <section>
     <div class="container">
         <div class="row">
             <div class="col-lg-10 offset-1">
-                <p class="text-left"><br><br><br><strong><em><span style="text-decoration: underline;">Privacy Policy:</span></em></strong><br><br>&nbsp;<br><br><strong>Introduction:</strong><br><br>We at Rencorp (hereinafter also referred to as the<br>“Company”, “We”,
-                    “Us”, “Our”), operating business through <a href="https://qirayaa.com/">https://fohire.com/</a> (hereinafter referred to as the<br>“Website”) care about Our Users (hereinafter also referred as “You”, “Your”)<br>privacy seriously.
+                <p class="text-left"><br><br><br><strong><em><span style="text-decoration: underline;">Privacy Policy:</span></em></strong><br><br>&nbsp;<br><br><strong>Introduction:</strong><br><br>We at Rencorp (hereinafter also referred to as the<br>"Company", "We",
+                    "Us", "Our"), operating business through <a href="https://qirayaa.com/">https://fohire.com/</a> (hereinafter referred to as the<br>"Website") care about Our Users (hereinafter also referred as "You", "Your")<br>privacy seriously.
                     We want to give you the comfort and confidence so that we<br>can serve your needs better. In that effort, we respect and protect the privacy<br>of those who visit or use our Website. Please read the following policy to<br>learn
                     more about the Privacy Policy. Our practices and procedures in relation<br>to the collection and use of Personal Information have been set out below in<br>order to ensure safe usage of the Website for you. By visiting or using
                     the<br>Website in any manner, you acknowledge that you accept the practices and<br>policies outlined&nbsp; in this Privacy<br>Policy, and hereby consent that we collect, use and share your information in<br>the manner laid down
@@ -77,16 +29,16 @@
                     you or it was required under law to do so. <br><br>We may disclose your personal<br>information only under good faith&nbsp; belief<br>that such disclosure is reasonably necessary in order to (a) enforce or apply<br>our terms and
                     conditions and Privacy Policy ; (b) take action regarding suspected<br>illegal activities; (c) comply with legal process, such as a search warrant,<br>subpoena, statute, or court order; or (d) protect our rights, reputation, and<br>property,
                     or that of our Users, affiliates, or the public. Please note that we<br>are not required to question or contest the validity of any search warrant,<br>subpoena or other similar governmental request that we receive. <br><br>We may
-                    collect and store your<br>sensitive personal data or information (such as any financial information<br>including inter alia credit card, debit card details, bank account and know<br>your customers (“KYC”) documents as per RBI regulations
+                    collect and store your<br>sensitive personal data or information (such as any financial information<br>including inter alia credit card, debit card details, bank account and know<br>your customers ("KYC") documents as per RBI regulations
                     and any other<br>regulation as may be applicable) that the user might have saved in user account<br>created on Website.&nbsp; <br><br>&nbsp;<br><br><strong>Information collected Automatically:</strong><br><br><strong>&nbsp;</strong><br><br>Whenever
-                    a user interact with our<br>website, we automatically receive and record information on our server logs<br>from your browser including your “IP address”, cookie information and the pages<br>you requested. A cookie is a small piece
+                    a user interact with our<br>website, we automatically receive and record information on our server logs<br>from your browser including your "IP address", cookie information and the pages<br>you requested. A cookie is a small piece
                     of information which a website stores<br>on your web browser and can later retrieve. Cookie allow us to recognise your<br>browser or mobile device and tell us how and when pages and some of the<br>features of our service is accessed
                     and how many times. We use collected<br>information statistically analyse consumers behaviour and improve our services<br>based on the date. We may provide this information to our partners and they may<br>use information to understand
                     visitors and their behaviour so that we can<br>improve our service and provide you with optimal experience. We may use cookies<br>for storing certain kind of other information such as your password, so that<br>you do not have to
                     input it every time. Advertising networks that serve ads on<br>this Web site may assign different cookies to you. Those cookies may be used to<br>track your involvement with the advertising on our site. You may choose not to<br>accept
                     these cookies, the website may provide links to third party websites,<br>such as those of our business partners and online advertisers. We are not<br>responsible for the actions of these third parties. We encourage you to review<br>their
                     privacy policy to learn more about how, why and what they collect and<br>use. <br><br>&nbsp;<br><br><strong>User modification of provided information:</strong><br><br><strong>&nbsp;</strong><br><br>As<br>a registered user, you
-                    can modify some of your personal information such as<br>full name, gender, birthdate, email, phone number, emergency number, address<br>and privacy preferences by accessing “Account” section of this Website.<br><br><br><br>&nbsp;<br><br><strong>Changes to</strong><br><strong>this Privacy Policy:</strong><br><br><strong>&nbsp;</strong><br><br>We
+                    can modify some of your personal information such as<br>full name, gender, birthdate, email, phone number, emergency number, address<br>and privacy preferences by accessing "Account" section of this Website.<br><br><br><br>&nbsp;<br><br><strong>Changes to</strong><br><strong>this Privacy Policy:</strong><br><br><strong>&nbsp;</strong><br><br>We
                     may amend this privacy policy from time to time. In case<br>we make any changes in the way we use your personal information, we will notify<br>you (via email or through website). In case you continue to use our services<br>after
                     privacy policy is updated, by this action you are agreeing to accept and<br>will be bound by the privacy policy. In case you do not agree with the privacy<br>policy, please discontinue using our website. <br><br>&nbsp;<br><br><strong>Governing</strong><br><strong>Law:</strong><br><br>Your
                     usage of this website are governed by and construed in<br>accordance to laws prevailing in India. In case of any dispute, legal<br>proceeding or infringement action users may approach competent courts or<br>tribunals having jurisdiction
@@ -97,22 +49,6 @@
         </div>
     </div>
 </section>
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
-<script src="assets/js/-Filterable-Cards-.js"></script>
-<script src="assets/js/chat.js"></script>
-<script src="assets/js/fav.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>
-<script src="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.js"></script>
-<script src="assets/js/Review-rating-Star-Review-Button.js"></script>
-<script src="assets/js/step.js"></script>
-<script src="assets/js/picker.js"></script>
-<script src="assets/js/picker.date.js"></script>
-<script src="assets/js/legacy.js"></script>
-<script src="assets/js/datepick.js"></script>
-<script src="assets/js/bs-animation.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.js"></script>
-</body>
-
-</html>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="yes"/>
+</jsp:include>
