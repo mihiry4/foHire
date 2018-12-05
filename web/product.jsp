@@ -134,36 +134,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>Start date:</td>
-                            <td id="frm"></td>
-                        </tr>
-                        <tr>
-                            <td>End date:</td>
-                            <td id="too"></td>
-                        </tr>
-                        <tr>
-                            <td>Deposit amount:</td>
-                            <td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>
-                        </tr>
-                        <tr>
-                            <td><%= p.price%>&times;<i id="day"></i> days<br></td>
-                            <td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Total:</strong></td>
-                            <td><i class="fa fa-rupee"></i><strong id="total"></strong>/-</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <%--<div class="table-responsive">--%>
+                    <%--<table class="table">--%>
+                        <%--<tbody>--%>
+                        <%--<tr>--%>
+                            <%--<td>Start date:</td>--%>
+                            <%--<td id="frm"></td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td>End date:</td>--%>
+                            <%--<td id="too"></td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td>Deposit amount:</td>--%>
+                            <%--<td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td><%= p.price%>&times;<i id="day"></i> days<br></td>--%>
+                            <%--<td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>--%>
+                        <%--</tr>--%>
+                        <%--<tr>--%>
+                            <%--<td><strong>Total:</strong></td>--%>
+                            <%--<td><i class="fa fa-rupee"></i><strong id="total"></strong>/-</td>--%>
+                        <%--</tr>--%>
+                        <%--</tbody>--%>
+                    <%--</table>--%>
+                <%--</div>--%>
+                <h4>Ariving Shortly!!</h4>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary qbtn" type="button" id="bookbtn" disabled>Book</button>
+                <%--<button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>--%>
+                <%--<button class="btn btn-primary qbtn" type="button" id="bookbtn" disabled>Book</button>--%>
             </div>
         </div>
     </div>
