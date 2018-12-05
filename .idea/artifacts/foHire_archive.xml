@@ -3,6 +3,11 @@
     <output-path>$PROJECT_DIR$/out/artifacts/foHire_archive</output-path>
     <root id="archive" name="foHire archive.war">
       <element id="artifact" artifact-name="foHire" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="com.google.maps:google-maps-services:0.9.0" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>

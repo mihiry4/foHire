@@ -21,7 +21,7 @@ public class Deactivate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int user_id = (int) request.getSession().getAttribute("user");
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivate = 1 where user_id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivated = 1 where user_id = ?");
             preparedStatement.setInt(1, user_id);
             preparedStatement.executeUpdate();
             preparedStatement = connection.prepareStatement("update product set status = 0 where user_id = ?");

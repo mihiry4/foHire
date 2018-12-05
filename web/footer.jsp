@@ -125,8 +125,8 @@
     </div>
 </div>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<%if (chatkit.equals("yes") && userid!=0) {%>
-<%--<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
+<%--<%if (chatkit.equals("yes") && userid!=0) {%>
+&lt;%&ndash;<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
 <script type="text/javascript">
     const chatManager = new Chatkit.ChatManager({
         instanceLocator: "<%=Const.Pusher_instanceLocator%>",
@@ -135,9 +135,9 @@
     });
 </script>
 <script src="assets/js/chatlist.js"></script>
-<script src="assets/js/chat.js"></script>--%>
+<script src="assets/js/chat.js"></script>&ndash;%&gt;
 <script src="assets/js/notification.js"></script>
-<%}%>
+<%}%>--%>
 <script src="assets/js/fav.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>
 <%--<script src="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.js"></script>--%>
