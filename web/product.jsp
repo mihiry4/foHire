@@ -11,15 +11,16 @@
 <%@ page import="com.google.maps.errors.ApiException" %>
 <%@ page import="com.google.maps.model.*" %>
 <%! private Connection connection;
-    private GeoApiContext geoApi;
+    //private GeoApiContext geoApi;
 
     @Override
     public void jspInit() {
-        geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
+       /* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
         if (geoApi == null){
             GeoApiContext.Builder builder = new GeoApiContext.Builder();
-            getServletConfig().getServletContext().setAttribute("geoApi", builder.apiKey(Const.Maps_APIKey).build());
-        }
+            geoApi = builder.apiKey(Const.Maps_APIKey).build();
+            getServletConfig().getServletContext().setAttribute("geoApi", geoApi);
+        }*/
         try {
             MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setURL(Const.DBclass);
@@ -67,7 +68,7 @@
         comment[] comments = p.getCommentsNU(connection, uid);
         comment c = p.getCommentU(connection, uid);
         int i = 0;
-        try {
+        /*try {
             DistanceMatrix matrix = DistanceMatrixApi.newRequest(geoApi).origins(new LatLng(4,6)).destinations(new LatLng(5,6)).await();
             DistanceMatrixRow row = matrix.rows[0];
             DistanceMatrixElement element = row.elements[0];
@@ -76,9 +77,11 @@
                     inRange = true;
                 }
             }
-        } catch (ApiException | InterruptedException e) {
+        } catch (ApiException e) {
             e.printStackTrace();
-        }
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }*/
 
 %>
 <jsp:include page="importLinks.jsp">
@@ -119,8 +122,8 @@
             });
         });
     });
-    var price = parseInt(<%=p.price%>);
-    var deposit = parseInt(<%=p.deposit%>);
+    var price = parseInt("<%=p.price%>");
+    var deposit = parseInt("<%=p.deposit%>");
 </script>
 <div class="modal fade" role="dialog" tabindex="-1" id="book">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -265,7 +268,6 @@
                     <hr>
                 </div>--%>
                 <div>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29336.062459368477!2d72.61464429085115!3d23.206386086975506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395c2a3c9618d2c5%3A0xc54de484f986b1fa!2sDhirubhai+Ambani+Institute+of+Information+and+Communication+Technology!5e0!3m2!1sen!2sin!4v1530942375698" width="100%" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
                     <div id="map" width="100%" style="border:0; height:200px"></div>
                 </div>
                 <hr>
@@ -367,11 +369,11 @@
 <script>
     var geocoder;
     var map;
-    var address = "gnfc township, bharuch";
+    var address = "<%=p.region%>";
 
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 8,
+            zoom: 14,
             center: {lat: -34.397, lng: 150.644}
         });
         geocoder = new google.maps.Geocoder();
@@ -382,9 +384,15 @@
         geocoder.geocode({'address': address}, function (results, status) {
             if (status === 'OK') {
                 map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
+                var cityCircle = new google.maps.Circle({
+                    strokeColor: '#f8b645',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#ffbd45',
+                    fillOpacity: 0.35,
                     map: map,
-                    position: results[0].geometry.location
+                    center: results[0].geometry.location,
+                    radius: 750
                 });
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);

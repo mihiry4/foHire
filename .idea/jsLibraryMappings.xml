@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{api, api:client, checkout, jquery, platform}" />
+    <file url="file://$PROJECT_DIR$" libraries="{aos, api, api:client, checkout, handlebars, jquery, platform}" />
   </component>
 </project>

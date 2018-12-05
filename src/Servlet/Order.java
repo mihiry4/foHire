@@ -21,7 +21,6 @@ import java.sql.SQLException;
 @WebServlet(name = "Order")
 public class Order extends HttpServlet {
     private Connection connection;
-    private GeoApiContext geoApi;
 
     private static String calculateRFC2104HMAC(String data)
     {
