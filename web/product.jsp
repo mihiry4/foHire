@@ -160,7 +160,7 @@
                         <%--</tbody>--%>
                     <%--</table>--%>
                 <%--</div>--%>
-                <h4>Ariving Shortly!!</h4>
+                <h4>Arriving Shortly!!</h4>
             </div>
             <div class="modal-footer">
                 <%--<button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>--%>
