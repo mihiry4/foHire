@@ -211,12 +211,7 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="login"><%--For login--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#f8b645;">
-                <h4 class="modal-title">Login</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
-                    <i class="fa fa-close"></i></span>
-                </button>
-            </div>
+
             <div class="modal-body">
                 <div>
                     <label for="login_user">E-mail or Phone no:</label>
@@ -238,7 +233,7 @@
 
                              <div id="customBtn" class="customGPlusSignIn">
                              <span class="icon"><img src="assets/img/google.png" height="5%" width="5%"></span>
-                             <span class="buttonText">Sign up with Google</span>
+                             <span class="buttonText" align="center">Sign up with Google</span>
                              </div>
                         </div>
                     </div>
@@ -250,12 +245,7 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="signup"><%--for signup--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#f8b645;">
-                <h4 class="modal-title">Sign up</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                </button>
-            </div>
+
             <div class="modal-body">
                 <div>
                     <form method="post" action="signup">

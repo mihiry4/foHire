@@ -1,0 +1,17 @@
+#customBtn {
+    display: block;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    padding-left: 50px;
+
+}
+#customBtn:hover {
+    cursor: pointer;
+}
+#customBtn.buttonText{
+    text-align: center;
+}

@@ -137,14 +137,14 @@
     </div>
 </section>
 <section style="background-color:#ffffff;">
-    <div>
-        <h4 class="text-center">Discover some of the best rental deals and book them for tonight, tomorrow and next
-            week.<br></h4>
-    </div>
+
     <div>
         <div class="container">
             <div class="row">
                 <div class="col">
+                    <div>
+                        <h4 class="">New Arrivals<br></h4>
+                    </div>
                     <section class="py-5">
                         <div class="container">
                             <div class="row filtr-container">
