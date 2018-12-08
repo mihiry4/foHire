@@ -123,6 +123,15 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-lg-4">
+                    <a href="borrow.jsp?category=3&type=category" class="catblocka">
+                        <div class="catblock">
+                            <div class="d-inline-block" style="margin:30px 20px;">
+                                <h6 style="color:rgb(65,65,65);">Sports Equipment</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
