@@ -79,8 +79,8 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right not" role="menu">
-                        <a class="dropdown-item notmsgtop" role="presentation" href="#">
-                            <div>
+                        <a class="notmsgtop" role="presentation">
+                            <div class="p-2">
                                 <div class="float-left">
                                     <h6 style="font-size:13px;">Requests</h6>
                                 </div>
