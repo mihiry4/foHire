@@ -11,7 +11,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%int room_open = (Integer) request.getAttribute("room_open");%> --%>   <%--Todo: add room_open to Front end--%>
+
+
 <%! Connection connection;
 
     @Override
@@ -37,6 +38,11 @@
         }
     }%>
 <%
+    /*Integer Room_open = (Integer) request.getAttribute("room_open");
+    if (Room_open == null) {
+        response.sendRedirect("conversations.jsp");
+    } else {*/
+    //int room_open = Room_open;
     if (session.getAttribute("user") == null) {
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
@@ -128,7 +134,7 @@
     </div>
 
 </section>
-
+<%--<%}%>--%>
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="yes"/>
 </jsp:include>

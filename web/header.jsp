@@ -10,7 +10,7 @@
 <%@page import="Objects.Const" %>
 <%@ page import="java.net.URLEncoder" %>
 <%
-    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
+    String fbURL = "https://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
 %>
 <style>
 

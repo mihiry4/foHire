@@ -14,7 +14,6 @@ var spinner = document.querySelector('.loader');
             roomId: roomid1,
             hooks: {
               onNewMessage: message => {
-                
                 const s=document.getElementById("chat");
                 
                 var date = new Date(message.createdAt);

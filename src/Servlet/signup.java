@@ -151,6 +151,7 @@ public class signup extends HttpServlet {
                 if (token.startsWith("{"))
                     throw new Exception("error on requesting token: " + token + " with code: " + Fb_token);
             } catch (Exception e) {
+                e.printStackTrace();
                 // an error occurred, handle this
             }
 
@@ -167,6 +168,7 @@ public class signup extends HttpServlet {
                 in.close();
                 graph = b.toString();
             } catch (Exception e) {
+                e.printStackTrace();
                 // an error occurred, handle this
             }
 
@@ -184,6 +186,7 @@ public class signup extends HttpServlet {
                 user u = new user();
                 u.SocialLogin(connection, firstName, lastName, email, facebook_Auth, true, null, false);
             } catch (JSONException e) {
+                e.printStackTrace();
                 // an error occurred, handle this
             }
         } else {

@@ -46,5 +46,6 @@
     <orderEntry type="library" name="com.google.maps:google-maps-services:0.9.0" level="project" />
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
+    <orderEntry type="library" name="chatkit" level="application" />
   </component>
 </module>

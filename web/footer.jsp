@@ -134,9 +134,9 @@
         userId: "<%=user_id%>",
         tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
     });
-</script>
+</script>--%>
 <script src="assets/js/chatlist.js"></script>
-<script src="assets/js/chat.js"></script>--%>
+<script src="assets/js/chat.js"></script>
 <script src="assets/js/notification.js"></script>
 <%}%>
 <script src="assets/js/fav.js"></script>

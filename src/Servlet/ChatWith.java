@@ -31,8 +31,6 @@ public class ChatWith extends HttpServlet {
         ChatKit chatKit = null;
         try {
             chatKit = new ChatKit(map);
-            ApiResponse a = chatKit.getUserRooms("m");
-            int i = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,23 +47,23 @@ public class ChatWith extends HttpServlet {
                     Sender = rs.getString(1);
                 }
                 assert chatKit != null;
-                ApiResponse a = chatKit.getUserRooms(Sender);
-                JSONArray rooms = a.getJSONArray("rooms");
+                ApiResponse A = chatKit.getUserRooms(Sender);
+                JSONObject a = new JSONObject(A.toString());
+                JSONArray rooms = a.getJSONArray("payload");
                 for (int i = 0; i < rooms.length(); i++) {
                     JSONObject room = rooms.getJSONObject(i);
                     JSONArray members = room.getJSONArray("member_user_ids");
                     if (members.getString(0).equals(receiver)||members.getString(1).equals(receiver)){
-                        request.setAttribute("room_open", room.getInt("id"));
-                        request.getRequestDispatcher("message.jsp").forward(request, response);
+                        response.sendRedirect("message.jsp?" + receiver);
                         return;
                     }
                 }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("private", true);
                 map1.put("user_ids",new String[]{Sender,receiver});
-                ApiResponse newRoom = chatKit.createRoom(Sender, map1);
-                request.setAttribute("room_open", newRoom.getInt("id"));
-                request.getRequestDispatcher("message.jsp").forward(request, response);
+                map1.put("name", Sender + "_" + receiver);
+                chatKit.createRoom(Sender, map1);
+                response.sendRedirect("message.jsp?" + receiver);
             } catch (Exception e) {
                 e.printStackTrace();
             }

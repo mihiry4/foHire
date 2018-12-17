@@ -41,7 +41,7 @@ public final class Borrow extends HttpServlet {
                     .append(p.price).append(" Per Day</p>\n").append("</div>\n")
                     .append("</div>\n").append("</a>\n")
                     .append("<div class=\"d-flex card-foot\">\n")
-                    .append("<div class=\"click\" onclick=\"heartcng(this)\">\n")
+                    .append("<div class=\"click\" onclick=\"heartcng(this, ").append(p.product_id).append("\">\n")
                     .append("<span class=\"fa fa-heart");
             if (!p.favourite) sb.append("-o");
             sb.append("\"></span>\n").append("</div>\n").append("</div>\n").append("</div>\n").append("</div>");

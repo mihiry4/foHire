@@ -43,7 +43,7 @@
         }
     }
 %>
-<% product products[] = new product[0];
+<% product[] products = new product[0];
     try {
         int user_id = 0;
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
@@ -161,7 +161,7 @@
                                             </div>
                                         </a>
                                         <div class="d-flex card-foot">
-                                            <div class="click" onclick="heartcng(this)">
+                                            <div class="click" onclick="heartcng(this, <%=p.product_id%>)">
                                                 <span class="fa fa-heart<%if (!p.favourite){%>-o<%}%>"></span>
                                             </div>
                                         </div>
@@ -169,7 +169,7 @@
                                 </div>
                                 <%}%>      <%--Upto this--%>
                                 <%if (products.length == 0) {%>No products
-                                available<%}%>    <%--ToDo: Edited with rudra--%>
+                                available<%}%>
                             </div>
                         </div>
                     </section>
