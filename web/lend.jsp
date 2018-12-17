@@ -52,17 +52,13 @@
                                     <tr>
                                         <td>Rent expected(<i class="fa fa-rupee"></i>):</td>
                                         <td><input name="rent" class="form-control form-control-lg" type="number"></td>
-                                        <td>/-</td>
-                                        <td><select name="per" class="form-control">
-                                            <option value="" selected=""></option>
-                                            <option value="day">Per Day</option>
-                                            <option value="month">Per Month</option>
-                                        </select></td>
+                                        <td></td>
+                                        <td>Per day</td>
                                     </tr>
                                     <tr>
                                         <td>Deposit amount(<i class="fa fa-rupee"></i>):</td>
                                         <td colspan="2"><input name="deposit" class="form-control" type="number"></td>
-                                        <td colspan="2">/-</td>
+                                        <td colspan="2"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">
@@ -104,17 +100,17 @@
                                         <td>Description:</td>
                                         <td colspan="2"><textarea name="description" class="form-control"></textarea></td>
                                     </tr>
-                                    <tr>
-                                        <td>Late charges(<i class="fa fa-rupee"></i>):
-                                            <p style="font-size:11px;">(per day late charge)</p>
-                                        </td>
-                                        <td><input name="late" class="form-control" type="number"></td>
-                                        <td>/-</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cancellation policy:</td>
-                                        <td colspan="2"><select name="policy" class="form-control"></select></td>
-                                    </tr>
+                                    <%--<tr>--%>
+                                        <%--<td>Late charges(<i class="fa fa-rupee"></i>):--%>
+                                            <%--<p style="font-size:11px;">(per day late charge)</p>--%>
+                                        <%--</td>--%>
+                                        <%--<td><input name="late" class="form-control" type="number"></td>--%>
+                                        <%--<td>/-</td>--%>
+                                    <%--</tr>--%>
+                                    <%--<tr>--%>
+                                        <%--<td>Cancellation policy:</td>--%>
+                                        <%--<td colspan="2"><select name="policy" class="form-control"></select></td>--%>
+                                    <%--</tr>--%>
                                     <tr>
                                         <td>
                                             <button class="btn btn-primary qbtn" type="button" id="prvbtn1">Previous

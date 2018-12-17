@@ -1,0 +1,21 @@
+#customBtn {
+    display: block;
+    background: darkred;
+    color: black;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    margin-top: 3px;
+    padding: 5px;
+
+}
+#customBtn:hover {
+    cursor: pointer;
+}
+
+#customBtn .buttonText{
+    color:white;
+    font-size: 20px;
+    margin-top: 2px;
+}

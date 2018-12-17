@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="assets/css/Profile-Picture-With-Badge.css">
     <link rel="stylesheet" href="assets/css/fav.css">
     <link rel="stylesheet" href="assets/css/howit.css">
+    <link rel="stylesheet" href="assets/css/google.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css">
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <style>

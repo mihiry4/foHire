@@ -79,8 +79,8 @@
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right not" role="menu">
-                        <a class="dropdown-item notmsgtop" role="presentation" href="#">
-                            <div>
+                        <a class="notmsgtop" role="presentation">
+                            <div class="p-2">
                                 <div class="float-left">
                                     <h6 style="font-size:13px;">Requests</h6>
                                 </div>
@@ -233,12 +233,12 @@
                     <div class="col">
                         <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
                             <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
-                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>Login with Facebook</a></button>
+                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp;Login with Facebook</a></button>
                         <div id="gSignInWrapper">
 
                              <div id="customBtn" class="customGPlusSignIn">
-                             <span class="icon"><img src="assets/img/google.png" height="5%" width="5%"></span>
-                             <span class="buttonText">Sign up with Google</span>
+
+                             <h6 class="buttonText text-center"><i class="fab fa-google-plus-square" style="font-size: 30px"></i>&nbsp;Sign up with Google</h6>
                              </div>
                         </div>
                     </div>
@@ -250,12 +250,7 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="signup"><%--for signup--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#f8b645;">
-                <h4 class="modal-title">Sign up</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                </button>
-            </div>
+
             <div class="modal-body">
                 <div>
                     <form method="post" action="signup">
