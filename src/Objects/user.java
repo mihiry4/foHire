@@ -219,6 +219,8 @@ public final class user {
             product[] products = new product[row];
             for (int i = 0; i < products.length; i++) {
                 products[i] = new product();
+                rs.next();
+                products[i].favourite = true;
                 products[i].product_id = rs.getInt(1);
                 products[i].fillDetails(connection);
             }

@@ -93,5 +93,5 @@
     <%}%>
 </div>
 <jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="yes"/>
+    <jsp:param name="chatkit" value="no"/>
 </jsp:include>
