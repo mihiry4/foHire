@@ -1,7 +1,6 @@
 package Servlet;
 
-import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,6 +19,15 @@ public class comment extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
         HttpSession session = request.getSession();
         int user = (Integer) session.getAttribute("user");
         int product = (Integer) session.getAttribute("product");
@@ -54,25 +62,12 @@ public class comment extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

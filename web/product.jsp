@@ -2,67 +2,43 @@
 <%@ page import="Objects.Const" %>
 <%@ page import="Objects.comment" %>
 <%@ page import="Objects.product" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.LocalDate" %>
-<%! private Connection connection;
-    //private GeoApiContext geoApi;
+<%! //private GeoApiContext geoApi;
 
-    @Override
+    /*@Override
     public void jspInit() {
-       /* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
+       *//* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
         if (geoApi == null){
             GeoApiContext.Builder builder = new GeoApiContext.Builder();
             geoApi = builder.apiKey(Const.Maps_APIKey).build();
             getServletConfig().getServletContext().setAttribute("geoApi", geoApi);
-        }*/
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
+        }*//*
+        connection = Objects.Const.openConnection();
+    }*/
+%>
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }%>
-
-<% String s = request.getParameter("product");
+<% /*String s = request.getParameter("product");
     boolean inRange = false;
     int productId = Integer.parseInt(s);
     product p = new product();
     p.product_id = productId;
     p.fillDetails(connection);
-    request.setAttribute("product", p);
-    String[] user_details = p.getLender(connection);
-    LocalDate[][] Dates = p.getBookedDates(connection);
+    request.setAttribute("product", p);*/
+    product p = (product) request.getAttribute("product");
+    String[] user_details = p.user_details;
+    LocalDate[][] Dates = p.Dates;
     /*0-username
     1-firstname
     2-lastname
     3-profilepic*/
-    int uid = 0;
-    Integer UID = (Integer) session.getAttribute("user");
-    if (UID != null)
-        uid = UID;
     if(p==null) {
         request.getRequestDispatcher("404.jsp").forward(request, response);
     }
     else{
         request.setAttribute("des", p.description);
         session.setAttribute("product", p.product_id);
-        comment[] comments = p.getCommentsNU(connection, uid);
-        comment c = p.getCommentU(connection, uid);
+        comment[] comments = p.NU;
+        comment c = p.U;
         int i = 0;
         /*try {
             DistanceMatrix matrix = DistanceMatrixApi.newRequest(geoApi).origins(new LatLng(4,6)).destinations(new LatLng(5,6)).await();

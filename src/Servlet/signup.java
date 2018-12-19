@@ -4,7 +4,7 @@ import Objects.Const;
 import Objects.IdTokenVerifierAndParser;
 import Objects.user;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +22,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 //Handle exceptional request still remaining
@@ -32,8 +31,7 @@ public class signup extends HttpServlet {
     private Connection connection;
     private HashMap<String, Integer> map = new HashMap<>();
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
 
         String id_token = request.getParameter("id_token");
         if (id_token != null) {
@@ -126,6 +124,8 @@ public class signup extends HttpServlet {
                     dataStreamFromUrl.close();
                     System.out.println("Response: " + dataFromUrl);
                 }
+            } catch (ConnectionIsClosedException e) {
+                throw e;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -133,7 +133,26 @@ public class signup extends HttpServlet {
     }
 
     @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    private void respondGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String Fb_token = request.getParameter("code");
         if (Fb_token != null) {
             String token = null;
@@ -167,6 +186,8 @@ public class signup extends HttpServlet {
                     b.append(inputLine).append("\n");
                 in.close();
                 graph = b.toString();
+            } catch (ConnectionIsClosedException e) {
+                throw e;
             } catch (Exception e) {
                 e.printStackTrace();
                 // an error occurred, handle this
@@ -194,30 +215,16 @@ public class signup extends HttpServlet {
             rd.forward(request, response);
         }
     }
-
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 
     private static boolean isCaptchaValid(String response) {

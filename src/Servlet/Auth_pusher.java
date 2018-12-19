@@ -3,7 +3,7 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +24,15 @@ public class Auth_pusher extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ConnectionIsClosedException, IOException {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             int user_id = (int) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
@@ -42,6 +50,8 @@ public class Auth_pusher extends HttpServlet {
                     ApiResponse a = chatKit.authenticate(user_name);
                     out.print(a);
                 }
+            } catch (ConnectionIsClosedException e) {
+                throw e;
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -58,25 +68,12 @@ public class Auth_pusher extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

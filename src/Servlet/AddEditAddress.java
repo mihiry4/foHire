@@ -1,7 +1,6 @@
 package Servlet;
 
-import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +17,17 @@ public class AddEditAddress extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+
+
+    }
+
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             String AddressID = request.getParameter("AID");
             int userId = (Integer) request.getSession().getAttribute("user");
@@ -39,6 +49,7 @@ public class AddEditAddress extends HttpServlet {
 
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("404.jsp").forward(request, response);
     }
@@ -46,25 +57,12 @@ public class AddEditAddress extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

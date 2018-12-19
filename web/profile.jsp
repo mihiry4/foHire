@@ -1,42 +1,15 @@
-<%@ page import="Objects.Const" %>
 <%@ page import="Objects.user" %>
-<%@ page import="java.sql.*" %>
-<%! Connection connection;
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 
-    @Override
-    public void jspInit() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection(Const.DBclass, Const.user, Const.pass);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }%>
-<% user u = (user) request.getAttribute("Profile_user");               /*ToDo: comment to be removed*/
-    boolean signedUser = (boolean)request.getAttribute("signedUser");
-    int uid = (int) session.getAttribute("user");
-    if(u==null) {
+<% user u = (user) request.getAttribute("Profile_user");
+    ResultSet rs = (ResultSet) request.getAttribute("products");
+    boolean signedUser = (Boolean) request.getAttribute("signedUser");
+    if (u == null || rs == null) {
         request.getRequestDispatcher("500.jsp").forward(request,response);
     }
     else{
-        ResultSet rs = null;
-        try {
-            PreparedStatement ps = connection.prepareStatement("select p.* from users natural join product as p where user_name = ?");
-            ps.setString(1, u.userName);
-            rs = ps.executeQuery();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 %>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="<%=u.userName%>"/>
@@ -68,7 +41,7 @@
                         </table>
                     </div>
                 </div>
-                <%if (u.showEmail && u.showMobile){%>
+                <%if (u.showEmail || u.showMobile) {%>
                 <div>
                     <div class="table-responsive">
                         <table class="table">

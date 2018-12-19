@@ -3,7 +3,7 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,14 +17,24 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "ChatWith")
 public class ChatWith extends HttpServlet {
     Connection connection;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+
+    }
+
+    private void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
         Map<String, String> map = new HashMap<>();
         map.put("instanceLocator", Const.Pusher_instanceLocator);
         map.put("key", Const.Pusher_secret);
@@ -64,6 +74,8 @@ public class ChatWith extends HttpServlet {
                 map1.put("name", Sender + "_" + receiver);
                 chatKit.createRoom(Sender, map1);
                 response.sendRedirect("message.jsp?" + receiver);
+            } catch (ConnectionIsClosedException e) {
+                throw e;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -78,25 +90,12 @@ public class ChatWith extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }
