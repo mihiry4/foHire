@@ -137,12 +137,15 @@ public final class product {
         this.user_details = userDetails;
     }
 
-    public void fillDetails(@NotNull Connection connection) {
+    public boolean fillDetails(@NotNull Connection connection) {
+        boolean ans = false;
         try {
+
             PreparedStatement preparedStatement = connection.prepareStatement("select * from fohire.product where product_id = ?");
             preparedStatement.setInt(1, product_id);
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
+            ans = rs.next();
+            if (ans) {
             user_id = rs.getInt("user_id");
             product_name = rs.getString("product_name");
             int cat = rs.getInt("category");
@@ -165,9 +168,11 @@ public final class product {
                     category = "Blu-ray and console games";
                     break;
             }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return ans;
     }
 
     public void getCommentsNU(@NotNull Connection connection, int user_id) {

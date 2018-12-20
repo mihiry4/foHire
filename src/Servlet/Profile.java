@@ -1,5 +1,6 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.user;
 
 import javax.servlet.ServletException;
@@ -18,19 +19,37 @@ import java.sql.SQLException;
 public class Profile extends HttpServlet {
     Connection connection;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         PrintWriter out = response.getWriter();
         out.print("why are you doing this???");
         out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int profileUID;
         String s = request.getRequestURI();
         String[] arr = s.split("/");
-        String S = arr[3];
+        String S = arr[Const.value];
         if (S.equals("assets")) {
-            s = s.substring(15);
+            s = s.substring(Const.substr);
             request.getRequestDispatcher(s).forward(request, response);
+            return;
+        }
+
+        try {
+            PreparedStatement ps = connection.prepareStatement("select user_id from users where user_name = ?");
+            ps.setString(1, S);
+            ResultSet r = ps.executeQuery();
+            if (r.next()) {
+                profileUID = r.getInt(1);
+            } else {
+                request.getRequestDispatcher("/404.jsp").forward(request, response);
+                return;
+            }
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
         }
         int user_id=0;
         boolean signedUser = false;
@@ -38,17 +57,17 @@ public class Profile extends HttpServlet {
             user_id = (Integer) request.getSession().getAttribute("user");
         }
         user u = new user();
+        u.userName = S;
         if (user_id!=0){
             try {
                 PreparedStatement ps = connection.prepareStatement("select user_id from users where user_id = ? and user_name = ?");
                 ps.setInt(1, user_id);
-                ps.setString(2, S);
+                ps.setString(2, u.userName);
                 if(ps.executeQuery().next()){
                     signedUser = true;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                request.getRequestDispatcher("404.jsp").forward(request, response);
             }
         }
         ResultSet rs = null;
@@ -59,9 +78,9 @@ public class Profile extends HttpServlet {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            request.getRequestDispatcher("404.jsp").forward(request, response);
+            request.getRequestDispatcher("/404.jsp").forward(request, response);
         }
-        u.userid = user_id;
+        u.userid = profileUID;
         u.fillDetails(connection);
         request.setAttribute("Profile_user", u);
         request.setAttribute("signedUser", signedUser);

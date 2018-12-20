@@ -151,7 +151,7 @@
                                 <%for (product p : products) {%>
                                 <div class="col-md-6 col-lg-3 filtr-item nodec" data-category="2,3">        <%--start from this--%>
                                     <div class="cardparent">
-                                        <a href="product.jsp?product=<%=p.product_id%>" class="nodec">
+                                        <a href="<%=Const.root%>product/<%=p.product_id%>" class="nodec">
                                             <div>
                                                 <div class="card"><img
                                                         class="img-fluid card-img-top w-100 d-block rounded-0"
