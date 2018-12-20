@@ -2,71 +2,43 @@
 <%@ page import="Objects.Const" %>
 <%@ page import="Objects.comment" %>
 <%@ page import="Objects.product" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ page import="com.google.maps.GeoApiContext" %>
-<%@ page import="com.google.maps.DistanceMatrixApi" %>
-<%@ page import="com.google.maps.errors.ApiException" %>
-<%@ page import="com.google.maps.model.*" %>
-<%! private Connection connection;
-    //private GeoApiContext geoApi;
+<%! //private GeoApiContext geoApi;
 
-    @Override
+    /*@Override
     public void jspInit() {
-       /* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
+       *//* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
         if (geoApi == null){
             GeoApiContext.Builder builder = new GeoApiContext.Builder();
             geoApi = builder.apiKey(Const.Maps_APIKey).build();
             getServletConfig().getServletContext().setAttribute("geoApi", geoApi);
-        }*/
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
+        }*//*
+        connection = Objects.Const.openConnection();
+    }*/
+%>
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }%>
-
-<% String s = request.getParameter("product");
+<% /*String s = request.getParameter("product");
     boolean inRange = false;
     int productId = Integer.parseInt(s);
     product p = new product();
     p.product_id = productId;
     p.fillDetails(connection);
-    request.setAttribute("product", p);
-    String[] user_details = p.getLender(connection);
-    LocalDate[][] Dates = p.getBookedDates(connection);
+    request.setAttribute("product", p);*/
+    product p = (product) request.getAttribute("product");
+    String[] user_details = p.user_details;
+    LocalDate[][] Dates = p.Dates;
     /*0-username
     1-firstname
     2-lastname
     3-profilepic*/
-    int uid = 0;
-    Integer UID = (Integer) session.getAttribute("user");
-    if (UID != null)
-        uid = UID;
     if(p==null) {
         request.getRequestDispatcher("404.jsp").forward(request, response);
     }
     else{
         request.setAttribute("des", p.description);
         session.setAttribute("product", p.product_id);
-        comment[] comments = p.getCommentsNU(connection, uid);
-        comment c = p.getCommentU(connection, uid);
+        comment[] comments = p.NU;
+        comment c = p.U;
         int i = 0;
         /*try {
             DistanceMatrix matrix = DistanceMatrixApi.newRequest(geoApi).origins(new LatLng(4,6)).destinations(new LatLng(5,6)).await();
@@ -103,13 +75,6 @@
 
 <script>
     $(document).ready(function () {
-        $("#Contact").click(function () {
-            $.post("ChatWith",{
-                rec: "<%=user_details[0]%>"
-            });
-        });
-    });
-    $(document).ready(function () {
         $("#bookbtn").click(function () {
             $.post("request", {
                 product_id: <%=p.product_id%>,
@@ -134,37 +99,37 @@
                 </button>
             </div>
             <div class="modal-body">
-                <%--<div class="table-responsive">--%>
-                    <%--<table class="table">--%>
-                        <%--<tbody>--%>
-                        <%--<tr>--%>
-                            <%--<td>Start date:</td>--%>
-                            <%--<td id="frm"></td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td>End date:</td>--%>
-                            <%--<td id="too"></td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td>Deposit amount:</td>--%>
-                            <%--<td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td><%= p.price%>&times;<i id="day"></i> days<br></td>--%>
-                            <%--<td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>--%>
-                        <%--</tr>--%>
-                        <%--<tr>--%>
-                            <%--<td><strong>Total:</strong></td>--%>
-                            <%--<td><i class="fa fa-rupee"></i><strong id="total"></strong>/-</td>--%>
-                        <%--</tr>--%>
-                        <%--</tbody>--%>
-                    <%--</table>--%>
-                <%--</div>--%>
-                <h4>Arriving Shortly!!</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Start date:</td>
+                            <td id="frm"></td>
+                        </tr>
+                        <tr>
+                            <td>End date:</td>
+                            <td id="too"></td>
+                        </tr>
+                        <tr>
+                            <td>Deposit amount:</td>
+                            <td><i class="fa fa-rupee"></i><i id="depo"></i>/-</td>
+                        </tr>
+                        <tr>
+                            <td><%= p.price%>&times;<i id="day"></i> days<br></td>
+                            <td><i class="fa fa-rupee"></i><i id="prce"></i>/-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total:</strong></td>
+                            <td><i class="fa fa-rupee"></i><strong id="total"></strong>/-</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>Ariving Shortly!!</h4>
             </div>
             <div class="modal-footer">
-                <%--<button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>--%>
-                <%--<button class="btn btn-primary qbtn" type="button" id="bookbtn" disabled>Book</button>--%>
+                <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary qbtn" type="button" id="bookbtn" disabled>Book</button>
             </div>
         </div>
     </div>
@@ -227,7 +192,12 @@
                             style="background-color:#f8b645;width:100%;margin:5px 0px;" data-toggle="modal"
                             data-target="#book" id="showBook">Book
                     </button>
-                    <button class="btn btn-primary" type="button" id="Contact" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>
+                    <%--<button class="btn btn-primary" type="button" id="Contact" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>--%>
+                </form>
+                <form method="post" action="Chat">
+                    <input type="hidden" name="rec" value="<%=user_details[0]%>"/>
+                    <input type="submit" class="btn btn-primary"
+                           style="background-color:#f8b645;width:100%;margin:10px 0;" value="Contact"/>
                 </form>
             </div>
             <div class="col offset-lg-1">

@@ -2,7 +2,7 @@ package Servlet;
 
 import Objects.Const;
 import Objects.product;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,7 +41,7 @@ public final class Borrow extends HttpServlet {
                     .append(p.price).append(" Per Day</p>\n").append("</div>\n")
                     .append("</div>\n").append("</a>\n")
                     .append("<div class=\"d-flex card-foot\">\n")
-                    .append("<div class=\"click\" onclick=\"heartcng(this)\">\n")
+                    .append("<div class=\"click\" onclick=\"heartcng(this, ").append(p.product_id).append("\">\n")
                     .append("<span class=\"fa fa-heart");
             if (!p.favourite) sb.append("-o");
             sb.append("\"></span>\n").append("</div>\n").append("</div>\n").append("</div>\n").append("</div>");
@@ -50,6 +50,15 @@ public final class Borrow extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
         PrintWriter out = response.getWriter();
         String item = request.getParameter("item");
         String category = request.getParameter("category");
@@ -138,25 +147,12 @@ public final class Borrow extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

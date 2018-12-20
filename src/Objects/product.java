@@ -27,6 +27,10 @@ public final class product {
     Date availFrom;
     Date availTill;
     boolean status;
+    public String[] user_details;
+    public LocalDate[][] Dates;
+    public comment[] NU;
+    public comment U;
 
     //ToDo: add about status
     public void lend(@NotNull Connection connection, int user_id, String product_name, String category, String description, String region, String city, String price, String deposit, String availFrom, String availTill) {
@@ -81,7 +85,7 @@ public final class product {
     }
 
     public void setImg(@NotNull Connection connection, int tot_img) {
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         try {
             preparedStatement = connection.prepareStatement("update fohire.product set total_image = ? where fohire.product.product_id = ?");
             preparedStatement.setInt(1, tot_img);
@@ -92,8 +96,8 @@ public final class product {
         }
     }
 
-    public LocalDate[][] getBookedDates(@NotNull Connection connection) {
-        LocalDate Dates[][] = null;
+    public void getBookedDates(@NotNull Connection connection) {
+        LocalDate[][] Dates = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select booked_from, booked_till from Booking where product_id = ? and booked_till < ? order by booked_till desc");
             preparedStatement.setInt(1, product_id);
@@ -111,11 +115,11 @@ public final class product {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return Dates;
+        this.Dates = Dates;
     }
 
-    public String[] getLender(@NotNull Connection connection) {
-        String userDetails[] = null;
+    public void getLender(@NotNull Connection connection) {
+        String[] userDetails = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select user_name, first_name, last_name, profile_pic from fohire.users where user_id = ?");
             preparedStatement.setInt(1, user_id);
@@ -130,7 +134,7 @@ public final class product {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return userDetails;
+        this.user_details = userDetails;
     }
 
     public void fillDetails(@NotNull Connection connection) {
@@ -166,7 +170,7 @@ public final class product {
         }
     }
 
-    public comment[] getCommentsNU(@NotNull Connection connection, int user_id) {
+    public void getCommentsNU(@NotNull Connection connection, int user_id) {
         comment[] comments = new comment[0];
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id != ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -185,10 +189,10 @@ public final class product {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return comments;
+        NU = comments;
     }
 
-    public comment getCommentU(@NotNull Connection connection, int user_id) {
+    public void getCommentU(@NotNull Connection connection, int user_id) {
         comment comment = null;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id = ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -202,6 +206,6 @@ public final class product {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return comment;
+        U = comment;
     }
 }

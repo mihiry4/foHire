@@ -10,7 +10,7 @@
 <%@page import="Objects.Const" %>
 <%@ page import="java.net.URLEncoder" %>
 <%
-    String fbURL = "http://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
+    String fbURL = "https://www.facebook.com/dialog/oauth?client_id=" + Const.Fb_clientID + "&redirect_uri=" + URLEncoder.encode(Const.Redirect_URL) + "&scope=email";
 %>
 <style>
 
@@ -211,7 +211,12 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="login"><%--For login--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-
+            <div class="modal-header" style="background-color:#f8b645;">
+                <h4 class="modal-title">Login</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
+                    <i class="fa fa-close"></i></span>
+                </button>
+            </div>
             <div class="modal-body">
                 <div>
                     <label for="login_user">E-mail or Phone no:</label>

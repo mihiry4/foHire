@@ -1,8 +1,7 @@
 package Servlet;
 
-import Objects.Const;
 import Objects.user;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,18 +12,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 @WebServlet(name = "/login")
 public class login extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+    }
+
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
         String input = request.getParameter("login");
         String password = request.getParameter("password");
         user u = null;
-        if (input != null && password != null && ! input.equals("") && ! password.equals(""))
+        if (input != null && password != null && !input.equals("") && !password.equals("")) {
             u = new user();
+        } else {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Empty username or password");
+            return;
+        }
         try {
             u.login(connection, input, password);
         } catch (IllegalArgumentException e) {
@@ -42,29 +53,15 @@ public class login extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
         rd.forward(request, response);
     }
-
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

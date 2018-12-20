@@ -1,8 +1,7 @@
 package Servlet;
 
-import Objects.Const;
 import Objects.product;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,6 +25,17 @@ public class request extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            respond(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respond(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+        try {
             int user_id = (Integer) request.getSession().getAttribute("user");
             int product_id = Integer.parseInt(request.getParameter("product_id"));
             LocalDate fromDate = LocalDate.parse(request.getParameter("fromDate"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -34,7 +44,8 @@ public class request extends HttpServlet {
                 boolean flag = true;
                 product p = new product();
                 p.product_id = product_id;
-                LocalDate[][] Dates = p.getBookedDates(connection);
+                p.getBookedDates(connection);
+                LocalDate[][] Dates = p.Dates;
                 for (LocalDate[] Date : Dates) {
                     if (!(tillDate.isBefore(Date[0].minusDays(1)) || fromDate.isAfter(Date[1].plusDays(1)))) {
                         flag = false;
@@ -61,11 +72,9 @@ public class request extends HttpServlet {
                     preparedStatement.executeUpdate();
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             response.setStatus(400);
         }
-
-
     }
 
     @Override
@@ -77,25 +86,12 @@ public class request extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

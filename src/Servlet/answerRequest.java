@@ -1,7 +1,7 @@
 package Servlet;
 
 import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @WebServlet(name = "answerRequest")
 public class answerRequest extends HttpServlet {
@@ -28,7 +27,17 @@ public class answerRequest extends HttpServlet {
         out.close();
     }
 
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respond(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respond(request, response);
+        }
+    }
+
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
         int i = 0;
         try {
             int user_id = (Integer) request.getSession().getAttribute("user");
@@ -59,6 +68,8 @@ public class answerRequest extends HttpServlet {
                 preparedStatement.setInt(2, request_id);
                 preparedStatement.executeUpdate();
             }
+        } catch (ConnectionIsClosedException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -71,25 +82,12 @@ public class answerRequest extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }

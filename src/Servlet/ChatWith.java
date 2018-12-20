@@ -3,7 +3,7 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,22 +17,30 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "ChatWith")
 public class ChatWith extends HttpServlet {
     Connection connection;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respondPost(request, response);
+        } catch (ConnectionIsClosedException e) {
+            connection = Objects.Const.openConnection();
+            respondPost(request, response);
+        }
+
+    }
+
+    private void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
         Map<String, String> map = new HashMap<>();
         map.put("instanceLocator", Const.Pusher_instanceLocator);
         map.put("key", Const.Pusher_secret);
         ChatKit chatKit = null;
         try {
             chatKit = new ChatKit(map);
-            ApiResponse a = chatKit.getUserRooms("m");
-            int i = 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,23 +57,25 @@ public class ChatWith extends HttpServlet {
                     Sender = rs.getString(1);
                 }
                 assert chatKit != null;
-                ApiResponse a = chatKit.getUserRooms(Sender);
-                JSONArray rooms = a.getJSONArray("rooms");
+                ApiResponse A = chatKit.getUserRooms(Sender);
+                JSONObject a = new JSONObject(A.toString());
+                JSONArray rooms = a.getJSONArray("payload");
                 for (int i = 0; i < rooms.length(); i++) {
                     JSONObject room = rooms.getJSONObject(i);
                     JSONArray members = room.getJSONArray("member_user_ids");
                     if (members.getString(0).equals(receiver)||members.getString(1).equals(receiver)){
-                        request.setAttribute("room_open", room.getInt("id"));
-                        request.getRequestDispatcher("message.jsp").forward(request, response);
+                        response.sendRedirect("message.jsp?" + receiver);
                         return;
                     }
                 }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("private", true);
                 map1.put("user_ids",new String[]{Sender,receiver});
-                ApiResponse newRoom = chatKit.createRoom(Sender, map1);
-                request.setAttribute("room_open", newRoom.getInt("id"));
-                request.getRequestDispatcher("message.jsp").forward(request, response);
+                map1.put("name", Sender + "_" + receiver);
+                chatKit.createRoom(Sender, map1);
+                response.sendRedirect("message.jsp?" + receiver);
+            } catch (ConnectionIsClosedException e) {
+                throw e;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -80,25 +90,12 @@ public class ChatWith extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Objects.Const.closeConnection(connection);
     }
 
     @Override
     public void init() throws ServletException {
         super.init();
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Objects.Const.openConnection();
     }
 }
