@@ -19,7 +19,6 @@ public final class user {
     String profilePic;
     int numOfPost;
     boolean verifiedUser;
-    boolean TCverified;
     boolean emailVerified;
     boolean mobileVerified;
     public boolean showMobile;
@@ -95,21 +94,20 @@ public final class user {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();   //set pointer to first row
 
-            this.firstName = resultSet.getString(2);
-            this.lastName = resultSet.getString(3);
-            this.userName = resultSet.getString(4);
-            this.email = resultSet.getString(5);
-            this.mobile = resultSet.getString(6);
-            this.facebook_auth = resultSet.getString(8);
-            this.google_auth = resultSet.getString(9);
-            this.firstCreated = resultSet.getTimestamp(10);
-            this.lastActive = resultSet.getTimestamp(13);
-            this.profilePic = resultSet.getString(14);
-            this.numOfPost = resultSet.getInt(15);
-            this.emailVerified = resultSet.getBoolean(12);
-            this.mobileVerified = resultSet.getBoolean(11);
-            this.verifiedUser = resultSet.getBoolean(19);
-            this.TCverified = resultSet.getBoolean(18);
+            this.firstName = resultSet.getString("first_name");
+            this.lastName = resultSet.getString("last_name");
+            this.userName = resultSet.getString("user_name");
+            this.email = resultSet.getString("email_id");
+            this.mobile = resultSet.getString("mobile_number");
+            this.facebook_auth = resultSet.getString("facebook_auth");
+            this.google_auth = resultSet.getString("google_auth");
+            this.firstCreated = resultSet.getTimestamp("timestamp");
+            this.lastActive = resultSet.getTimestamp("last_active");
+            this.profilePic = resultSet.getString("profile_pic");
+            this.numOfPost = resultSet.getInt("number_of_post");
+            this.emailVerified = resultSet.getBoolean("email_verified");
+            this.mobileVerified = resultSet.getBoolean("mobile_verified");
+            this.verifiedUser = resultSet.getBoolean("verified_user");
 
         } catch (SQLException e) {
             e.printStackTrace();

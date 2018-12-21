@@ -1,5 +1,6 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.product;
 
 import javax.servlet.ServletException;
@@ -21,16 +22,25 @@ public class Product extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String s = request.getRequestURI();
         String[] arr = s.split("/");
-        String S = arr[3];
+        String S = arr[Const.value];
         if (S.equals("assets")) {
-            s = s.substring(15);
+            s = s.substring(Const.substr);
             request.getRequestDispatcher(s).forward(request, response);
             return;
         }
-        int productId = Integer.parseInt(S);
+        int productId;
+        try {
+            productId = Integer.parseInt(S);
+        } catch (NumberFormatException e) {
+            request.getRequestDispatcher("/404.jsp").forward(request, response);
+            return;
+        }
         product p = new product();
         p.product_id = productId;
-        p.fillDetails(connection);
+        if (!p.fillDetails(connection)) {
+            request.getRequestDispatcher("/404.jsp").forward(request, response);
+            return;
+        }
         p.getLender(connection);
         p.getBookedDates(connection);
         int uid = 0;

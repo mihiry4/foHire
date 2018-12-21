@@ -30,7 +30,7 @@ public final class Borrow extends HttpServlet {
             StringBuilder sb = new StringBuilder();
             sb.append("<div class=\"col-md-6 col-lg-3 filtr-item nodec\" data-category=\"2,3\">\n")
                     .append("<div class=\"cardparent\">\n")
-                    .append("<a href=\"product.jsp?product=").append(p.product_id).append("\" class=\"nodec\">\n").append("<div>\n")
+                    .append("<a href=\"").append(Const.root).append("product/").append(p.product_id).append("\" class=\"nodec\">\n").append("<div>\n")
                     .append("<div class=\"card\"><img class=\"img-fluid card-img-top w-100 d-block rounded-0\" src=\"")
                     .append(Const.S3URL).append("product/").append(p.product_id).append("_0").append("\"></div>\n").append("<div class=\"pricetag\">\n")
                     .append("<p style=\"margin-bottom:0;color:#f8b645;\"><strong>")

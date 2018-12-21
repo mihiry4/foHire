@@ -1,3 +1,4 @@
+<%@ page import="Objects.Const" %>
 <%@ page import="Objects.user" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
@@ -7,8 +8,7 @@
     boolean signedUser = (Boolean) request.getAttribute("signedUser");
     if (u == null || rs == null) {
         request.getRequestDispatcher("500.jsp").forward(request,response);
-    }
-    else{
+    } else{
 
 %>
 <jsp:include page="importLinks.jsp">
@@ -106,9 +106,12 @@
                                             while (rs.next()){%>
                                         <div class="col-md-6 col-lg-5 offset-lg-1 filtr-item nodec" data-category="2,3">
                                             <div style="position:relative;">
-                                                <a href="#" class="nodec">
+                                                <a href="<%=Const.root%>product/<%=rs.getInt(1)%>" class="nodec">
                                                     <div>
-                                                        <div class="card"><img class="img-fluid card-img-top w-100 d-block rounded-0" src=<%=rs.getString("image_1")%>></div>
+                                                        <div class="card"><img
+                                                                class="img-fluid card-img-top w-100 d-block rounded-0"
+                                                                src="<%=Const.S3URL+"product/"+rs.getInt(1)+"_0"%>">
+                                                        </div>
                                                         <div class="d-inline-block pricetag">
                                                             <p style="margin-bottom:0px;color:#f8b645;"><strong><%=rs.getString("product_name")%>&nbsp;·&nbsp;</strong><i class="icon ion-android-star-half"></i><strong><%=rs.getDouble("rating")%></strong><br></p>
                                                             <p style="margin-bottom:0px;font-size:22px;"><strong><%=rs.getString("city")%></strong></p>     <%--ToDo: region or city--%>

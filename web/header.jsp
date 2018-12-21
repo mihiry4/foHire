@@ -37,7 +37,7 @@
 
 <nav class="navbar navbar-light navbar-expand-md" data-aos="fade-up" data-aos-duration="550" data-aos-once="true" style="<% if(type.equals("index"))	{out.print("color:#212529;background-color:rgba(0,0,0,0.5); z-index:1000;");}	else{ out.print("color:#212529;background-color:#ffffff;border-bottom:1px gray solid;z-index:1000;");} %>">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.jsp" style="color:rgb(248,182,69);">
+        <a class="navbar-brand" href="<%=Const.root%>" style="color:rgb(248,182,69);">
             <div style="margin-top:5px;"><img src="assets/img/fohireTransparent.png" style="width:80px;"></div>
         </a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-2">
@@ -55,8 +55,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
                     <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
-                        <a class="dropdown-item" href="HowItWorks.jsp" style="color:#f8b645;">How it works?</a>
-                        <a class="dropdown-item" href="FAQs.jsp" style="color:#f8b645;">FAQs</a>
+                        <a class="dropdown-item" href="HowItWorks" style="color:#f8b645;">How it works?</a>
+                        <a class="dropdown-item" href="FAQs" style="color:#f8b645;">FAQs</a>
                     </div>
                 </li>
                 <%--if not logged in--%>
@@ -152,7 +152,7 @@
                         <a class="dropdown-item" href="favourites.jsp" style="color:#f8b645;">Favourites</a>
                         <a class="dropdown-item" href="myorders.jsp" style="color:#f8b645;">My orders</a>
                         <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Settings</a>
-                        <a class="dropdown-item" href="logout.jsp" style="color:#f8b645;">Logout</a>
+                        <a class="dropdown-item" href="<%=Const.root%>logout.jsp" style="color:#f8b645;">Logout</a>
                     </div>
                 </li>
                 <%} %>  <%--upto this--%>
@@ -170,8 +170,8 @@
                 password: $("#login_pass").val()
             }, function () {
                 location.reload(true);
-            }).fail(function () {
-                $("#incorrect").text("Invalid username or password");
+            }).fail(function (xhr, status, error) {
+                $("#incorrect").text(error)
             });
         });
         <%--$("#sup").click(function () {
