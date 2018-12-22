@@ -170,7 +170,7 @@
                                             </div>
                                         </a>
                                         <div class="d-flex card-foot">
-                                            <div class="click" onclick="heartcng(this, <%=p.product_id%>)">
+                                            <div class="click active" onclick="heartcng(this, <%=p.product_id%>)">
                                                 <span class="fa fa-heart<%if (!p.favourite){%>-o<%}%>"></span>
                                             </div>
                                         </div>
