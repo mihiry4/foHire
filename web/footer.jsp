@@ -61,8 +61,10 @@
                     <ul>
                         <li><a href="index.jsp">Home</a></li>
                         <li><a href="lend.jsp">Lend</a></li>
+                        <% if(session.getAttribute("user")==null){ %>
                         <li><a href="#" data-toggle="modal" data-target="#signup">Sign Up</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#login">Login</a></li>
+                        <%}%>
                     </ul>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2 col-lg-3">
@@ -121,7 +123,7 @@
                     <i class="fa fa-google-plus"></i></a>
                 <a href=" http://www.linkedin.com/shareArticle?url=[post-url]&amp;title=[post-title]" class="linkedin">
                     <i class="fa fa-linkedin"></i></a>
-                <a href="https://api.whatsapp.com/send?text=http://alpha.fohire.com" class="whatsapp">
+                <a href="https://api.whatsapp.com/send?text=www.fohire.com .Fohire helps you find out things you want to rent. Share this link and win upto ₹150 Fohire credits." class="whatsapp">
                     <i class="fa fa-whatsapp"></i></a>
             </div>
         </div>

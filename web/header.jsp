@@ -56,7 +56,7 @@
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
-                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
+                    <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:white;">
                         <a class="dropdown-item" href="<%=Const.root%>HowItWorks" style="color:#f8b645;">How it
                             works?</a>
                         <a class="dropdown-item" href="<%=Const.root%>FAQs" style="color:#f8b645;">FAQs</a>
@@ -216,14 +216,9 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="login"><%--For login--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color:#f8b645;">
-                <h4 class="modal-title">Login</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">
-                    <i class="fa fa-close"></i></span>
-                </button>
-            </div>
+
             <div class="modal-body">
-                <div>
+                <div style="font-weight: bold">
                     <label for="login_user">E-mail or Phone no:</label>
                     <input id="login_user" class="form-control" type="text" required="">
                     <label for="login_pass">Password:</label>
@@ -259,7 +254,7 @@
             <div class="modal-body">
                 <div>
                     <form method="post" action="<%=Const.root%>signup">
-                        <div id="fstpg">
+                        <div id="fstpg" style="font-weight: bold;">
                             <label for="username">Username:</label>
                             <input id="username" class="form-control" type="text" required="">
                             <label for="Firstname">Firstname:</label>

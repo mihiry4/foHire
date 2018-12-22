@@ -100,7 +100,7 @@
             <div class="row">
                 <div class="col">
                     <div>
-                        <h3>Explore fohire</h3>
+                        <h3>Explore Fohire</h3>
                     </div>
                 </div>
             </div>
@@ -162,10 +162,10 @@
                                                             class="icon ion-android-star-half"></i><strong><%=p.rating%>
                                                     </strong><br>
                                                     </p>
-                                                    <p style="margin-bottom:0;font-size:22px;">
+                                                    <p style="margin-bottom:0;font-size:22px;color:rgb(224,163,58);">
                                                         <strong><%=p.city%>
                                                         </strong></p>
-                                                    <p>&#8377; <%=p.price%> Per Day</p>
+                                                    <p style="color:rgb(163,120,45);font-weight: 600;">&#8377; <%=p.price%> Per Day</p>
                                                 </div>
                                             </div>
                                         </a>

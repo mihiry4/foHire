@@ -66,33 +66,64 @@
         tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
     });
 </script>
-<section>
-    <div class="container">
-        <div class="row no-gutters" id="chatlistmain">
+<%--<section>--%>
+    <%--<div class="container">--%>
+        <%--<div class="row no-gutters" id="">--%>
 
-        </div>
-    </div>
-</section>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</section>--%>
 <script id="chatlist" type="text/x-handlebars-template">
-    <div class="col-12 col-lg-8 offset-lg-2">
-        <a href="message.jsp?{{userid}}">
-            <div class="p-3">
-                <div class="float-left chatimgdiv"><img src="<%=Const.S3URL+"user/"%>{{userid}}" class="rounded-circle">
-                </div>
+    <%--<div class="col-12 col-lg-8 offset-lg-2">--%>
+        <%--<a href="message.jsp?{{userid}}">--%>
+            <%--<div class="p-3">--%>
+                <%--<div class="float-left chatimgdiv"><img src="<%=Const.S3URL+"user/"%>{{userid}}" class="rounded-circle">--%>
+                <%--</div>--%>
+                <%--<div class="d-inline-block p-2">--%>
+                    <%--<h5 class="fohireclr">{{username}}</h5>--%>
+                    <%--<div>--%>
+                        <%--<p class="msg">{{message}}</p>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="float-right" style="margin:5px;"><i class="typcn typcn-media-record fohireclr"></i></div>--%>
+                <%--<div class="float-right" style="clear:both;">--%>
+                    <%--<p style="font-size:13px;">{{time}}</p>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</a>--%>
+    <%--</div>--%>
+    <li style="background-color: white;">
+        <a href="message.jsp?{{userid}}" >
+            <div class="p-2 chatpeople">
+                <div class="float-left chatimgdiv"><img src="<%=Const.S3URL+"user/"%>{{userid}}" class="rounded-circle" /></div>
                 <div class="d-inline-block p-2">
                     <h5 class="fohireclr">{{username}}</h5>
                     <div>
-                        <p class="msg">{{message}}</p>
+                        <p class="fohireclr">{{message}}</p>
                     </div>
                 </div>
-                <div class="float-right" style="margin:5px;"><i class="typcn typcn-media-record fohireclr"></i></div>
                 <div class="float-right" style="clear:both;">
-                    <p style="font-size:13px;">{{time}}</p>
+                    <p class="black" style="font-size:13px;">{{time}}</p>
                 </div>
             </div>
         </a>
-    </div>
+    </li>
 </script>
+<section style="margin-top: 15px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div style="background: #f8b645;">
+                    <ul class="list-unstyled" id="chatlistmain">
+                        <li style="color: white;font-size: 24px;padding: 10px;"><strong>Messages</strong></li>
+
+                        <%--<li class="nonot"><strong>No notifications</strong></li>--%>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="yes"/>
 </jsp:include>
