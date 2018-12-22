@@ -17,6 +17,7 @@
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="nonindex"/>
 </jsp:include>
+
 <section style="margin-top:3%;">
     <div class="container">
         <div class="row">
@@ -95,7 +96,7 @@
                 <div>
                     <ul class="nav nav-tabs nav-fill">
                         <li class="nav-item"><a class="nav-link active fohireclr" role="tab" data-toggle="tab" href="#tab-1">Products by <%=u.firstName%></a></li>
-                        <li class="nav-item"><a class="nav-link fohireclr" role="tab" data-toggle="tab" href="#tab-2">Reviews by Firstname</a></li>     <%--ToDo: remove reviews--%>
+                             <%--ToDo: remove reviews--%>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" role="tabpanel" id="tab-1">
@@ -130,68 +131,72 @@
                                 </div>
                             </section>
                         </div>
-                        <div class="tab-pane" role="tabpanel" id="tab-2">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-5 filtr-item" data-category="2,3">
-                                    <div class="card border-dark"><img class="img-fluid card-img-top w-100 d-block rounded-0" src="assets/img/back1.jpg"></div>
-                                    <div class="pricetag">
-                                        <p style="margin-bottom:0px;color:#f8b645;"><strong>Product name&nbsp;·&nbsp;</strong><i class="icon ion-android-star-half"></i><strong>4.5</strong><br></p>
-                                        <p style="margin-bottom:0px;font-size:22px;"><strong>Ahmedabad</strong></p>
-                                        <p>Rs.100000 Per Day</p>
-                                    </div>
-                                </div>
-                                <div class="col align-self-center">
-                                    <div class="media" style="overflow:visible;">
-                                        <div><img src="assets/img/user-photo4.jpg" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>
-                                        <div class="media-body" style="overflow:visible;">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-12">
-                                                    <p style="margin-bottom:0px;"><a href="#">Brennan Prill:</a> This guy has been going 100+ MPH on side streets. <br>
-                                                        <small class="text-muted">August 6, 2016&nbsp;</small></p>
-                                                </div>
-                                            </div>
-                                            <div class="row no-gutters">
-                                                <div class="col-md-12">
-                                                    <p><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 col-lg-5 filtr-item" data-category="2,3">
-                                    <div class="card border-dark"><img class="img-fluid card-img-top w-100 d-block rounded-0" src="assets/img/back1.jpg"></div>
-                                    <div class="pricetag">
-                                        <p style="margin-bottom:0px;color:#f8b645;"><strong>Product name&nbsp;·&nbsp;</strong><i class="icon ion-android-star-half"></i><strong>4.5</strong><br></p>
-                                        <p style="margin-bottom:0px;font-size:22px;"><strong>Ahmedabad</strong></p>
-                                        <p>Rs.100000 Per Day</p>
-                                    </div>
-                                </div>
-                                <div class="col align-self-center">
-                                    <div class="media" style="overflow:visible;">
-                                        <div><img src="assets/img/user-photo4.jpg" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>
-                                        <div class="media-body" style="overflow:visible;">
-                                            <div class="row no-gutters">
-                                                <div class="col-md-12">
-                                                    <p style="margin-bottom:0px;"><a href="#">Brennan Prill:</a> This guy has been going 100+ MPH on side streets. <br>
-                                                        <small class="text-muted">August 6, 2016&nbsp;</small></p>
-                                                </div>
-                                            </div>
-                                            <div class="row no-gutters">
-                                                <div class="col-md-12">
-                                                    <p><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <%--<div class="tab-pane" role="tabpanel" id="tab-2">--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-6 col-lg-5 filtr-item" data-category="2,3">--%>
+                                    <%--<div class="card border-dark"><img class="img-fluid card-img-top w-100 d-block rounded-0" src="assets/img/back1.jpg"></div>--%>
+                                    <%--<div class="pricetag">--%>
+                                        <%--<p style="margin-bottom:0px;color:#f8b645;"><strong>Product name&nbsp;·&nbsp;</strong><i class="icon ion-android-star-half"></i><strong>4.5</strong><br></p>--%>
+                                        <%--<p style="margin-bottom:0px;font-size:22px;"><strong>Ahmedabad</strong></p>--%>
+                                        <%--<p>Rs.100000 Per Day</p>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="col align-self-center">--%>
+                                    <%--<div class="media" style="overflow:visible;">--%>
+                                        <%--<div><img src="assets/img/user-photo4.jpg" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>--%>
+                                        <%--<div class="media-body" style="overflow:visible;">--%>
+                                            <%--<div class="row no-gutters">--%>
+                                                <%--<div class="col-md-12">--%>
+                                                    <%--<p style="margin-bottom:0px;"><a href="#">Brennan Prill:</a> This guy has been going 100+ MPH on side streets. <br>--%>
+                                                        <%--<small class="text-muted">August 6, 2016&nbsp;</small></p>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                            <%--<div class="row no-gutters">--%>
+                                                <%--<div class="col-md-12">--%>
+                                                    <%--<p><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="row">--%>
+                                <%--<div class="col-md-6 col-lg-5 filtr-item" data-category="2,3">--%>
+                                    <%--<div class="card border-dark"><img class="img-fluid card-img-top w-100 d-block rounded-0" src="assets/img/back1.jpg"></div>--%>
+                                    <%--<div class="pricetag">--%>
+                                        <%--<p style="margin-bottom:0px;color:#f8b645;"><strong>Product name&nbsp;·&nbsp;</strong><i class="icon ion-android-star-half"></i><strong>4.5</strong><br></p>--%>
+                                        <%--<p style="margin-bottom:0px;font-size:22px;"><strong>Ahmedabad</strong></p>--%>
+                                        <%--<p>Rs.100000 Per Day</p>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="col align-self-center">--%>
+                                    <%--<div class="media" style="overflow:visible;">--%>
+                                        <%--<div><img src="assets/img/user-photo4.jpg" class="mr-3" style="width: 50px; height:50px;border-radius:50%;"></div>--%>
+                                        <%--<div class="media-body" style="overflow:visible;">--%>
+                                            <%--<div class="row no-gutters">--%>
+                                                <%--<div class="col-md-12">--%>
+                                                    <%--<p style="margin-bottom:0px;"><a href="#">Brennan Prill:</a> This guy has been going 100+ MPH on side streets. <br>--%>
+                                                        <%--<small class="text-muted">August 6, 2016&nbsp;</small></p>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                            <%--<div class="row no-gutters">--%>
+                                                <%--<div class="col-md-12">--%>
+                                                    <%--<p><i class="fa fa-star" style="color:#f8b645;"></i>4.5</p>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
 <%}%>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="no"/>
+</jsp:include>
