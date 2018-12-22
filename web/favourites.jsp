@@ -35,7 +35,7 @@
         }
     }%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
+<% int i = 0;
     int user_id = (Integer) session.getAttribute("user");
     user u = new user();
     u.userid = user_id;
@@ -55,7 +55,11 @@
     </div>
 </div>
 <div class="row filtr-container">
-    <%for (product p : favs) {%>
+    <%
+        for (product p : favs) {
+            if (p.status) {
+                i++;
+    %>
     <div class="col-md-6 col-lg-3 filtr-item nodec" data-category="2,3">        <%--start from this--%>
         <div class="cardparent">
             <a href="Product/<%=p.product_id%>" class="nodec">
@@ -83,8 +87,11 @@
             </div>
         </div>
     </div>
-    <%}%>      <%--Upto this--%>
-    <%if (favs.length == 0) {%>
+    <%
+            }
+        }
+    %>      <%--Upto this--%>
+    <%if (i == 0) {%>
     <div class="row" style="margin-top:10%;">
         <div class="col-lg-12 offset-lg-0">
             <h5 class="text-center facebook" style="color:#595959;">Your wishlist is empty.</h5>

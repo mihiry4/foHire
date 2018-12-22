@@ -2,6 +2,7 @@ package Objects;
 
 import com.sun.istack.internal.NotNull;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.sql.*;
 
@@ -43,7 +44,7 @@ public final class user {
         return true;
     }
 
-    public String getUserName(@NotNull Connection connection) {
+    /*public String getUserName(@NotNull Connection connection) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_id = ?");
             preparedStatement.setInt(1, userid);
@@ -54,36 +55,23 @@ public final class user {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
-    public void login(@NotNull Connection connection, String input, String password) throws IllegalArgumentException {    //for login purpose
+    public static String hashpass(@NotNull String base) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where (email_id = ? OR user_name = ? OR mobile_number = ?) and password = ?");
-            preparedStatement.setString(1, input);
-            preparedStatement.setString(2, input);
-            preparedStatement.setString(3, input);
-            preparedStatement.setString(4, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                this.userid = resultSet.getInt(1);
-            } else {
-                throw new IllegalArgumentException("Entered invalid credentials");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte aHash : hash) {
+                String hex = Integer.toHexString(0xff & aHash);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
             }
-        } catch (SQLException se) {
-            se.printStackTrace();
-        }
-    }
 
-    void fillProduct(@NotNull Connection connection) {
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT first_name, profile_pic from users where user_id= ?");
-            preparedStatement.setInt(1, userid);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            this.firstName = resultSet.getString(1);
-            this.profilePic = resultSet.getString(2);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 
@@ -262,19 +250,6 @@ public final class user {
         return null;
     }*/
 
-    public void deleteUser(@NotNull Connection connection) {        //ToDo: delete flag true
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into deleted_users select * from users where user_id=?");
-            preparedStatement.setInt(1, userid);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("delete from users where user_id=?");
-            preparedStatement.setInt(1, userid);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public int getProfileCompletion() {
         int i = 0;
         if (facebook_auth != null) i++;
@@ -286,21 +261,24 @@ public final class user {
         return i;
     }
 
-    public static String hashpass(@NotNull String base) {
+    public void login(@NotNull Connection connection, String input, String password) throws IllegalArgumentException {    //for login purpose
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            StringBuffer hexString = new StringBuffer();
-
-            for (byte aHash : hash) {
-                String hex = Integer.toHexString(0xff & aHash);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where (email_id = ? OR user_name = ? OR mobile_number = ?) and password = ?");
+            preparedStatement.setString(1, input);
+            preparedStatement.setString(2, input);
+            preparedStatement.setString(3, input);
+            preparedStatement.setString(4, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                this.userid = resultSet.getInt(1);
+                preparedStatement = connection.prepareStatement("update users set deactivated = 0 where user_id = ?");
+                preparedStatement.setInt(1, this.userid);
+                preparedStatement.executeUpdate();
+            } else {
+                throw new IllegalArgumentException("Entered invalid credentials");
             }
-
-            return hexString.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException se) {
+            se.printStackTrace();
         }
     }
 

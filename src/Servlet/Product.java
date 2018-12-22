@@ -32,13 +32,13 @@ public class Product extends HttpServlet {
         try {
             productId = Integer.parseInt(S);
         } catch (NumberFormatException e) {
-            request.getRequestDispatcher("/404.jsp").forward(request, response);
+            request.getRequestDispatcher(Const.root + "404.jsp").forward(request, response);
             return;
         }
         product p = new product();
         p.product_id = productId;
         if (!p.fillDetails(connection)) {
-            request.getRequestDispatcher("/404.jsp").forward(request, response);
+            request.getRequestDispatcher(Const.root + "404.jsp").forward(request, response);
             return;
         }
         p.getLender(connection);
@@ -50,7 +50,7 @@ public class Product extends HttpServlet {
         p.getCommentsNU(connection, uid);
         p.getCommentU(connection, uid);
         request.setAttribute("product", p);
-        request.getRequestDispatcher("/product.jsp").forward(request, response);
+        request.getRequestDispatcher(Const.root + "product.jsp").forward(request, response);
     }
 
     @Override

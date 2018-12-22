@@ -1,5 +1,6 @@
 package Servlet;
 
+import Objects.Const;
 import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
@@ -27,7 +28,7 @@ public class Deactivate extends HttpServlet {
     }
 
     protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
-        int user_id = (int) request.getSession().getAttribute("user");
+        int user_id = (Integer) request.getSession().getAttribute("user");
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivated = 1 where user_id = ?");
             preparedStatement.setInt(1, user_id);
@@ -35,15 +36,15 @@ public class Deactivate extends HttpServlet {
             preparedStatement = connection.prepareStatement("update product set status = 0 where user_id = ?");
             preparedStatement.setInt(1, user_id);
             preparedStatement.executeUpdate();
-            request.getSession().setAttribute("user", null);
-            response.sendRedirect("/");
+            request.getSession().invalidate();
+            response.sendRedirect(Const.root);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
         rd.forward(request, response);
     }
 

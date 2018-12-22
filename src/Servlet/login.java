@@ -1,5 +1,6 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.user;
 import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
@@ -29,7 +30,7 @@ public class login extends HttpServlet {
     protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
         String input = request.getParameter("login");
         String password = request.getParameter("password");
-        user u = null;
+        user u;
         if (input != null && password != null && !input.equals("") && !password.equals("")) {
             u = new user();
         } else {
@@ -50,7 +51,7 @@ public class login extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
         rd.forward(request, response);
     }
     @Override

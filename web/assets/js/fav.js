@@ -5,7 +5,7 @@ var span= $(elm).find('span');
 	if ($(span).hasClass("fa-heart")) {
 			$(elm).removeClass('active');
 			$(elm).removeClass('active-3');
-        $.post("favourites", {
+        $.post("favourite", {
             pid: pid,
             action: "delete"
         });
@@ -15,7 +15,7 @@ var span= $(elm).find('span');
 		}, 15)
 	} else {
 		$(elm).addClass('active');
-        $.post("favourites", {
+        $.post("favourite", {
             pid: pid,
             action: "add"
         });

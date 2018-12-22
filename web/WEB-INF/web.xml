@@ -50,6 +50,10 @@
         <servlet-class>Servlet.favourites</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>MyFavourites</servlet-name>
+        <jsp-file>favourites.jsp</jsp-file>
+    </servlet>
+    <servlet>
         <servlet-name>product</servlet-name>
         <servlet-class>Servlet.Product</servlet-class>
     </servlet>
@@ -61,6 +65,30 @@
         <servlet-name>FAQs</servlet-name>
         <jsp-file>FAQs.jsp</jsp-file>
     </servlet>
+    <servlet>
+        <servlet-name>Lend</servlet-name>
+        <jsp-file>lend.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>Settings</servlet-name>
+        <jsp-file>setting.jsp</jsp-file>
+    </servlet>
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>Servlet.logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Settings</servlet-name>
+        <url-pattern>/Settings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Lend</servlet-name>
+        <url-pattern>/Lend</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FAQs</servlet-name>
         <url-pattern>/FAQs</url-pattern>
@@ -106,8 +134,12 @@
         <url-pattern>/Chat</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>favourites</servlet-name>
+        <servlet-name>MyFavourites</servlet-name>
         <url-pattern>/favourites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>favourites</servlet-name>
+        <url-pattern>/favourite</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>product</servlet-name>
@@ -117,11 +149,10 @@
         <servlet-name>HIW</servlet-name>
         <url-pattern>/HowItWorks</url-pattern>
     </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
-
     <error-page>
         <error-code>404</error-code>
         <location>/404.jsp</location>

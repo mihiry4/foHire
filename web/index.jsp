@@ -49,7 +49,7 @@
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             user_id = (Integer) request.getSession().getAttribute("user");
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (favorites.user_id = ? or favorites.user_id is null) order by upload_time desc limit 6", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (favorites.user_id = ? or favorites.user_id is null) and status = true order by upload_time desc limit 6", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         preparedStatement.setInt(1, user_id);
         ResultSet rs = preparedStatement.executeQuery();
         rs.last();

@@ -50,13 +50,16 @@
             </form>
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" <% if (session == null || session.getAttribute("user") == null) {%>  data-toggle="modal" data-target="#login" href="#"<%} else { %> href="lend.jsp" <% } %> style="color:rgb(248,182,69);">Lend</a>
+                    <a class="nav-link" <% if (session == null || session.getAttribute("user") == null) {%>
+                       data-toggle="modal" data-target="#login" href="#"<%} else { %> href="<%=Const.root%>Lend" <% } %>
+                       style="color:rgb(248,182,69);">Lend</a>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#" style="color:#f8b645;">Help</a>
                     <div class="dropdown-menu dropdown-menu-right" role="menu" style="background-color:rgba(0,0,0,0.5);">
-                        <a class="dropdown-item" href="HowItWorks" style="color:#f8b645;">How it works?</a>
-                        <a class="dropdown-item" href="FAQs" style="color:#f8b645;">FAQs</a>
+                        <a class="dropdown-item" href="<%=Const.root%>HowItWorks" style="color:#f8b645;">How it
+                            works?</a>
+                        <a class="dropdown-item" href="<%=Const.root%>FAQs" style="color:#f8b645;">FAQs</a>
                     </div>
                 </li>
                 <%--if not logged in--%>
@@ -143,16 +146,18 @@
                                 <hr style="margin:2px;" />
                             </div>
                         </a>
-                        <a class="dropdown-item" href="profile.jsp" style="color:#f8b645;">Edit Profile</a>
-                        <a class="dropdown-item" href="conversations.jsp" style="color:#f8b645;position: relative;">Messages
+                        <a class="dropdown-item" href="<%=Const.root%>profile" style="color:#f8b645;">Edit Profile</a>
+                        <a class="dropdown-item" href="<%=Const.root%>conversations.jsp"
+                           style="color:#f8b645;position: relative;">Messages
                             <div id="indic" style="height:10px;width:10px;position:absolute;border-radius:50%;top:5px;right:5px;">
 
                             </div>
                         </a>
-                        <a class="dropdown-item" href="favourites.jsp" style="color:#f8b645;">Favourites</a>
-                        <a class="dropdown-item" href="myorders.jsp" style="color:#f8b645;">My orders</a>
-                        <a class="dropdown-item" href="setting.jsp" style="color:#f8b645;">Account Settings</a>
-                        <a class="dropdown-item" href="<%=Const.root%>logout.jsp" style="color:#f8b645;">Logout</a>
+                        <a class="dropdown-item" href="<%=Const.root%>favourites" style="color:#f8b645;">Favourites</a>
+                        <%--<a class="dropdown-item" href="<%=Const.root%>myorders.jsp" style="color:#f8b645;">My orders</a>--%>
+                        <a class="dropdown-item" href="<%=Const.root%>Settings" style="color:#f8b645;">Account
+                            Settings</a>
+                        <a class="dropdown-item" href="<%=Const.root%>logout" style="color:#f8b645;">Logout</a>
                     </div>
                 </li>
                 <%} %>  <%--upto this--%>
@@ -165,7 +170,7 @@
 <script>
     $(document).ready(function () {
         $("#log").click(function () {
-            $.post("login", {
+            $.post("<%=Const.root%>login", {
                 login: $("#login_user").val(),
                 password: $("#login_pass").val()
             }, function () {
@@ -188,7 +193,7 @@
             });
         });--%>
         $("#nextbtn").click(function () {
-            $.post("signup", {
+            $.post("<%=Const.root%>signup", {
                 mobileNumber: $("#Mobilenumber").val(),
                 type: "o"
             });
@@ -196,7 +201,7 @@
     });
 
     function onSignIn(googleUser) {
-        $.post("signup", {
+        $.post("<%=Const.root%>signup", {
             id_token: googleUser.getAuthResponse().id_token
         }, function () {
             if (flag) {
@@ -253,7 +258,7 @@
 
             <div class="modal-body">
                 <div>
-                    <form method="post" action="signup">
+                    <form method="post" action="<%=Const.root%>signup">
                         <div id="fstpg">
                             <label for="username">Username:</label>
                             <input id="username" class="form-control" type="text" required="">

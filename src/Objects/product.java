@@ -26,7 +26,7 @@ public final class product {
     public int deposit;
     Date availFrom;
     Date availTill;
-    boolean status;
+    public boolean status;
     public String[] user_details;
     public LocalDate[][] Dates;
     public comment[] NU;
@@ -137,37 +137,37 @@ public final class product {
         this.user_details = userDetails;
     }
 
-    public boolean fillDetails(@NotNull Connection connection) {
+    public boolean fillDetails(@NotNull Connection connection) {        //Returns whether product is available or not
         boolean ans = false;
         try {
 
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from fohire.product where product_id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from fohire.product where product_id = ? and status = true");
             preparedStatement.setInt(1, product_id);
             ResultSet rs = preparedStatement.executeQuery();
             ans = rs.next();
             if (ans) {
-            user_id = rs.getInt("user_id");
-            product_name = rs.getString("product_name");
-            int cat = rs.getInt("category");
-            description = rs.getString("description");
-            region = rs.getString("region");
-            city = rs.getString("city");
-            img = rs.getInt("total_image");
-            rating = rs.getDouble("rating");
-            favourites = rs.getInt("favourites");
-            price = rs.getInt("price");
-            deposit = rs.getInt("deposit");
-            availFrom = rs.getDate("available_from");
-            availTill = rs.getDate("available_till");
-            status = rs.getBoolean("status");
-            switch (cat) {
-                case 1:
-                    category = "Books";
-                    break;
-                case 2:
-                    category = "Blu-ray and console games";
-                    break;
-            }
+                user_id = rs.getInt("user_id");
+                product_name = rs.getString("product_name");
+                int cat = rs.getInt("category");
+                description = rs.getString("description");
+                region = rs.getString("region");
+                city = rs.getString("city");
+                img = rs.getInt("total_image");
+                rating = rs.getDouble("rating");
+                favourites = rs.getInt("favourites");
+                price = rs.getInt("price");
+                deposit = rs.getInt("deposit");
+                availFrom = rs.getDate("available_from");
+                availTill = rs.getDate("available_till");
+                status = rs.getBoolean("status");
+                switch (cat) {
+                    case 1:
+                        category = "Books";
+                        break;
+                    case 2:
+                        category = "Blu-ray and console games";
+                        break;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -178,10 +178,9 @@ public final class product {
     public void getCommentsNU(@NotNull Connection connection, int user_id) {
         comment[] comments = new comment[0];
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id != ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id != ? and deleted = false", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             preparedStatement.setInt(2, user_id);
-            preparedStatement.setBoolean(3, false);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.last();
             int row = resultSet.getRow();
@@ -200,10 +199,9 @@ public final class product {
     public void getCommentU(@NotNull Connection connection, int user_id) {
         comment comment = null;
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id = ? and deleted = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id = ? and deleted = false", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             preparedStatement.setInt(1, this.product_id);
             preparedStatement.setInt(2, user_id);
-            preparedStatement.setBoolean(3, false);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 comment = new comment(resultSet.getDouble(1), resultSet.getString(2), resultSet.getTimestamp(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6));

@@ -78,7 +78,7 @@ public final class Borrow extends HttpServlet {
                     if (item == null || item.equals("")) {
                         response.setStatus(404);
                     } else {
-                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ?) and (favorites.user_id = ? or favorites.user_id is null ) order by product.upload_time desc");
+                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
                         preparedStatement.setString(1, "%" + item + "%");
                         preparedStatement.setInt(2, user_id);
                         ResultSet rs = preparedStatement.executeQuery();
@@ -92,7 +92,7 @@ public final class Borrow extends HttpServlet {
                     if (category == null || category.equals("")) {
                         response.setStatus(404);
                     } else {
-                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (category = ?) and (favorites.user_id = ? or favorites.user_id is null ) order by product.upload_time desc");
+                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (category = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
                         preparedStatement.setInt(1, Integer.parseInt(category));
                         preparedStatement.setInt(2, user_id);
                         ResultSet rs = preparedStatement.executeQuery();
@@ -124,7 +124,7 @@ public final class Borrow extends HttpServlet {
                             Sort = "product.upload_time desc, product.rating desc";
                             break;
                     }
-                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) order by " + Sort);
+                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by " + Sort);
                     preparedStatement.setString(1, "%" + item + "%");
                     preparedStatement.setInt(2, Integer.parseInt(category));
                     preparedStatement.setString(3, city);
@@ -140,7 +140,7 @@ public final class Borrow extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
         rd.forward(request, response);
     }
 
