@@ -75,7 +75,7 @@
                 <div class="col-sm-6 col-md-2 col-lg-3">
                     <h5>Support</h5>
                     <ul>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="FAQs.jsp">FAQ</a></li>
                         <li><a href="contact_us.jsp">Contact us</a></li>
                     </ul>
                 </div>
