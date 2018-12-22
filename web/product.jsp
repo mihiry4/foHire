@@ -3,28 +3,21 @@
 <%@ page import="Objects.comment" %>
 <%@ page import="Objects.product" %>
 <%@ page import="java.time.LocalDate" %>
-<%! //private GeoApiContext geoApi;
+<%--<%! private GeoApiContext geoApi;
 
-    /*@Override
+    @Override
     public void jspInit() {
-       *//* geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
+        geoApi = (GeoApiContext) getServletConfig().getServletContext().getAttribute("geoApi");
         if (geoApi == null){
             GeoApiContext.Builder builder = new GeoApiContext.Builder();
             geoApi = builder.apiKey(Const.Maps_APIKey).build();
             getServletConfig().getServletContext().setAttribute("geoApi", geoApi);
-        }*//*
+        }
         connection = Objects.Const.openConnection();
-    }*/
-%>
+    }
+%>--%>
 
-<% /*String s = request.getParameter("product");
-    boolean inRange = false;
-    int productId = Integer.parseInt(s);
-    product p = new product();
-    p.product_id = productId;
-    p.fillDetails(connection);
-    request.setAttribute("product", p);*/
-    product p = (product) request.getAttribute("product");
+<% product p = (product) request.getAttribute("product");
     String[] user_details = p.user_details;
     LocalDate[][] Dates = p.Dates;
     /*0-username
@@ -32,7 +25,7 @@
     2-lastname
     3-profilepic*/
     if(p==null) {
-        request.getRequestDispatcher("404.jsp").forward(request, response);
+        request.getRequestDispatcher("/404.jsp").forward(request, response);
     }
     else{
         request.setAttribute("des", p.description);

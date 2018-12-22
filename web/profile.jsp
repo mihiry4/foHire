@@ -117,7 +117,12 @@
                                                             <p style="margin-bottom:0px;font-size:22px;"><strong><%=rs.getString("city")%></strong></p>     <%--ToDo: region or city--%>
                                                             <p>Rs.<%=rs.getInt("price")%> Per Day</p>
                                                         </div>
-                                                        <%if (signedUser){%><div class="d-inline-block float-right pricetag"><a href="#a"><i class="fa fa-trash fohireclr" style="font-size:19px;"></i></a></div><%}%>
+                                                        <%if (signedUser) {%>
+                                                        <div class="d-inline-block float-right pricetag"><a
+                                                                href="<%=Const.root%>DeleteProduct"><i
+                                                                class="fa fa-trash fohireclr"
+                                                                style="font-size:19px;"></i></a></div>
+                                                        <%}%>
                                                     </div>
                                                 </a>
                                             </div>
@@ -194,4 +199,7 @@
         </div>
     </div>
 </section>
+<jsp:include page="footer.jsp">
+    <jsp:param name="chatkit" value="no"/>
+</jsp:include>
 <%}%>

@@ -44,6 +44,7 @@ public class UpdatePayment extends HttpServlet {
                         preparedStatement.setString(2, IFSC);
                         preparedStatement.setInt(3, uid);
                         preparedStatement.executeUpdate();
+                        response.setStatus(HttpServletResponse.SC_OK);
                     }
                 } catch (NumberFormatException e) {
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "Valid Account number and IFSC required");
@@ -63,6 +64,7 @@ public class UpdatePayment extends HttpServlet {
                         preparedStatement.setString(1, UPI);
                         preparedStatement.setInt(2, uid);
                         preparedStatement.executeUpdate();
+                        response.setStatus(HttpServletResponse.SC_OK);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -80,7 +82,7 @@ public class UpdatePayment extends HttpServlet {
                         preparedStatement.setInt(1, wallet);
                         preparedStatement.setInt(2, uid);
                         preparedStatement.executeUpdate();
-
+                        response.setStatus(HttpServletResponse.SC_OK);
                     }
                 } catch (NumberFormatException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect mobile number format");

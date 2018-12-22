@@ -90,7 +90,7 @@ public class Profile extends HttpServlet {
         }
         ResultSet rs;
         try {
-            PreparedStatement ps = connection.prepareStatement("select p.* from users natural join product as p where user_name = ? and status = 1");
+            PreparedStatement ps = connection.prepareStatement("select p.* from users natural join product as p where user_name = ? and status = true");
             ps.setString(1, u.userName);
             rs = ps.executeQuery();
 
