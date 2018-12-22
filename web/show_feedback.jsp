@@ -21,6 +21,7 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>E-mail</th>
                     <th>Feedback</th>
@@ -28,6 +29,7 @@
                 </thead>
                 <tbody>
                 <tr>
+                    <td>1</td>
                     <td>Abc</td>
                     <td>askdj@kaskld</td>
                     <td>asjdbasdbabaskjdajsd</td>
