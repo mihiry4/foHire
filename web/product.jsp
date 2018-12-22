@@ -118,7 +118,7 @@
                         </tbody>
                     </table>
                 </div>
-                <h4>Ariving Shortly!!</h4>
+                <h4>Arriving Shortly!!</h4>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
@@ -166,7 +166,7 @@
         <div class="row" style="padding:25px 0px;">
             <div class="col-lg-3">
                 <h2 class="d-inline-block">&#8377;<br></h2>
-                <h2 class="d-inline-block"><%=p.price%><br></h2>
+                <h2 class="d-inline-block" id="price"><%=p.price%><br></h2>
                 <h6 class="d-inline-block">&nbsp;Per<br></h6>
                 <h6 class="d-inline-block">day<br></h6>
                 <h5><i class="fa fa-star" style="color:#f8b645;"></i>&nbsp;<%=p.rating%><br></h5>
@@ -205,23 +205,23 @@
 
                 <h5 class="text-center" style="color:#adadad;"><%=user_details[1]%> <%=user_details[2]%>
                 </h5>
-                <h2><%=p.product_name%>
+                <h2 class="pt-2"><%=p.product_name%>
                 </h2>
-                <h6><%=p.category%>
+                <h6 class="pt-2"><%=p.category%>
                 </h6>
-                <h4 style="color:#adadad;"><%=p.region%>
+                <h4 class="pt-2" style="color:#adadad;"><%=p.region%>
                 </h4>
-                <div>
+                <div class="pt-2">
                     <h6><c:out value="${des}" escapeXml="true"/></h6> <%--for escaping html tags--%>
                     <hr>
                 </div>
-                <div>
+                <div class="pt-2">
                     <ul class="list-unstyled">
                         <li><strong>Deposit amount</strong>:<strong> &#8377;&nbsp;</strong><span><%=p.deposit%></span></li>
                         <%--<li><strong>Late charges</strong> (charged per day):<strong> &#8377;&nbsp;</strong><span><%=p.late%></span></li>--%>
                     </ul>
                 </div>
-                <div>
+                <div class="pt-2">
                     <h6></h6>
                     <hr>
                 </div>
@@ -230,11 +230,11 @@
                     <p style="color:#adadad;">Strict policy – Free cancellation within 48 hours<%=p.policy%><br></p>
                     <hr>
                 </div>--%>
-                <div>
+                <div class="pt-2">
                     <div id="map" width="100%" style="border:0; height:200px"></div>
                 </div>
                 <hr>
-                <div>
+                <div class="pt-2">
                     <div class="d-inline">
                         <h3 class="d-inline"><%=comments.length%> Reviews</h3>
                     </div>

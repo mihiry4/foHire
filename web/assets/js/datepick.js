@@ -51,12 +51,14 @@ $("#input_to").change(function () {
     $("#bookbtn").attr("disabled", false);
     let startDay = new Date(from_picker.get("select").year, from_picker.get("select").month, from_picker.get("select").date);
     let endDay = new Date(to_picker.get("select").year, to_picker.get("select").month, to_picker.get("select").date);
-    var days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000);
+    window.days = Math.floor((endDay.getTime() - startDay.getTime()) / 86400000);
+    window.price=parseInt($("#price").text());
+    //console.log(price);
     $("#day").html(days);
 });
 $("#showBook").click(function () {
     $("#depo").html(deposit);
-    $("#prce").html(price * days);
+    $("#prce").html(window.price * window.days);
     $("#day").html(days);
-    $("#total").html(price * days + deposit);
+    $("#total").html(window.price * window.days + deposit);
 });

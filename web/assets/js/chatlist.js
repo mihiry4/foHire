@@ -1,8 +1,13 @@
 chatManager.connect().then(currentUser => {
     let sequence = Promise.resolve();
+
     currentUser.rooms.forEach(function (room) {
         const roomID = room.id;
         let user1, username;
+        $("#chatlistmain").append("<li class='nonot'><strong>No notifications</strong></li>");
+
+
+
         if (currentUser.id !== room.users[0].id){
             user1 = room.users[0].id;
             username = room.users[0].name;
@@ -23,9 +28,13 @@ chatManager.connect().then(currentUser => {
                 const t = messages[0].createdAt;
                 data.message = m;
                 data.time = t;
+
                 const template = $('#chatlist').html();
                 const templateScript = Handlebars.compile(template);
                 $('#chatlistmain').append(templateScript(data));
+                if(true){
+                }
+
             }).catch(err => {
                 console.log(`Error fetching messages: ${err}`)
             });
