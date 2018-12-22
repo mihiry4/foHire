@@ -60,6 +60,7 @@
                     <h5>Get started</h5>
                     <ul>
                         <li><a href="index.jsp">Home</a></li>
+                        <li><a href="lend.jsp">Lend</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#signup">Sign Up</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#login">Login</a></li>
                     </ul>
@@ -67,7 +68,7 @@
                 <div class="col-12 col-sm-6 col-md-2 col-lg-3">
                     <h5>Fohire</h5>
                     <ul>
-                        <li><a href="#">About Us</a></li>
+
                         <li><a href="terms.jsp">Terms of Service</a></li>
                         <li><a href="privacy_policy.jsp">Privacy Policy</a></li>
                     </ul>
@@ -75,8 +76,9 @@
                 <div class="col-sm-6 col-md-2 col-lg-3">
                     <h5>Support</h5>
                     <ul>
-                        <li><a href="FAQs.jsp">FAQ</a></li>
+                        <li><a href="<%=Const.root%>FAQs">FAQs</a></li>
                         <li><a href="contact_us.jsp">Contact us</a></li>
+                        <li><a href="<%=Const.root%>HowItWorks">How it works</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3 col-lg-3 social-networks"><a href="#" class="facebook"><i

@@ -13,6 +13,7 @@
         <div class="container">
             <div class="row" style="margin-top:50px;">
                 <div class="col editform" style="border:1px rgba(203,183,183,0.56) solid;border-radius:5px;">
+                    <div id="editpro">
                     <form>
                         <div>
                             <h3 class="text-center">Edit Profile</h3>
@@ -57,6 +58,7 @@
                             </div>
                         </div>
                     </form>
+                    </div>
                 </div>
                 <div class="col-lg-3">
                     <ul class="list-unstyled lmenu">
