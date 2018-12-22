@@ -83,10 +83,13 @@
                         <li><a href="<%=Const.root%>HowItWorks">How it works</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 col-lg-3 social-networks"><a href="#" class="facebook"><i
-                        class="fa fa-facebook"></i></a><a href="#" class="twitter"><i class="fa fa-twitter"></i></a><a
-                        href="#" class="google"><i class="fa fa-google-plus"></i></a><a href="#" class="linkedin"><i
-                        class="fa fa-linkedin"></i></a>
+                <div class="col-md-3 col-lg-3 social-networks">
+                    <%--<a href="#" class="facebook"><i--%>
+                        <%--class="fa fa-facebook"></i></a>--%>
+                    <%--<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>--%>
+                    <%--<a href="#" class="google"><i class="fa fa-google-plus"></i></a>--%>
+                    <%--<a href="#" class="linkedin"><i--%>
+                        <%--class="fa fa-linkedin"></i></a>--%>
                     <div>
                         <p style="color: #030303;margin-bottom: 0;margin-top: 16px;">Coming soon on</p><a href="#"
                                                                                                           class="gplay"><i
