@@ -94,7 +94,7 @@
         <h5 class="text-center" style="color:#f8b645;">Lend&nbsp;<a class="text-light" <% if (session == null || session.getAttribute("user") == null) {%>  data-toggle="modal" data-target="#login" href="#"<%} else { %> href="lend.jsp" <% } %> >here.</a></h5>
     </div>
 </section>
-<section style="background-color:#fffdfd;padding-top:60px;padding-bottom:60px;">
+<section style="background-color:#ffffff;padding-top:60px;padding-bottom:60px;">
     <div>
         <div class="container">
             <div class="row">
