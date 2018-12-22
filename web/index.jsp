@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row places">
+            <div class="row places mt-4">
                 <div class="col-lg-4">
                     <a href="borrow.jsp?category=1&type=category" class="catblocka">
                         <div class="catblock">
