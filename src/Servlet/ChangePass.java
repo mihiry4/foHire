@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,7 +31,7 @@ public class ChangePass extends HttpServlet {
         }
     }
 
-    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int user_id = (int) request.getSession().getAttribute("user");
         String Opasswd = request.getParameter("old_pass");
         String Npasswd = request.getParameter("new_pass");
@@ -47,11 +46,12 @@ public class ChangePass extends HttpServlet {
                 preparedStatement.setString(1, user.hashpass(Npasswd));
                 preparedStatement.setInt(2, user_id);
                 preparedStatement.executeUpdate();
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Current password is incorrect.");
             }
-            PrintWriter out = response.getWriter();
-            out.print("Your password has been successfully updated");
         } else {
-            request.getRequestDispatcher("404.jsp").forward(request, response);
+            response.sendError(HttpServletResponse.SC_EXPECTATION_FAILED, "Password and confirm password must be same.");
         }
     }
 

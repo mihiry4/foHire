@@ -49,15 +49,6 @@
                                                 <td><input class="form-control" type="text"></td>
                                             </tr>
                                             <tr>
-                                                <td><label>Gender</label></td>
-                                                <td><select class="form-control" required="">
-                                                    <option value="" selected="">Select</option>
-                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
-                                                    <option value="other">Other</option>
-                                                </select></td>
-                                            </tr>
-                                            <tr>
                                                 <td>E-mail</td>
                                                 <td><input class="form-control" type="text">
                                                     <button class="btn btn-primary qbtn" type="button">Send verification link</button>
@@ -119,7 +110,7 @@
                         </div>
                     </div>
                     <div class="d-none" id="security">
-                        <form>
+                        <form action="">
                             <div>
                                 <h3 class="text-center">Change your password</h3>
                                 <div>
@@ -192,7 +183,9 @@
                             <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i></div>
                         </div>
                         <div class="address p-3">
-                            <div class="float-left"><input type="radio" name="a"></div>
+                            <div class="float-left"><label>
+                                <input type="radio" name="a">
+                            </label></div>
                             <div class="float-left" style="margin-left: 10px;">
                                 <h6>AAAA</h6>
                                 <h6>Address</h6>
@@ -210,14 +203,10 @@
                 <div class="col-lg-3">
                     <ul class="list-unstyled lmenu">
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_editpro">Edit Profile</a></li>
-                        <%--<li class="d-none"><a href="verification.html" class="sidenav" style="padding:10px;">Verification</a></li>--%>
-                        <%--<li><a href="adresses.html" class="sidenav" style="padding:10px;">My addresses</a></li>--%>
-                        <%--<li><a href="notification.jsp" class="sidenav" style="padding:10px;">Notifications</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_payment_op">Payment options</a></li>
                         <%--<li><a href="#" class="sidenav" style="padding:10px;" id="show_addresses">Addresses</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_security">Security</a></li>
-                        <%--<li class="d-none"><a href="reviews.html" class="sidenav" style="padding:10px;">Reviews</a></li>--%>
-                        <li><a href="#" class="sidenav" style="padding:10px;" id="show_settings">Settings</a>
+                        <li><a href="#" class="sidenav" style="padding:10px;" id="show_settings">Deactivate</a>
                         </li>
                     </ul>
                 </div>

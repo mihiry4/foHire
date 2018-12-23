@@ -20,7 +20,7 @@ import java.sql.SQLException;
 public final class Borrow extends HttpServlet {
     private Connection connection;
 
-    private void printProduct(ResultSet rs, PrintWriter out) throws SQLException {
+    private void printProduct(ResultSet rs, PrintWriter out, boolean logged) throws SQLException {
         while (rs.next()) {
             product p = new product();
             p.product_id = rs.getInt(1);
@@ -40,8 +40,13 @@ public final class Borrow extends HttpServlet {
                     .append(p.price).append(" Per Day</p>\n").append("</div>\n")
                     .append("</div>\n").append("</a>\n")
                     .append("<div class=\"d-flex card-foot\">\n")
-                    .append("<div class=\"click\" onclick=\"heartcng(this, ").append(p.product_id).append("\">\n")
-                    .append("<span class=\"fa fa-heart");
+                    .append("<div class=\"click active\"");
+            if (logged) {
+                sb.append("onclick=\"heartcng(this, ").append(p.product_id).append(")\">\n");
+            } else {
+                sb.append("data-target=\"#login\" data-toggle=\"modal\">");
+            }
+            sb.append("<span class=\"fa fa-heart");
             if (!p.favourite) sb.append("-o");
             sb.append("\"></span>\n").append("</div>\n").append("</div>\n").append("</div>\n").append("</div>");
             out.print(sb);
@@ -74,7 +79,7 @@ public final class Borrow extends HttpServlet {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             user_id = (Integer) request.getSession().getAttribute("user");
         }
-
+        boolean logged = user_id != 0;
         if (type != null) {
             if (type.equals("item")) {
                 if (item == null || item.equals("")) {
@@ -84,7 +89,7 @@ public final class Borrow extends HttpServlet {
                     preparedStatement.setString(1, "%" + item + "%");
                     preparedStatement.setInt(2, user_id);
                     ResultSet rs = preparedStatement.executeQuery();
-                    printProduct(rs, out);
+                    printProduct(rs, out, logged);
                 }
             } else if (type.equals("category")) {
                 if (category == null || category.equals("")) {
@@ -94,7 +99,7 @@ public final class Borrow extends HttpServlet {
                     preparedStatement.setInt(1, Integer.parseInt(category));
                     preparedStatement.setInt(2, user_id);
                     ResultSet rs = preparedStatement.executeQuery();
-                    printProduct(rs, out);
+                    printProduct(rs, out, logged);
                 }
             }
         } else {
@@ -124,7 +129,7 @@ public final class Borrow extends HttpServlet {
                 preparedStatement.setString(3, city);
                 preparedStatement.setInt(4, user_id);
                 ResultSet rs = preparedStatement.executeQuery();
-                printProduct(rs, out);
+                printProduct(rs, out, logged);
             }
         }
         out.close();

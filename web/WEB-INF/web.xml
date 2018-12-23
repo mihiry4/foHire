@@ -93,6 +93,14 @@
         <servlet-name>home</servlet-name>
         <servlet-class>Servlet.Home</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>changePass</servlet-name>
+        <servlet-class>Servlet.ChangePass</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changePass</servlet-name>
+        <url-pattern>/changePass</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
         <url-pattern>/home</url-pattern>
