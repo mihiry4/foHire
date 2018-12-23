@@ -170,7 +170,8 @@
                                             </div>
                                         </a>
                                         <div class="d-flex card-foot">
-                                            <div class="click active" onclick="heartcng(this, <%=p.product_id%>)">
+                                            <div class="click active"  <% if(session.getAttribute("user")!=null){ %> onclick="heartcng(this, <%=p.product_id%>)" <%} else
+                                                {%> data-target="#login" data-toggle="modal" <%}%>  >
                                                 <span class="fa fa-heart<%if (!p.favourite){%>-o<%}%>"></span>
                                             </div>
                                         </div>
