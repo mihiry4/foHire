@@ -69,9 +69,11 @@
     </div>
 </section>
 <section style="background-color:#ffffff;">
+
     <section class="py-5">
         <div class="container">
             <div id="results" class="row filtr-container">
+                <div class="loader spin" id="spinner"></div>
                 <p id="fail"></p>
                 <%--<div class="col-md-6 col-lg-3 filtr-item" data-category="2,3">
                     <div class="card border-dark">
@@ -157,6 +159,12 @@
         </div>
     </section>
 </section>
+<script>
+    $(window).on('load', function (){
+        $("#spinner").removeClass('spin');
+        $("#spinner").removeClass('loader');
+    });
+</script>
 <jsp:include page="footer.jsp">
     <jsp:param name="chatkit" value="no"/>
 </jsp:include>

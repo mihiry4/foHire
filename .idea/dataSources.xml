@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="fohire@localhost" uuid="093a6798-1d3d-4fe7-b6db-a4c7ab4c8a22">
+    <data-source source="LOCAL" name="foHire@localhost" uuid="e52d9480-478b-4ed9-a415-905ba532c791">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/fohire</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/foHire</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />
