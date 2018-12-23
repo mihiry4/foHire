@@ -8,9 +8,18 @@ $(document).ready(function(){
     });
 
     $("#nextbtn").click(function(){
+        var num=$("#phone_number").val();
+        var filter = /^[0-9]+$/;
 
-        $("#fstpg").addClass("d-none");
-        $("#secpg").removeClass("d-none");
+        if (filter.test(num) && num.length===10){
+            $("#fstpg").addClass("d-none");
+            $("#secpg").removeClass("d-none");
+        }
+        else{
+            $("#non_phone").removeClass("d-none");
+        }
+
+
 
     });
     $("#prvbtn").click(function(){
