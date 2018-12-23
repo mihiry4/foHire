@@ -44,9 +44,10 @@
             <span><i class="fa fa-navicon hamb"></i></span>
         </button>
         <div class="collapse navbar-collapse menu" id="navcol-2">
-            <form class="form-inline <% if(type.equals("index")){%>d-none<%}else{%>d-inline-block<%}%> mr-auto searchbar" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;" action="borrow">       <%--ToDo:Borrow page for top search bar--%>
+            <form class="form-inline <% if(type.equals("index")){%>d-none<%}else{%>d-inline-block<%}%> mr-auto searchbar" method="post" target="_self" style="box-shadow:2px 2px 5px rgb(58,58,58);width:50%;" action="borrow.jsp">       <%--ToDo:Borrow page for top search bar--%>
                 <div class="form-group" style="margin-bottom:0px;padding:5px;"><label for="search-field">
-                    <i class="fa fa-search" style="color:rgb(200,159,12);font-size:18px;"></i></label><input class="form-control form-control-sm search-field" type="search" name="search" placeholder="Search" autocomplete="on" id="search-field"></div>
+                    <i class="fa fa-search" style="color:rgb(200,159,12);font-size:18px;"></i></label><input class="form-control form-control-sm search-field" type="search" name="item" placeholder="Search" autocomplete="on" id="search-field">
+                    <input type="hidden" name="type" value="item"></div>
             </form>
             <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item" role="presentation">
