@@ -34,7 +34,7 @@
                     <h5>Support</h5>
                     <ul>
                         <li><a href="<%=Const.root%>FAQs">FAQs</a></li>
-                        <li><a href="contact_us.jsp">Contact us</a></li>
+                        <li><a <% if(session.getAttribute("user")==null){ %>  data-toggle="modal" data-target="#login" href="#" <%} else {%>  href="contact_us.jsp" <%}%>>Contact us</a></li>
                         <li><a href="<%=Const.root%>HowItWorks">How it works</a></li>
                     </ul>
                 </div>
