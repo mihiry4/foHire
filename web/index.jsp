@@ -1,6 +1,5 @@
 <%@ page import="Objects.Const" %>
 <%@ page import="Objects.product" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
@@ -22,25 +21,12 @@
 
     @Override
     public void jspInit() {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Const.openConnection();
     }
 
     @Override
     public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Const.closeConnection(connection);
     }
 %>
 <% product[] products = new product[0];
@@ -67,6 +53,9 @@
         e.printStackTrace();
     }
 %>
+<%if (request.getAttribute("LendSuccess") != null && (Boolean) request.getAttribute("LendSuccess")) {%>
+
+<%}%>
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
     <div class="tline" style="margin-top:0;padding-top:10%;">
         <h1 class="text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>

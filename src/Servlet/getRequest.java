@@ -1,6 +1,5 @@
 package Servlet;
 
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,43 +24,33 @@ public class getRequest extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         JSONArray array = new JSONArray();
-        try {
-            int user_id = (Integer) request.getSession().getAttribute("user");
-            PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requestee=users.user_id) where (Requester = ? and Pending = ? and Accepted = ?)");
-            preparedStatement.setInt(1, user_id);
-            preparedStatement.setBoolean(2, false);
-            preparedStatement.setBoolean(3, true);
-            ResultSet rs = preparedStatement.executeQuery();
-            putObj(array, rs, true);
-            preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requester=users.user_id) where (Requestee = ? and Pending = ?)");
-            preparedStatement.setInt(1, user_id);
-            preparedStatement.setBoolean(2, true);
-            rs = preparedStatement.executeQuery();
-            putObj(array, rs, false);
-            /*array = new JSONArray();
-            JSONObject object = new JSONObject();
-            object.put("from", "df");
-            object.put("till", "sdfh");
-            object.put("price", "hgjsaj");
-            object.put("deposit", "5678");
-            object.put("amount", "avgsjk");
-            array.put(object);*/
-            PrintWriter out = response.getWriter();
-            out.print(array);
-            out.close();
-        } catch (ConnectionIsClosedException e) {
-            throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int user_id = (Integer) request.getSession().getAttribute("user");
+        PreparedStatement preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requestee=users.user_id) where (Requester = ? and Pending = ? and Accepted = ?)");
+        preparedStatement.setInt(1, user_id);
+        preparedStatement.setBoolean(2, false);
+        preparedStatement.setBoolean(3, true);
+        ResultSet rs = preparedStatement.executeQuery();
+        putObj(array, rs, true);
+        preparedStatement = connection.prepareStatement("select Booked_From, Booked_Till, price, deposit, Amount, first_name, user_name, Time, product_name, Request_id, PG_id, last_name from (Request inner join product using (product_id)) inner join users on (Requester=users.user_id) where (Requestee = ? and Pending = ?)");
+        preparedStatement.setInt(1, user_id);
+        preparedStatement.setBoolean(2, true);
+        rs = preparedStatement.executeQuery();
+        putObj(array, rs, false);
+        PrintWriter out = response.getWriter();
+        out.print(array);
+        out.close();
     }
 
     private void putObj(JSONArray array, ResultSet rs, boolean pay) throws SQLException {
@@ -87,7 +76,7 @@ public class getRequest extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

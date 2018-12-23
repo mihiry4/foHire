@@ -22,6 +22,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 //Handle exceptional request still remaining
@@ -31,7 +32,7 @@ public class signup extends HttpServlet {
     private Connection connection;
     private HashMap<String, Integer> map = new HashMap<>();
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
         String id_token = request.getParameter("id_token");
         if (id_token != null) {
@@ -52,6 +53,8 @@ public class signup extends HttpServlet {
                 } else {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Cannot sign in");
                 }
+            } catch (SQLException e) {
+                throw e;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -124,7 +127,7 @@ public class signup extends HttpServlet {
                     dataStreamFromUrl.close();
                     System.out.println("Response: " + dataFromUrl);
                 }
-            } catch (ConnectionIsClosedException e) {
+            } catch (SQLException e) {
                 throw e;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,23 +139,31 @@ public class signup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+            respondGet(request, response);
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondGet(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    private void respondGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void respondGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String Fb_token = request.getParameter("code");
         if (Fb_token != null) {
             String token = null;
@@ -211,7 +222,7 @@ public class signup extends HttpServlet {
                 // an error occurred, handle this
             }
         } else {
-            RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
             rd.forward(request, response);
         }
     }

@@ -2,7 +2,6 @@ package Servlet;
 
 import Objects.Const;
 import Objects.product;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,13 +51,17 @@ public final class Borrow extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         PrintWriter out = response.getWriter();
         String item = request.getParameter("item");
         String category = request.getParameter("category");
@@ -74,66 +77,54 @@ public final class Borrow extends HttpServlet {
 
         if (type != null) {
             if (type.equals("item")) {
-                try {
-                    if (item == null || item.equals("")) {
-                        response.setStatus(404);
-                    } else {
-                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
-                        preparedStatement.setString(1, "%" + item + "%");
-                        preparedStatement.setInt(2, user_id);
-                        ResultSet rs = preparedStatement.executeQuery();
-                        printProduct(rs, out);
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (item == null || item.equals("")) {
+                    response.setStatus(404);
+                } else {
+                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
+                    preparedStatement.setString(1, "%" + item + "%");
+                    preparedStatement.setInt(2, user_id);
+                    ResultSet rs = preparedStatement.executeQuery();
+                    printProduct(rs, out);
                 }
             } else if (type.equals("category")) {
-                try {
-                    if (category == null || category.equals("")) {
-                        response.setStatus(404);
-                    } else {
-                        PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (category = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
-                        preparedStatement.setInt(1, Integer.parseInt(category));
-                        preparedStatement.setInt(2, user_id);
-                        ResultSet rs = preparedStatement.executeQuery();
-                        printProduct(rs, out);
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                if (category == null || category.equals("")) {
+                    response.setStatus(404);
+                } else {
+                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (category = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by product.upload_time desc");
+                    preparedStatement.setInt(1, Integer.parseInt(category));
+                    preparedStatement.setInt(2, user_id);
+                    ResultSet rs = preparedStatement.executeQuery();
+                    printProduct(rs, out);
                 }
             }
         } else {
             if (item == null || category == null || city == null || item.equals("") || category.equals("") || city.equals("")) {
                 response.setStatus(404);
             } else {
-                try {
-                    int s = Integer.parseInt(sort);
-                    String Sort;
-                    switch (s) {
-                        case 0:
-                            Sort = "price asc, product.upload_time desc";
-                            break;
-                        case 1:
-                            Sort = "price desc, product.upload_time desc";
-                            break;
-                        case 3:
-                            Sort = "product.rating desc, product.upload_time desc";
-                            break;
-                        case 2:
-                        default:
-                            Sort = "product.upload_time desc, product.rating desc";
-                            break;
-                    }
-                    PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by " + Sort);
-                    preparedStatement.setString(1, "%" + item + "%");
-                    preparedStatement.setInt(2, Integer.parseInt(category));
-                    preparedStatement.setString(3, city);
-                    preparedStatement.setInt(4, user_id);
-                    ResultSet rs = preparedStatement.executeQuery();
-                    printProduct(rs, out);
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                int s = Integer.parseInt(sort);
+                String Sort;
+                switch (s) {
+                    case 0:
+                        Sort = "price asc, product.upload_time desc";
+                        break;
+                    case 1:
+                        Sort = "price desc, product.upload_time desc";
+                        break;
+                    case 3:
+                        Sort = "product.rating desc, product.upload_time desc";
+                        break;
+                    case 2:
+                    default:
+                        Sort = "product.upload_time desc, product.rating desc";
+                        break;
                 }
+                PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (product_name like ? and category = ? and city = ?) and (favorites.user_id = ? or favorites.user_id is null ) and status = true order by " + Sort);
+                preparedStatement.setString(1, "%" + item + "%");
+                preparedStatement.setInt(2, Integer.parseInt(category));
+                preparedStatement.setString(3, city);
+                preparedStatement.setInt(4, user_id);
+                ResultSet rs = preparedStatement.executeQuery();
+                printProduct(rs, out);
             }
         }
         out.close();

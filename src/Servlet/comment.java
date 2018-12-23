@@ -1,7 +1,5 @@
 package Servlet;
 
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,13 +19,17 @@ public class comment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         int user = (Integer) session.getAttribute("user");
         int product = (Integer) session.getAttribute("product");
@@ -35,27 +37,23 @@ public class comment extends HttpServlet {
             String r = request.getParameter("rating");
             String review = request.getParameter("review");
             double rating = Double.parseDouble(r);
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("update fohire.reviews set deleted = true where product_id = ? and user_id = ?");
-                preparedStatement.setInt(1, product);
-                preparedStatement.setInt(2, user);
-                preparedStatement.executeUpdate();
-                preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
-                preparedStatement.setInt(1, product);
-                preparedStatement.setInt(2, user);
-                preparedStatement.setDouble(3, rating);
-                preparedStatement.setString(4, review);
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            PreparedStatement preparedStatement = connection.prepareStatement("update fohire.reviews set deleted = true where product_id = ? and user_id = ?");
+            preparedStatement.setInt(1, product);
+            preparedStatement.setInt(2, user);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("insert into reviews (product_id, user_id, rating, review) values (?,?,?,?)");
+            preparedStatement.setInt(1, product);
+            preparedStatement.setInt(2, user);
+            preparedStatement.setDouble(3, rating);
+            preparedStatement.setString(4, review);
+            preparedStatement.executeUpdate();
         }
         response.setHeader("REFRESH", "0");
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

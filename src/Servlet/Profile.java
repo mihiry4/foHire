@@ -25,7 +25,7 @@ public class Profile extends HttpServlet {
         out.close();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int profileUID;
         int user_id = 0;
         boolean signedUser = false;
@@ -36,16 +36,14 @@ public class Profile extends HttpServlet {
         String[] arr = s.split("/");
         if (arr.length == Const.value) {
             if (user_id != 0) {
-                try {
-                    PreparedStatement ps = connection.prepareStatement("select user_name from users where user_id = ?");
-                    ps.setInt(1, user_id);
-                    ResultSet rs = ps.executeQuery();
-                    rs.next();
-                    response.sendRedirect(Const.root + "profile/" + rs.getString(1));
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+
+                PreparedStatement ps = connection.prepareStatement("select user_name from users where user_id = ?");
+                ps.setInt(1, user_id);
+                ResultSet rs = ps.executeQuery();
+                rs.next();
+                response.sendRedirect(Const.root + "profile/" + rs.getString(1));
+                ps.close();
+
             } else {
                 response.sendRedirect(Const.root);
             }
@@ -58,53 +56,54 @@ public class Profile extends HttpServlet {
             return;
         }
 
-        try {
-            PreparedStatement ps = connection.prepareStatement("select user_id from users where user_name = ? and deactivated = 0");
-            ps.setString(1, S);
-            ResultSet r = ps.executeQuery();
-            if (r.next()) {
-                profileUID = r.getInt(1);
-            } else {
-                request.getRequestDispatcher("/404.jsp").forward(request, response);
-                return;
-            }
-            ps.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        user u = new user();
-        u.userName = S;
-        if (user_id!=0){
-            try {
-                PreparedStatement ps = connection.prepareStatement("select user_id from users where user_id = ? and user_name = ?");
-                ps.setInt(1, user_id);
-                ps.setString(2, u.userName);
-                if(ps.executeQuery().next()){
-                    signedUser = true;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        ResultSet rs;
-        try {
-            PreparedStatement ps = connection.prepareStatement("select p.* from users natural join product as p where user_name = ? and status = true");
-            ps.setString(1, u.userName);
-            rs = ps.executeQuery();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        PreparedStatement ps = connection.prepareStatement("select user_id from users where user_name = ? and deactivated = 0");
+        ps.setString(1, S);
+        ResultSet r = ps.executeQuery();
+        if (r.next()) {
+            profileUID = r.getInt(1);
+        } else {
             request.getRequestDispatcher("/404.jsp").forward(request, response);
             return;
         }
+        ps.close();
+
+
+        user u = new user();
+        u.userName = S;
+        if (user_id != 0) {
+
+            ps = connection.prepareStatement("select user_id from users where user_id = ? and user_name = ?");
+            ps.setInt(1, user_id);
+            ps.setString(2, u.userName);
+            if (ps.executeQuery().next()) {
+                signedUser = true;
+            }
+
+        }
+        ResultSet rs;
+        ps = connection.prepareStatement("select p.* from users natural join product as p where user_name = ? and status = true");
+        ps.setString(1, u.userName);
+        rs = ps.executeQuery();
+
         u.userid = profileUID;
         u.fillDetails(connection);
         request.setAttribute("Profile_user", u);
         request.setAttribute("signedUser", signedUser);
         request.setAttribute("products", rs);
         request.getRequestDispatcher("/profile.jsp").forward(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respond(request, response);
+        } catch (SQLException e) {
+            connection = Objects.Const.openConnection();
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
+        }
     }
 
     @Override

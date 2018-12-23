@@ -187,11 +187,18 @@
                     </button>
                     <%--<button class="btn btn-primary" type="button" id="Contact" style="background-color:#f8b645;width:100%;margin:10px 0px;">Contact</button>--%>
                 </form>
-                <form method="post" action="Chat">
+                <%if (session.getAttribute("user") != null) {%>
+                <form method="post" action="<%=Const.root%>Chat">
                     <input type="hidden" name="rec" value="<%=user_details[0]%>"/>
                     <input type="submit" class="btn btn-primary"
                            style="background-color:#f8b645;width:100%;margin:10px 0;" value="Contact"/>
                 </form>
+                <%} else {%>
+                <button class="btn btn-primary" type="button"
+                        style="background-color:#f8b645;width:100%;margin:5px 0px;" data-toggle="modal"
+                        data-target="#login">Contact
+                </button>
+                <%}%>
             </div>
             <div class="col offset-lg-1">
                 <div class="profile-header-container">

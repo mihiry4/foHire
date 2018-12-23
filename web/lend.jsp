@@ -15,11 +15,14 @@
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="nonindex"/>
 </jsp:include>
+<%if (request.getAttribute("LendSuccess") != null && !(Boolean) request.getAttribute("LendSuccess")) {%>
+
+<%}%>
 <div class="container">
     <div class="row no-gutters justify-content-center">
         <div class="col-lg-8">
             <div class="lendform">
-                <form method="post" action="lend" enctype="multipart/form-data">
+                <form method="post" action="<%=Const.root%>lend" enctype="multipart/form-data">
                     <div id="fstpg1">
                         <fieldset>
                             <div class="table-responsive">

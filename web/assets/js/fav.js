@@ -27,33 +27,16 @@ var span= $(elm).find('span');
 	}
 }
 
-function deleteProduct(elm, pid) {
-    var span = $(elm).find('span');
+function deleteProduct(pid) {
 
-    if ($(span).hasClass("fa-heart")) {
-        $(elm).removeClass('active');
-        $(elm).removeClass('active-3');
-        $.post("favourite", {
-            pid: pid,
-            action: "delete"
-        });
-        setTimeout(function () {
-            $(span).removeClass('fa-heart');
-            $(span).addClass('fa-heart-o')
-        }, 15)
-    } else {
-        $(elm).addClass('active');
-        $.post("favourite", {
-            pid: pid,
-            action: "add"
-        });
-        setTimeout(function () {
-            $(span).addClass('fa-heart');
-            $(span).removeClass('fa-heart-o')
-        }, 150)
+    $.post("/foHire/DeleteProd", {
+        pid: pid
+    }, function () {
+        $("#" + pid).remove();
+    }).fail(function () {
+        //ToDo: error handle
+    });
 
-
-    }
 }
 
 function readURL(input) {

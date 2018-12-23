@@ -1,9 +1,8 @@
 <%@ page import="Objects.Const" %>
 <%@ page import="Objects.product" %>
 <%@ page import="Objects.user" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: manan
   Date: 24/10/18
@@ -14,25 +13,12 @@
 
     @Override
     public void jspInit() {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Const.openConnection();
     }
 
     @Override
     public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Const.closeConnection(connection);
     }%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% int i = 0;

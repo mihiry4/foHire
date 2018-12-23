@@ -104,7 +104,8 @@
                                     <div class="row filtr-container">
                                         <%try {
                                             while (rs.next()){%>
-                                        <div class="col-md-6 col-lg-5 offset-lg-1 filtr-item nodec" data-category="2,3">
+                                        <div class="col-md-6 col-lg-5 offset-lg-1 filtr-item nodec" data-category="2,3"
+                                             id="<%=rs.getInt(1)%>">
                                             <div style="position:relative;">
                                                 <a href="<%=Const.root%>product/<%=rs.getInt(1)%>" class="nodec">
                                                     <div>
@@ -117,14 +118,13 @@
                                                             <p style="margin-bottom:0px;font-size:22px;"><strong><%=rs.getString("city")%></strong></p>     <%--ToDo: region or city--%>
                                                             <p>Rs.<%=rs.getInt("price")%> Per Day</p>
                                                         </div>
-                                                        <%if (signedUser) {%>
-                                                        <div class="d-inline-block float-right pricetag"><a
-                                                                href="<%=Const.root%>DeleteProduct"><i
-                                                                class="fa fa-trash fohireclr"
-                                                                style="font-size:19px;"></i></a></div>
-                                                        <%}%>
                                                     </div>
                                                 </a>
+                                                <%if (signedUser) {%>
+                                                <div class="d-inline-block float-right pricetag"><i
+                                                        class="fa fa-trash fohireclr" style="font-size:19px;"
+                                                        onclick="deleteProduct(<%=rs.getInt(1)%>)"></i></div>
+                                                <%}%>
                                             </div>
                                         </div>
                                         <%}

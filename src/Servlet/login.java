@@ -1,8 +1,6 @@
 package Servlet;
 
-import Objects.Const;
 import Objects.user;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 @WebServlet(name = "/login")
 public class login extends HttpServlet {
@@ -21,13 +20,17 @@ public class login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         String input = request.getParameter("login");
         String password = request.getParameter("password");
         user u;
@@ -51,7 +54,7 @@ public class login extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
     @Override

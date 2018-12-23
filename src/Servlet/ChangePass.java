@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.user;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,31 +22,31 @@ public class ChangePass extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respond(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respond(request, response);
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int user_id = (int) request.getSession().getAttribute("user");
         String Opasswd = request.getParameter("old_pass");
         String Npasswd = request.getParameter("new_pass");
         String Cpasswd = request.getParameter("conf_pass");
         if (Npasswd.equals(Cpasswd)) {
-            try {
-                PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_id =? and password = ?");
-                preparedStatement.setInt(1, user_id);
-                preparedStatement.setString(2, user.hashpass(Opasswd));
-                ResultSet rs = preparedStatement.executeQuery();
-                if (rs.next()) {
-                    preparedStatement = connection.prepareStatement("update users set password = ? where user_id = ?");
-                    preparedStatement.setString(1, user.hashpass(Npasswd));
-                    preparedStatement.setInt(2, user_id);
-                    preparedStatement.executeUpdate();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_id =? and password = ?");
+            preparedStatement.setInt(1, user_id);
+            preparedStatement.setString(2, user.hashpass(Opasswd));
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                preparedStatement = connection.prepareStatement("update users set password = ? where user_id = ?");
+                preparedStatement.setString(1, user.hashpass(Npasswd));
+                preparedStatement.setInt(2, user_id);
+                preparedStatement.executeUpdate();
             }
             PrintWriter out = response.getWriter();
             out.print("Your password has been successfully updated");
@@ -57,7 +56,7 @@ public class ChangePass extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

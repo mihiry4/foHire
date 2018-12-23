@@ -1,9 +1,9 @@
 <%@ page import="Objects.Const" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 28-07-2018
@@ -14,25 +14,12 @@
 
     @Override
     public void jspInit() {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Const.openConnection();
     }
 
     @Override
     public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Const.closeConnection(connection);
     }%>
 <% String chatkit = request.getParameter("chatkit");
     int userid = 0;

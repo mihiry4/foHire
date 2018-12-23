@@ -1,10 +1,10 @@
 package Servlet;
 
+import Objects.Const;
 import Objects.product;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +30,17 @@ public class Lend extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String productName = request.getParameter("productName");
         String category = request.getParameter("category");
         String availTill = request.getParameter("availTill");
@@ -46,8 +50,8 @@ public class Lend extends HttpServlet {
         String city = request.getParameter("city");
         String deposit = request.getParameter("deposit");
         String description = request.getParameter("description");
-        int user_id = 0;
-        user_id = (Integer) request.getSession().getAttribute("user");    //todo:if user not logged in prompt him to log in
+        int user_id;
+        user_id = (Integer) request.getSession().getAttribute("user");
         product p = new product();
         p.lend(connection, user_id, productName, category, description, region, city, rent, deposit, availFrom, availTill);
         if (p.product_id != 0) {
@@ -55,6 +59,8 @@ public class Lend extends HttpServlet {
             //image handling
             int i = 0;
             Part filePart = request.getPart("thumbnail"); // Retrieves <input type="file" name="file">
+            String s = filePart.getContentType();
+            long Size = filePart.getSize();
             InputStream thumbnailContent = filePart.getInputStream();
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/png");
@@ -74,16 +80,17 @@ public class Lend extends HttpServlet {
             }
 
             p.setImg(connection, i);
-            RequestDispatcher rd = request.getRequestDispatcher("LendSuccess.jsp");
+            request.setAttribute("LendSuccess", true);
+            RequestDispatcher rd = request.getRequestDispatcher("/");
             rd.forward(request, response);
         } else {
-            //error in uploading product    ToDo:edited with rudra
-            PrintWriter out = response.getWriter();
-            out.println("error");
+            request.setAttribute("LendSuccess", false);
+            RequestDispatcher rd = request.getRequestDispatcher(Const.root + "Lend");
+            rd.forward(request, response);
         }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 
@@ -97,5 +104,7 @@ public class Lend extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         connection = Objects.Const.openConnection();
+        //s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).build();
+
     }
 }

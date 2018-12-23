@@ -3,7 +3,6 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,14 +27,18 @@ public class ChatWith extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
 
     }
 
-    private void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ConnectionIsClosedException {
+    private void respondPost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Map<String, String> map = new HashMap<>();
         map.put("instanceLocator", Const.Pusher_instanceLocator);
         map.put("key", Const.Pusher_secret);
@@ -74,7 +78,7 @@ public class ChatWith extends HttpServlet {
                 map1.put("name", Sender + "_" + receiver);
                 chatKit.createRoom(Sender, map1);
                 response.sendRedirect("message.jsp?" + receiver);
-            } catch (ConnectionIsClosedException e) {
+            } catch (SQLException e) {
                 throw e;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -83,7 +87,7 @@ public class ChatWith extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

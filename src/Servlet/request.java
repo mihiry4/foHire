@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.product;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,16 +25,17 @@ public class request extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respond(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respond(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
-        try {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws SQLException {
             int user_id = (Integer) request.getSession().getAttribute("user");
             int product_id = Integer.parseInt(request.getParameter("product_id"));
             LocalDate fromDate = LocalDate.parse(request.getParameter("fromDate"), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -72,14 +72,12 @@ public class request extends HttpServlet {
                     preparedStatement.executeUpdate();
                 }
             }
-        } catch (SQLException e) {
-            response.setStatus(400);
-        }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

@@ -77,6 +77,30 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>Servlet.logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteProd</servlet-name>
+        <servlet-class>Servlet.DeleteProd</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>message</servlet-name>
+        <servlet-class>Servlet.Message</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Conversations</servlet-name>
+        <jsp-file>conversations.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Conversations</servlet-name>
+        <url-pattern>/Conversations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>message</servlet-name>
+        <url-pattern>/message/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteProd</servlet-name>
+        <url-pattern>/DeleteProd</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 @WebServlet(name = "/Product")
 public class Product extends HttpServlet {
@@ -19,7 +20,7 @@ public class Product extends HttpServlet {
         response.getWriter().println("Why? why are you sending post request to this page?");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String s = request.getRequestURI();
         String[] arr = s.split("/");
         String S = arr[Const.value];
@@ -51,6 +52,19 @@ public class Product extends HttpServlet {
         p.getCommentU(connection, uid);
         request.setAttribute("product", p);
         request.getRequestDispatcher("/product.jsp").forward(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respond(request, response);
+        } catch (SQLException e) {
+            connection = Objects.Const.openConnection();
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
+        }
     }
 
     @Override

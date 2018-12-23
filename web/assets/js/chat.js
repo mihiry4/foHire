@@ -1,4 +1,4 @@
-var ouid = window.location.href.split('?').pop();
+//var ouid = window.location.href.split('/').pop();
 var spinner = document.querySelector('.loader');
 //spinner.classList.add('spin');
 

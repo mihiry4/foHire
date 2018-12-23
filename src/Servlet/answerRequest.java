@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.Const;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
@@ -16,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @WebServlet(name = "answerRequest")
 public class answerRequest extends HttpServlet {
@@ -31,13 +31,17 @@ public class answerRequest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respond(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respond(request, response);
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int i = 0;
         try {
             int user_id = (Integer) request.getSession().getAttribute("user");
@@ -68,7 +72,7 @@ public class answerRequest extends HttpServlet {
                 preparedStatement.setInt(2, request_id);
                 preparedStatement.executeUpdate();
             }
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             throw e;
         } catch (Exception e) {
             e.printStackTrace();

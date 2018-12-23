@@ -1,9 +1,9 @@
 <%@ page import="Objects.Const" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%--
   Created by IntelliJ IDEA.
   User: manan
   Date: 20/9/18
@@ -15,29 +15,16 @@
 
     @Override
     public void jspInit() {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = Const.openConnection();
     }
 
     @Override
     public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Const.closeConnection(connection);
     }%>
 <%
     if (session.getAttribute("user") == null) {
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher(Const.root).forward(request, response);
     }
     int userid = (Integer) session.getAttribute("user");
     String user_id = null;
@@ -63,9 +50,10 @@
     const chatManager = new Chatkit.ChatManager({
         instanceLocator: "<%=Const.Pusher_instanceLocator%>",
         userId: "<%=user_id%>",
-        tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
+        tokenProvider: new Chatkit.TokenProvider({url: "<%=Const.root%>Auth_pusher"})
     });
 </script>
+<script src="assets/js/chatlist.js"></script>
 <%--<section>--%>
     <%--<div class="container">--%>
         <%--<div class="row no-gutters" id="">--%>
@@ -124,6 +112,4 @@
         </div>
     </div>
 </section>
-<jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="yes"/>
-</jsp:include>
+<jsp:include page="footer.jsp"/>

@@ -1,7 +1,5 @@
 package Servlet;
 
-import Objects.Const;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +16,19 @@ public class UpdatePayment extends HttpServlet {
     private Connection connection;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            respond(request, response);
+        } catch (SQLException e) {
+            connection = Objects.Const.openConnection();
+            try {
+                respond(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
+        }
+    }
+
+    private void respond(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int uid = (Integer) request.getSession().getAttribute("user");
         int type;
         try {
@@ -49,8 +60,6 @@ public class UpdatePayment extends HttpServlet {
                 } catch (NumberFormatException e) {
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "Valid Account number and IFSC required");
                     return;
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
                 break;
             case 2:
@@ -59,15 +68,13 @@ public class UpdatePayment extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "UPI ID is required");
                     return;
                 } else {
-                    try {
-                        preparedStatement = connection.prepareStatement("UPDATE payment_options set Type = 2, UPI = ? where user_id = ?");
-                        preparedStatement.setString(1, UPI);
-                        preparedStatement.setInt(2, uid);
-                        preparedStatement.executeUpdate();
-                        response.setStatus(HttpServletResponse.SC_OK);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+
+                    preparedStatement = connection.prepareStatement("UPDATE payment_options set Type = 2, UPI = ? where user_id = ?");
+                    preparedStatement.setString(1, UPI);
+                    preparedStatement.setInt(2, uid);
+                    preparedStatement.executeUpdate();
+                    response.setStatus(HttpServletResponse.SC_OK);
+
                 }
                 break;
             case 3:
@@ -87,16 +94,13 @@ public class UpdatePayment extends HttpServlet {
                 } catch (NumberFormatException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect mobile number format");
                     return;
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
                 break;
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

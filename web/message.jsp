@@ -1,9 +1,5 @@
 <%@ page import="Objects.Const" %>
-<%@ page import="com.mysql.cj.jdbc.MysqlDataSource" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Manan
   Date: 11-09-2018
@@ -11,52 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
-<%! Connection connection;
-
-    @Override
-    public void jspInit() {
-        try {
-            MysqlDataSource dataSource = new MysqlDataSource();
-            dataSource.setURL(Const.DBclass);
-            dataSource.setUser(Const.user);
-            dataSource.setPassword(Const.pass);
-            connection = dataSource.getConnection();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void jspDestroy() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }%>
-<%
-    /*Integer Room_open = (Integer) request.getAttribute("room_open");
-    if (Room_open == null) {
-        response.sendRedirect("conversations.jsp");
-    } else {*/
-    //int room_open = Room_open;
-    if (session.getAttribute("user") == null) {
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
-    int userid = (Integer) session.getAttribute("user");
-    String user_id = null;
-    try {
-        PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_id = ?");
-        preparedStatement.setInt(1, userid);
-        ResultSet rs = preparedStatement.executeQuery();
-        rs.next();
-        user_id = rs.getString(1);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+<% String user_id = (String) request.getAttribute("u");
+    String oUserName = (String) request.getAttribute("otheru");
+    String oFirstName = (String) request.getAttribute("otherf");
 %>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="messages"/>
@@ -70,17 +23,18 @@
     var chatManager = new Chatkit.ChatManager({
         instanceLocator: "<%=Const.Pusher_instanceLocator%>",
         userId: "<%=user_id%>",
-        tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
+        tokenProvider: new Chatkit.TokenProvider({url: "<%=Const.root%>Auth_pusher"})
     });
+    var ouid = "<%=oUserName%>";
 </script>
+<script src="assets/js/chat.js"></script>
 <section style="margin-top:25px;">
     <div class="container1">
         <div class="chat">
             <div class="chat-header clearfix">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar"/>
-
                 <div class="chat-about">
-                    <div class="chat-with">Chat with Vincent Porter</div>
+                    <div class="chat-with">Chat with <%=oFirstName%>
+                    </div>
 
                 </div>
             </div> <!-- end chat-header -->

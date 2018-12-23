@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.Const;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,30 +20,30 @@ public class Deactivate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int user_id = (Integer) request.getSession().getAttribute("user");
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivated = 1 where user_id = ?");
-            preparedStatement.setInt(1, user_id);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("update product set status = 0 where user_id = ?");
-            preparedStatement.setInt(1, user_id);
-            preparedStatement.executeUpdate();
-            request.getSession().invalidate();
-            response.sendRedirect(Const.root);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set deactivated = 1 where user_id = ?");
+        preparedStatement.setInt(1, user_id);
+        preparedStatement.executeUpdate();
+        preparedStatement = connection.prepareStatement("update product set status = 0 where user_id = ?");
+        preparedStatement.setInt(1, user_id);
+        preparedStatement.executeUpdate();
+        request.getSession().invalidate();
+        response.sendRedirect(Const.root);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher(Const.root + "404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

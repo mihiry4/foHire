@@ -1,7 +1,6 @@
 package Servlet;
 
 import Objects.Const;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -15,6 +14,7 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 @WebServlet(name = "Order")
 public class Order extends HttpServlet {
@@ -48,14 +48,18 @@ public class Order extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
 
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConnectionIsClosedException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         PrintWriter out = response.getWriter();
         String payment_id = request.getParameter("payment_id");
         String signature = request.getParameter("signature");
@@ -78,7 +82,7 @@ public class Order extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 
@@ -91,6 +95,6 @@ public class Order extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        //connection = Objects.Const.openConnection();
+        connection = Objects.Const.openConnection();
     }
 }

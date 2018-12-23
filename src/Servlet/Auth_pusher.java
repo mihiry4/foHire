@@ -3,7 +3,6 @@ package Servlet;
 import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,13 +26,17 @@ public class Auth_pusher extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ConnectionIsClosedException, IOException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             int user_id = (int) request.getSession().getAttribute("user");
             PrintWriter out = response.getWriter();
@@ -50,7 +54,7 @@ public class Auth_pusher extends HttpServlet {
                     ApiResponse a = chatKit.authenticate(user_name);
                     out.print(a);
                 }
-            } catch (ConnectionIsClosedException e) {
+            } catch (SQLException e) {
                 throw e;
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -60,8 +64,7 @@ public class Auth_pusher extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //doPost(request, response);
-        RequestDispatcher rd = request.getRequestDispatcher("404.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");
         rd.forward(request, response);
     }
 

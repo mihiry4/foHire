@@ -1,7 +1,5 @@
 package Servlet;
 
-import com.mysql.cj.exceptions.ConnectionIsClosedException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +17,18 @@ public class AddEditAddress extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             respondPost(request, response);
-        } catch (ConnectionIsClosedException e) {
+        } catch (SQLException e) {
             connection = Objects.Const.openConnection();
-            respondPost(request, response);
+            try {
+                respondPost(request, response);
+            } catch (SQLException x) {
+                x.printStackTrace();
+            }
         }
-
-
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+
             String AddressID = request.getParameter("AID");
             int userId = (Integer) request.getSession().getAttribute("user");
             String name = request.getParameter("name");
@@ -42,16 +42,14 @@ public class AddEditAddress extends HttpServlet {
 
 
             PreparedStatement preparedStatement = connection.prepareStatement("insert into Addresses values ()");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
 
     }
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("404.jsp").forward(request, response);
+        request.getRequestDispatcher("/404.jsp").forward(request, response);
     }
 
     @Override

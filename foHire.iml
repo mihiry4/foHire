@@ -27,7 +27,6 @@
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
     <orderEntry type="library" name="commons-dbcp:commons-dbcp:1.4" level="project" />
-    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.12" level="project" />
     <orderEntry type="library" name="com.amazonaws:aws-java-sdk-s3:1.11.41" level="project" />
     <orderEntry type="library" name="com.google.apis:google-api-services-oauth2:v2-rev141-1.25.0" level="project" />
     <orderEntry type="library" name="com.google.http-client:google-http-client-jackson:1.25.0" level="project" />
@@ -47,5 +46,6 @@
     <orderEntry type="library" name="handlebars" level="application" />
     <orderEntry type="library" name="aos" level="application" />
     <orderEntry type="library" name="chatkit" level="application" />
+    <orderEntry type="library" name="mysql:mysql-connector-java:8.0.12" level="project" />
   </component>
 </module>
