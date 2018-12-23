@@ -224,22 +224,22 @@
                     <span id="incorrect"></span>
                 </div>
             </div>
-            <div class="modal-footer d-block">
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
-                            <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
-                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp;Login with Facebook</a></button>
-                        <div id="gSignInWrapper">
+            <%--<div class="modal-footer d-block">--%>
+                <%--<div class="row">--%>
+                    <%--<div class="col">--%>
+                        <%--<button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">--%>
+                            <%--<a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">--%>
+                                <%--<i class="fab fa-facebook-square" style="font-size:30px;"></i>&nbsp;Login with Facebook</a></button>--%>
+                        <%--<div id="gSignInWrapper">--%>
 
-                             <div id="customBtn" class="customGPlusSignIn">
+                             <%--<div id="customBtn" class="customGPlusSignIn">--%>
 
-                             <h6 class="buttonText text-center"><i class="fab fa-google-plus-square" style="font-size: 30px"></i>&nbsp;Sign up with Google</h6>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                             <%--<h6 class="buttonText text-center"><i class="fab fa-google-plus-square" style="font-size: 30px"></i>&nbsp;Sign up with Google</h6>--%>
+                             <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
@@ -288,24 +288,24 @@
                     </form>
                 </div>
             </div>
-            <div class="modal-footer d-block">
-                <div class="row">
-                    <div class="col">
-                        <button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">
-                            <a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">
-                                <i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>
-                        <%--<div id="gSignInWrapper">
+            <%--<div class="modal-footer d-block">--%>
+                <%--<div class="row">--%>
+                    <%--<div class="col">--%>
+                        <%--<button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">--%>
+                            <%--<a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">--%>
+                                <%--<i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>--%>
+                        <%--&lt;%&ndash;<div id="gSignInWrapper">--%>
 
-                            <div id="customBtn" class="customGPlusSignIn">
-                                <span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>
-                                <span class="buttonText">Sign up with Google</span>
-                            </div>
-                        </div>--%>
-                        <div id="name"></div>
+                            <%--<div id="customBtn" class="customGPlusSignIn">--%>
+                                <%--<span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>--%>
+                                <%--<span class="buttonText">Sign up with Google</span>--%>
+                            <%--</div>--%>
+                        <%--</div>&ndash;%&gt;--%>
+                        <%--<div id="name"></div>--%>
 
-                    </div>
-                </div>
-            </div>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
     </div>
 </div>
