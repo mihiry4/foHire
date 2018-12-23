@@ -64,8 +64,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td>Upload profile picture</td>
+                                                <td><input type="file" accept="image/*" /></td>
+                                            </tr>
+                                            <tr>
                                                 <td colspan="2">
-                                                    <button class="btn btn-outline-secondary btn-block" type="submit">Save</button>
+                                                    <button class="btn btn-primary qbtn btn-block" type="submit">Save</button>
                                                 </td>
                                             </tr>
                                             </tbody>
