@@ -9,7 +9,7 @@
     String Category = request.getParameter("category");
     String City = request.getParameter("city");
     String typ = request.getParameter("type");
-    if ((Item != null) && !(Item.equals(""))) {
+    if ((Item != null && !Item.isEmpty()) || (typ != null && !typ.isEmpty())) {
 %>
 <script>$(window).on('load', function () {
     $.post("borrow", {

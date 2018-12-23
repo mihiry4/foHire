@@ -13,6 +13,9 @@
 <jsp:include page="header.jsp">
     <jsp:param name="type" value="index"/>
 </jsp:include>
+<%if (request.getAttribute("LendSuccess") != null && (Boolean) request.getAttribute("LendSuccess")) {%>
+<div class="fohireclr text-center font-weight-bold rounded" style="font-size: 20px">Lend successful!</div>
+<%}%>
 <% product[] products = (product[]) request.getAttribute("products");%>
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
     <div class="tline" style="margin-top:0;padding-top:10%;">

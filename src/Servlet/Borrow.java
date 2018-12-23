@@ -48,7 +48,7 @@ public final class Borrow extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             respondPost(request, response);
         } catch (SQLException e) {
@@ -105,10 +105,10 @@ public final class Borrow extends HttpServlet {
                 String Sort;
                 switch (s) {
                     case 0:
-                        Sort = "price asc, product.upload_time desc";
+                        Sort = "price desc, product.upload_time desc";
                         break;
                     case 1:
-                        Sort = "price desc, product.upload_time desc";
+                        Sort = "price asc, product.upload_time desc";
                         break;
                     case 3:
                         Sort = "product.rating desc, product.upload_time desc";

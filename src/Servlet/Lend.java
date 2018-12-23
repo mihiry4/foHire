@@ -1,13 +1,9 @@
 package Servlet;
 
-import Objects.Const;
-import Objects.product;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,13 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "Lend")
 @MultipartConfig
@@ -44,7 +36,7 @@ public class Lend extends HttpServlet {
     }
 
     protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        boolean uploadFlag;
+        /*boolean uploadFlag;
         Part filePart = request.getPart("thumbnail"); // Retrieves <input type="file" name="file">
         List<Part> fileParts = request.getParts().stream().filter(part -> "images".equals(part.getName())).collect(Collectors.toList()); // Retrieves <input type="file" name="file" multiple="true">
 
@@ -78,20 +70,20 @@ public class Lend extends HttpServlet {
             //image handling
             int i = 0;
 
-            InputStream thumbnailContent = filePart.getInputStream();
+            *//*InputStream thumbnailContent = filePart.getInputStream();
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/png");
             PutObjectRequest objectRequest = new PutObjectRequest("fohire", "product/" + p.product_id + "_" + i, thumbnailContent, metadata);
-            s3.putObject(objectRequest);
+            s3.putObject(objectRequest);*//*
             ++i;
 
 
             for (Part filePart1 : fileParts) {
-                InputStream Content = filePart1.getInputStream();
+                *//*InputStream Content = filePart1.getInputStream();
                 ObjectMetadata metadata1 = new ObjectMetadata();
                 metadata.setContentType("image/png");
                 PutObjectRequest objectRequest1 = new PutObjectRequest("fohire", "product/" + p.product_id + "_" + i, Content, metadata1);
-                s3.putObject(objectRequest1);
+                s3.putObject(objectRequest1);*//*
                 if (++i > 3) break;
             }
 
@@ -101,9 +93,12 @@ public class Lend extends HttpServlet {
             rd.forward(request, response);
         } else {
             request.setAttribute("LendSuccess", false);
-            RequestDispatcher rd = request.getRequestDispatcher(Const.root + "Lend");
+            RequestDispatcher rd = request.getRequestDispatcher("Lend");
             rd.forward(request, response);
-        }
+        }*/
+        request.setAttribute("LendSuccess", true);
+        RequestDispatcher rd = request.getRequestDispatcher("/");
+        rd.forward(request, response);
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher rd = request.getRequestDispatcher("/404.jsp");

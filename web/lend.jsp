@@ -75,7 +75,6 @@
                                         <td colspan="4" class="fohireclr text-center font-weight-bold rounded" style="font-size: 20px" >Lend failed!</td>
                                     </tr>
                                     <%}%>
-
                                     </tbody>
                                 </table>
                             </div>
