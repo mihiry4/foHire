@@ -63,11 +63,19 @@
                                         <td colspan="2"><input name="deposit" class="form-control" type="number"></td>
                                         <td colspan="2"></td>
                                     </tr>
+
+
                                     <tr>
                                         <td colspan="4">
                                             <button class="btn btn-primary float-right qbtn" type="button" id="nextbtn1">Next</button>
                                         </td>
                                     </tr>
+                                    <%if (request.getAttribute("LendSuccess") != null && !(Boolean) request.getAttribute("LendSuccess")) {%>
+                                    <tr>
+                                        <td colspan="4" class="fohireclr text-center font-weight-bold rounded" style="font-size: 20px" >Lend failed!</td>
+                                    </tr>
+                                    <%}%>
+
                                     </tbody>
                                 </table>
                             </div>

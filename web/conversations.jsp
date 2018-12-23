@@ -48,12 +48,17 @@
         <div class="row">
             <div class="col-lg-10 offset-lg-1">
                 <div style="background: #f8b645;">
+
                     <ul class="list-unstyled" id="chatlistmain">
                         <li style="color: white;font-size: 24px;padding: 10px;"><strong>Messages</strong></li>
 
+
+
                         <%--<li class="nonot"><strong>No notifications</strong></li>--%>
                     </ul>
+
                 </div>
+                <div class="loader spin" id="spinner"></div>
             </div>
         </div>
     </div>

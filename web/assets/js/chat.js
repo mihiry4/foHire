@@ -1,5 +1,5 @@
 //var ouid = window.location.href.split('/').pop();
-var spinner = document.querySelector('.loader');
+
 //spinner.classList.add('spin');
 
       chatManager.connect().then(currentUser => {
@@ -42,8 +42,9 @@ var spinner = document.querySelector('.loader');
                   $('#chathistory').append( templateScript(data) ); 
                   s.scrollTop = s.scrollHeight;
                 }
-                  spinner.classList.remove('spin');
-                  spinner.classList.remove('loader');
+                  $("#spinner").removeClass('spin');
+                  $("#spinner").removeClass('loader');
+                  //spinner.classList.remove('loader');
 
 
               }
