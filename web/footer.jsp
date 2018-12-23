@@ -1,8 +1,4 @@
 <%@ page import="Objects.Const" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %>
 <%--
   Created by IntelliJ IDEA.
   User: Manan
@@ -10,34 +6,6 @@
   Time: 09:17 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%! Connection connection;
-
-    @Override
-    public void jspInit() {
-        connection = Const.openConnection();
-    }
-
-    @Override
-    public void jspDestroy() {
-        Const.closeConnection(connection);
-    }%>
-<% String chatkit = request.getParameter("chatkit");
-    int userid = 0;
-    String user_id = null;
-
-    if (session.getAttribute("user") != null) {
-        userid = (Integer) session.getAttribute("user");
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select user_name from users where user_id = ?");
-            preparedStatement.setInt(1, userid);
-            ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            user_id = rs.getString(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-%>
 <section style="background-color:#fefefe;">
     <footer id="myFooter" style="background-color:#ffffff;">
         <div class="container-fluid">
@@ -120,22 +88,8 @@
     </div>
 </div>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<%if (chatkit.equals("yes") && userid!=0) {%>
-<%--<script src="https://unpkg.com/@pusher/chatkit/dist/web/chatkit.js"></script>
-<script type="text/javascript">
-    const chatManager = new Chatkit.ChatManager({
-        instanceLocator: "<%=Const.Pusher_instanceLocator%>",
-        userId: "<%=user_id%>",
-        tokenProvider: new Chatkit.TokenProvider({url: "Auth_pusher"})
-    });
-</script>--%>
-<script src="assets/js/chatlist.js"></script>
-<script src="assets/js/chat.js"></script>
-<script src="assets/js/notification.js"></script>
-<%}%>
 <script src="assets/js/fav.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>
-<%--<script src="https://unpkg.com/@bootstrapstudio/bootstrap-better-nav/dist/bootstrap-better-nav.min.js"></script>--%>
 <script src="assets/js/Review-rating-Star-Review-Button.js"></script>
 <script src="assets/js/step.js"></script>
 <script>startApp();</script>

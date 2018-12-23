@@ -87,11 +87,11 @@
     </servlet>
     <servlet>
         <servlet-name>Conversations</servlet-name>
-        <jsp-file>conversations.jsp</jsp-file>
+        <servlet-class>Servlet.Conversations</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Conversations</servlet-name>
-        <url-pattern>/Conversations</url-pattern>
+        <url-pattern>/conversations</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>message</servlet-name>

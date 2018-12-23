@@ -147,12 +147,8 @@
                             </div>
                         </a>
                         <a class="dropdown-item" href="<%=Const.root%>profile" style="color:#f8b645;">Edit Profile</a>
-                        <a class="dropdown-item" href="<%=Const.root%>conversations.jsp"
-                           style="color:#f8b645;position: relative;">Messages
-                            <div id="indic" style="height:10px;width:10px;position:absolute;border-radius:50%;top:5px;right:5px;">
-
-                            </div>
-                        </a>
+                        <a class="dropdown-item" href="<%=Const.root%>conversations"
+                           style="color:#f8b645;position: relative;">Messages</a>
                         <a class="dropdown-item" href="<%=Const.root%>favourites" style="color:#f8b645;">Favourites</a>
                         <%--<a class="dropdown-item" href="<%=Const.root%>myorders.jsp" style="color:#f8b645;">My orders</a>--%>
                         <a class="dropdown-item" href="<%=Const.root%>Settings" style="color:#f8b645;">Account
