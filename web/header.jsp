@@ -257,16 +257,14 @@
                             <%--<input id="Firstname" class="form-control" type="text" required="">--%>
                             <%--<label for="Lastname">Lastname:</label>--%>
                             <%--<input id="Lastname" class="form-control" type="text" required="">--%>
-                            <%--<label for="Companyname">Company name:</label>--%>
-                            <%--<input id="Companyname" class="form-control" type="text" required="">--%>
+
                             <%--<label for="Mobilenumber">Mobile number:</label>--%>
                             <%--<input id="Mobilenumber" class="form-control" type="number" required="" maxlength="10" minlength="10">--%>
                             <%--<label for="E-mail">E-mail:</label>--%>
                             <%--<input id="E-mail" class="form-control" type="email">--%>
                             <%--<label for="Password">Password:</label>--%>
                             <%--<input id="Password" class="form-control" type="password" required="">--%>
-                            <%--<label for="Confirm password">Confirm password:</label>--%>
-                            <%--<input id="Confirm password" class="form-control" type="password" required="">--%>
+
                             <%--&lt;%&ndash;<div class="g-recaptcha" style="margin-top: 5px;"--%>
                                  <%--data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>&ndash;%&gt;--%>
                             <%--<div class="">--%>
