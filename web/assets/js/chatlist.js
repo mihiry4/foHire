@@ -30,15 +30,17 @@ chatManager.connect().then(currentUser => {
                 const t = messages[0].createdAt;
                 data.message = m;
                 data.time = t;
-
+                $("#spinner").removeClass('spin');
+                $("#spinner").removeClass('loader');
                 const template = $('#chatlist').html();
                 const templateScript = Handlebars.compile(template);
                 $('#chatlistmain').append(templateScript(data));
-                if(true){
-                }
+
+
 
             }).catch(err => {
-                console.log(`Error fetching messages: ${err}`)
+                console.log(`Error fetching messages: ${err}`);
+
             });
         });
     });

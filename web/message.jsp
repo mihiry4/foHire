@@ -40,7 +40,7 @@
             </div> <!-- end chat-header -->
 
             <div class="chat-history" id="chat">
-                <div class="loader spin"></div>
+                <div class="loader spin" id="spinner"></div>
                 <ul type="none" id="chathistory">
 
                 </ul>
