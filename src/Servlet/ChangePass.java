@@ -1,7 +1,5 @@
 package Servlet;
 
-import Objects.user;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,14 +34,20 @@ public class ChangePass extends HttpServlet {
         String Opasswd = request.getParameter("old_pass");
         String Npasswd = request.getParameter("new_pass");
         String Cpasswd = request.getParameter("conf_pass");
+        if (Npasswd.length() < 8) {
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, "New password mut be 8 characters long.");
+            return;
+        }
         if (Npasswd.equals(Cpasswd)) {
             PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_id =? and password = ?");
             preparedStatement.setInt(1, user_id);
-            preparedStatement.setString(2, user.hashpass(Opasswd));
+            //preparedStatement.setString(2, user.hashpass(Opasswd));
+            preparedStatement.setString(2, Opasswd);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 preparedStatement = connection.prepareStatement("update users set password = ? where user_id = ?");
-                preparedStatement.setString(1, user.hashpass(Npasswd));
+                //preparedStatement.setString(1, user.hashpass(Npasswd));
+                preparedStatement.setString(1, Npasswd);
                 preparedStatement.setInt(2, user_id);
                 preparedStatement.executeUpdate();
                 response.setStatus(HttpServletResponse.SC_OK);

@@ -29,7 +29,7 @@
                             </table>
                         </div>
                     </div>
-                    <div id="editpro" >
+                    <div id="editpro">
                         <form>
                             <div>
                                 <h3 class="text-center">Edit Profile</h3>
@@ -51,16 +51,19 @@
                                             <tr>
                                                 <td>E-mail</td>
                                                 <td><input class="form-control" type="text">
-                                                    <button class="btn btn-primary qbtn" type="button">Send verification link</button>
+                                                    <button class="btn btn-primary qbtn" type="button">Send verification
+                                                        link
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Upload profile picture</td>
-                                                <td><input type="file" accept="image/*" /></td>
+                                                <td><input type="file" accept="image/*"/></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2">
-                                                    <button class="btn btn-primary qbtn btn-block" type="submit">Save</button>
+                                                    <button class="btn btn-primary qbtn btn-block" type="submit">Save
+                                                    </button>
                                                 </td>
                                             </tr>
                                             </tbody>
@@ -93,54 +96,74 @@
                             </div>
                         </div>
                         <div class="address p-3">
-                            <div><select id="selectMe" class="form-control"><option value="bank" selected="">Bank Account</option><option value="upi">Unified Payment Interface (UPI)</option><option value="mw">Mobile wallet</option></select></div>
+                            <div><select id="selectMe" class="form-control">
+                                <option value="bank" selected="">Bank Account</option>
+                                <option value="upi">Unified Payment Interface (UPI)</option>
+                                <option value="mw">Mobile wallet</option>
+                            </select></div>
                             <div id="bank"
                                  class="mt-4 p-2 group">
                                 <form>
                                     <h6>Account number</h6><input class="form-control form-control-sm" type="text">
-                                    <h6>IFSC code</h6><input class="form-control form-control-sm" type="text"></form><button class="btn btn-primary float-right qbtn" type="button">Submit</button></div>
+                                    <h6>IFSC code</h6><input class="form-control form-control-sm" type="text"></form>
+                                <button class="btn btn-primary float-right qbtn" type="button">Submit</button>
+                            </div>
                             <div id="upi" class="mt-4 p-2 group">
                                 <form>
-                                    <h6>UPI ID</h6><input class="form-control form-control-sm" type="text"></form><button class="btn btn-primary float-right qbtn" type="button">Submit</button></div>
+                                    <h6>UPI ID</h6><input class="form-control form-control-sm" type="text"></form>
+                                <button class="btn btn-primary float-right qbtn" type="button">Submit</button>
+                            </div>
                             <div id="mw" class="mt-4 p-2 group">
                                 <form>
-                                    <h6>Wallet</h6><select class="form-control"><option value="paytm">Paytm</option><option value="freecharge">Freecharge</option></select>
-                                    <h6>Number</h6><input class="form-control" type="text"><button class="btn btn-primary float-right qbtn" type="button">Submit</button></form>
+                                    <h6>Wallet</h6><select class="form-control">
+                                    <option value="paytm">Paytm</option>
+                                    <option value="freecharge">Freecharge</option>
+                                </select>
+                                    <h6>Number</h6><input class="form-control" type="text">
+                                    <button class="btn btn-primary float-right qbtn" type="button">Submit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="d-none" id="security">
-                        <form action="">
+                        <div>
+                            <h3 class="text-center">Change your password</h3>
                             <div>
-                                <h3 class="text-center">Change your password</h3>
-                                <div>
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr></tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td><label>Old password:</label></td>
-                                                <td><input class="form-control" type="password" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label>New password:</label></td>
-                                                <td><input class="form-control" type="password" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label>Confirm password:</label></td>
-                                                <td><input class="form-control" type="password" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"><button class="btn btn-secondary btn-block qbtn" type="submit">Update password</button></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr></tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td><label>Old password:</label></td>
+                                            <td><input class="form-control" id="old" type="password"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>New password:</label></td>
+                                            <td><input class="form-control" id="new" type="password"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Confirm password:</label></td>
+                                            <td><input class="form-control" id="conf" type="password"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <button class="btn btn-secondary btn-block qbtn" id="change_pass"
+                                                        type="submit">Update password
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="stat" style="border-radius: 10px"></div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                     <div id="addresses" class="d-none">
                         <div class="address p-3">
@@ -150,11 +173,13 @@
                                 <h6>Address</h6>
                                 <h6>Address</h6>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i>
+                            </div>
                             <div class="float-right" style="margin-left: 10px;">
                                 <p class="text-black-50">|</p>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i>
+                            </div>
                         </div>
                         <div class="address p-3">
                             <div class="float-left"><input type="radio" name="a"></div>
@@ -163,11 +188,13 @@
                                 <h6>Address</h6>
                                 <h6>Address</h6>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i>
+                            </div>
                             <div class="float-right" style="margin-left: 10px;">
                                 <p class="text-black-50">|</p>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i>
+                            </div>
                         </div>
                         <div class="address p-3">
                             <div class="float-left"><input type="radio" name="a"></div>
@@ -176,11 +203,13 @@
                                 <h6>Address</h6>
                                 <h6>Address</h6>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i>
+                            </div>
                             <div class="float-right" style="margin-left: 10px;">
                                 <p class="text-black-50">|</p>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i>
+                            </div>
                         </div>
                         <div class="address p-3">
                             <div class="float-left"><label>
@@ -191,19 +220,24 @@
                                 <h6>Address</h6>
                                 <h6>Address</h6>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-trash-o fohireclr"></i>
+                            </div>
                             <div class="float-right" style="margin-left: 10px;">
                                 <p class="text-black-50">|</p>
                             </div>
-                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i></div>
+                            <div class="float-right" style="margin-left: 10px;"><i class="fa fa-pencil fohireclr"></i>
+                            </div>
                         </div>
-                        <div><button class="btn btn-primary float-right qbtn" type="button">+ Add a new address</button></div>
+                        <div>
+                            <button class="btn btn-primary float-right qbtn" type="button">+ Add a new address</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <ul class="list-unstyled lmenu">
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_editpro">Edit Profile</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;" id="show_payment_op">Payment options</a></li>
+                        <li><a href="#" class="sidenav" style="padding:10px;" id="show_payment_op">Payment options</a>
+                        </li>
                         <%--<li><a href="#" class="sidenav" style="padding:10px;" id="show_addresses">Addresses</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_security">Security</a></li>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_settings">Deactivate</a>
@@ -215,12 +249,11 @@
     </div>
 
 </section>
-<jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="no"/>
-</jsp:include>
+<script src="assets/js/validate.js"></script>
+<jsp:include page="footer.jsp"/>
 <script>
-    $(document).ready(function(){
-        $("#show_editpro").click(function(){
+    $(document).ready(function () {
+        $("#show_editpro").click(function () {
             $("#editpro").removeClass("d-none");
             $("#payment_op").addClass("d-none");
             $("#addresses").addClass("d-none");
@@ -228,7 +261,7 @@
             $("#settings").addClass("d-none");
 
         });
-        $("#show_payment_op").click(function(){
+        $("#show_payment_op").click(function () {
             $("#editpro").addClass("d-none");
             $("#payment_op").removeClass("d-none");
             $("#addresses").addClass("d-none");
@@ -236,7 +269,7 @@
             $("#settings").addClass("d-none");
 
         });
-        $("#show_addresses").click(function(){
+        $("#show_addresses").click(function () {
             $("#editpro").addClass("d-none");
             $("#payment_op").addClass("d-none");
             $("#addresses").removeClass("d-none");
@@ -244,7 +277,7 @@
             $("#settings").addClass("d-none");
 
         });
-        $("#show_security").click(function(){
+        $("#show_security").click(function () {
             $("#editpro").addClass("d-none");
             $("#payment_op").addClass("d-none");
             $("#addresses").addClass("d-none");
@@ -252,7 +285,7 @@
             $("#settings").addClass("d-none");
 
         });
-        $("#show_settings").click(function(){
+        $("#show_settings").click(function () {
             $("#editpro").addClass("d-none");
             $("#payment_op").addClass("d-none");
             $("#addresses").addClass("d-none");
