@@ -50,10 +50,6 @@
         <servlet-class>Servlet.favourites</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MyFavourites</servlet-name>
-        <jsp-file>favourites.jsp</jsp-file>
-    </servlet>
-    <servlet>
         <servlet-name>product</servlet-name>
         <servlet-class>Servlet.Product</servlet-class>
     </servlet>
@@ -89,6 +85,22 @@
         <servlet-name>Conversations</servlet-name>
         <servlet-class>Servlet.Conversations</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>showFav</servlet-name>
+        <servlet-class>Servlet.showFav</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>home</servlet-name>
+        <servlet-class>Servlet.Home</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>showFav</servlet-name>
+        <url-pattern>/favourites</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Conversations</servlet-name>
         <url-pattern>/conversations</url-pattern>
@@ -158,10 +170,6 @@
         <url-pattern>/Chat</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>MyFavourites</servlet-name>
-        <url-pattern>/favourites</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>favourites</servlet-name>
         <url-pattern>/favourite</url-pattern>
     </servlet-mapping>
@@ -173,15 +181,14 @@
         <servlet-name>HIW</servlet-name>
         <url-pattern>/HowItWorks</url-pattern>
     </servlet-mapping>
-
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
+
     <error-page>
         <error-code>404</error-code>
         <location>/404.jsp</location>
     </error-page>
-
     <error-page>
         <exception-type>java.lang.Exception</exception-type>
         <location>/500.jsp</location>

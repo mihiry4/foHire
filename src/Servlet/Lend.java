@@ -2,7 +2,10 @@ package Servlet;
 
 import Objects.Const;
 import Objects.product;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
@@ -41,6 +44,22 @@ public class Lend extends HttpServlet {
     }
 
     protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        boolean uploadFlag;
+        Part filePart = request.getPart("thumbnail"); // Retrieves <input type="file" name="file">
+        List<Part> fileParts = request.getParts().stream().filter(part -> "images".equals(part.getName())).collect(Collectors.toList()); // Retrieves <input type="file" name="file" multiple="true">
+
+        uploadFlag = (filePart.getContentType().equals("image/png") || filePart.getContentType().equals("image/jpg") || filePart.getContentType().equals("image/jpeg")) && filePart.getSize() <= 5242880;
+        for (Part filePart1 : fileParts) {
+            uploadFlag = uploadFlag && (filePart1.getContentType().equals("image/png") || filePart1.getContentType().equals("image/jpg") || filePart1.getContentType().equals("image/jpeg")) && filePart1.getSize() <= 5242880;
+        }
+
+        if (!uploadFlag) {
+            request.setAttribute("LendSuccess", false);
+            RequestDispatcher rd = request.getRequestDispatcher(Const.root + "Lend");
+            rd.forward(request, response);
+            return;
+        }
+
         String productName = request.getParameter("productName");
         String category = request.getParameter("category");
         String availTill = request.getParameter("availTill");
@@ -58,9 +77,7 @@ public class Lend extends HttpServlet {
 
             //image handling
             int i = 0;
-            Part filePart = request.getPart("thumbnail"); // Retrieves <input type="file" name="file">
-            String s = filePart.getContentType();
-            long Size = filePart.getSize();
+
             InputStream thumbnailContent = filePart.getInputStream();
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType("image/png");
@@ -68,7 +85,6 @@ public class Lend extends HttpServlet {
             s3.putObject(objectRequest);
             ++i;
 
-            List<Part> fileParts = request.getParts().stream().filter(part -> "images".equals(part.getName())).collect(Collectors.toList()); // Retrieves <input type="file" name="file" multiple="true">
 
             for (Part filePart1 : fileParts) {
                 InputStream Content = filePart1.getInputStream();
@@ -104,7 +120,7 @@ public class Lend extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         connection = Objects.Const.openConnection();
-        //s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).build();
+        s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.AP_SOUTH_1).withCredentials(DefaultAWSCredentialsProviderChain.getInstance()).build();
 
     }
 }

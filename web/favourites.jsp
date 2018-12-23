@@ -1,7 +1,6 @@
 <%@ page import="Objects.Const" %>
 <%@ page import="Objects.product" %>
-<%@ page import="Objects.user" %>
-<%@ page import="java.sql.Connection" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: manan
@@ -9,24 +8,9 @@
   Time: 9:35 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%! Connection connection;
-
-    @Override
-    public void jspInit() {
-        connection = Const.openConnection();
-    }
-
-    @Override
-    public void jspDestroy() {
-        Const.closeConnection(connection);
-    }%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <% int i = 0;
-    int user_id = (Integer) session.getAttribute("user");
-    user u = new user();
-    u.userid = user_id;
-    product[] favs = u.getFavProducts(connection);
-%>
+    product[] favs = (product[]) request.getAttribute("favs");%>
 <jsp:include page="importLinks.jsp">
     <jsp:param name="title" value="favourites"/>
 </jsp:include>
@@ -50,9 +34,9 @@
         <div class="cardparent">
             <a href="Product/<%=p.product_id%>" class="nodec">
                 <div>
-                    <div class="card"><img
-                            class="img-fluid card-img-top w-100 d-block rounded-0"
-                            src="<%=Const.S3URL+"product/"+p.product_id+"_0"%>"></div>
+                    <div class="card"><img alt="<%=p.product_id%>"
+                                           class="img-fluid card-img-top w-100 d-block rounded-0"
+                                           src="<%=Const.S3URL+"product/"+p.product_id+"_0"%>"></div>
                     <div class="pricetag">
                         <p style="margin-bottom:0;color:#f8b645;">
                             <strong><%=p.product_name%>&nbsp;&middot;&nbsp;</strong><i
@@ -85,6 +69,4 @@
     </div>
     <%}%>
 </div>
-<jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="no"/>
-</jsp:include>
+<jsp:include page="footer.jsp"/>
