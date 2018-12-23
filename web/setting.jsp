@@ -214,7 +214,7 @@
                         <%--<li><a href="adresses.html" class="sidenav" style="padding:10px;">My addresses</a></li>--%>
                         <%--<li><a href="notification.jsp" class="sidenav" style="padding:10px;">Notifications</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_payment_op">Payment options</a></li>
-                        <li><a href="#" class="sidenav" style="padding:10px;" id="show_addresses">Addresses</a></li>
+                        <%--<li><a href="#" class="sidenav" style="padding:10px;" id="show_addresses">Addresses</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_security">Security</a></li>
                         <%--<li class="d-none"><a href="reviews.html" class="sidenav" style="padding:10px;">Reviews</a></li>--%>
                         <li><a href="#" class="sidenav" style="padding:10px;" id="show_settings">Settings</a>
