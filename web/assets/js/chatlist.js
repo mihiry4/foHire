@@ -1,10 +1,12 @@
 chatManager.connect().then(currentUser => {
     let sequence = Promise.resolve();
-
+    if(!currentUser.rooms){
+        $("#chatlistmain").append("<li class='nonot'><strong>No messages</strong></li>");
+    }
     currentUser.rooms.forEach(function (room) {
         const roomID = room.id;
         let user1, username;
-        $("#chatlistmain").append("<li class='nonot'><strong>No notifications</strong></li>");
+
 
 
 

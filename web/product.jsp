@@ -408,7 +408,5 @@
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=<%=Const.Maps_APIKey%>&callback=initMap">
 </script>
-<jsp:include page="footer.jsp">
-    <jsp:param name="chatkit" value="no"/>
-</jsp:include>
+<jsp:include page="footer.jsp"/>
 <%}%>
