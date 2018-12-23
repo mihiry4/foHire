@@ -141,11 +141,12 @@
                                         </tr>
                                         <tr>
                                             <td><label>New password:</label></td>
-                                            <td><input class="form-control" id="new" type="password"/></td>
+                                            <td><input class="form-control" id="new" type="password" id="new_pass"/>
+                                            <span style="font-size: 12px;">(*minimum 8 characters required!)</span></td>
                                         </tr>
                                         <tr>
                                             <td><label>Confirm password:</label></td>
-                                            <td><input class="form-control" id="conf" type="password"/></td>
+                                            <td><input class="form-control" id="conf" type="password" id="con_pass"/></td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
@@ -156,7 +157,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2">
-                                                <div id="stat" style="border-radius: 10px"></div>
+                                                <div id="stat" class="d-block p-2 text-center text-white" style="border-radius:5px; opacity: 0.7;"></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -293,5 +294,7 @@
             $("#settings").removeClass("d-none");
 
         });
+
+
     });
 </script>
