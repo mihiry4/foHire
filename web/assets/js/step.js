@@ -7,16 +7,18 @@ $(document).ready(function(){
         $('#'+$(this).val()).show();
     });
 
-    $("#nextbtn").click(function(){
+    $("#signup_btn").click(function(){
         var num=$("#phone_number").val();
         var filter = /^[0-9]+$/;
 
         if (filter.test(num) && num.length===10){
-            $("#fstpg").addClass("d-none");
-            $("#secpg").removeClass("d-none");
+            // $("#fstpg").addClass("d-none");
+            // $("#secpg").removeClass("d-none");
         }
         else{
-            $("#non_phone").removeClass("d-none");
+            //$("#non_phone").removeClass("d-none");
+            $("#mob_warn").removeClass("d-none");
+            return false;
         }
 
 

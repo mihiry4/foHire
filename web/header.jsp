@@ -259,8 +259,9 @@
                             <label for="Lastname">Lastname:</label>
                             <input id="Lastname" class="form-control" type="text" required="">
 
-                            <label for="Mobilenumber">Mobile number:</label>
-                            <input id="Mobilenumber" class="form-control" type="number" required="" maxlength="10" minlength="10">
+                            <label for="phone_number">Mobile number:</label>
+                            <input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">
+                            <div class="text-danger  d-none" id="mob_warn">Please enter valid number!</div>
                             <label for="E-mail">E-mail:</label>
                             <input id="E-mail" class="form-control" type="email">
                             <label for="Password">Password:</label>
@@ -269,17 +270,18 @@
                             <%--<div class="g-recaptcha" style="margin-top: 5px;"
                                  data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
                             <div class="">
+                                <input type="checkbox"  name="" required/>
                                 By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
                                 that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
                             </div>
-                            <button id="sup" class="btn btn-primary" type="submit"
+                            <button id="signup_btn" class="btn btn-primary" type="submit"
                                     style="background-color:#f8b645;margin-top:10px;">Sign up
                             <%--</button>--%>
                                 <%--<label for="phone_number">Mobile number:</label>--%>
                                 <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
                                 <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
                             <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
-                        <%--</div>--%>
+                        </div>
                         <%--<div class="d-none" id="secpg">--%>
                             <%--<label for="otp">OTP:</label>--%>
                             <%--<input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">--%>
