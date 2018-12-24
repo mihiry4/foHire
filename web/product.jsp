@@ -243,7 +243,11 @@
                 <hr>
                 <div class="pt-2">
                     <div class="d-inline">
+                        <% if (c != null) {%>
+                        <h3 class="d-inline"><%=comments.length + 1%> Reviews</h3>
+                        <%} else {%>
                         <h3 class="d-inline"><%=comments.length%> Reviews</h3>
+                        <%}%>
                     </div>
                     <div class="d-inline float-right">
                         <p style="font-weight:600;font-size:24px;"><i class="fa fa-star"
@@ -276,7 +280,7 @@
                 <%
                 } else {%>
                 <div>
-                    <form method="post" action="comment">
+                    <form method="post" action="<%=Const.root%>comment">
                         <div class="form-row">
                             <div class="col">
                                 <h5>Share your experience</h5>
@@ -301,7 +305,16 @@
                             </div>
 
                             <div class="col">
-                                <button class="btn btn-primary float-right qbtn" type="submit" style="margin-right:0;">Add review</button>
+                                <%if (session.getAttribute("user") != null) {%>
+                                <button class="btn btn-primary float-right qbtn" id="submitCmt" type="button"
+                                        style="margin-right:0;">Add review
+                                </button>
+                                <div id="cmtStat"></div>
+                                <%} else {%>
+                                <button class="btn btn-primary float-right qbtn" type="button" data-toggle="modal"
+                                        data-target="#login">Add review
+                                </button>
+                                <%}%>
                             </div>
                         </div>
                     </form>
@@ -403,6 +416,24 @@
             ]
         }),
         to_picker = to_$input.pickadate('picker');
+    <%if (session.getAttribute("user") != null){%>
+    $("#submitCmt").click(function () {
+        let r = 0;
+        $("input[name='rating']").each(function () {
+            if (this.checked) {
+                r = this.value;
+            }
+        });
+        $.post("<%=Const.root%>comment", {
+            rating: r,
+            review: $("#review").val()
+        }, function () {
+            location.reload(true);
+        }).fail(function (xhr, error, response) {
+            $("#cmtStat").text(response);
+        })
+    });
+    <%}%>
 </script>
 <script src="assets/js/datepick.js"></script>
 <script async defer

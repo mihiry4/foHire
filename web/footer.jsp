@@ -87,6 +87,20 @@
         </div>
     </div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCa-HJZP_c1ETEGyMeiOUnvHXX1dUi-b28",
+        authDomain: "fohire-1fbaf.firebaseapp.com",
+        databaseURL: "https://fohire-1fbaf.firebaseio.com",
+        projectId: "fohire-1fbaf",
+        storageBucket: "fohire-1fbaf.appspot.com",
+        messagingSenderId: "496909058969"
+    };
+    firebase.initializeApp(config);
+</script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/fav.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.js"></script>

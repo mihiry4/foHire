@@ -1,9 +1,8 @@
 package Servlet;
 
+import Objects.ChatKit;
 import Objects.Const;
-import Objects.IdTokenVerifierAndParser;
 import Objects.user;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.mysql.cj.exceptions.ConnectionIsClosedException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,8 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
-import java.net.HttpURLConnection;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -24,17 +25,17 @@ import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 //Handle exceptional request still remaining
 //otp expiry remaining
 @WebServlet(name = "signup")
 public class signup extends HttpServlet {
     private Connection connection;
-    private HashMap<String, Integer> map = new HashMap<>();
 
     protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 
-        String id_token = request.getParameter("id_token");
+        /*String id_token = request.getParameter("id_token");
         if (id_token != null) {
             try {
                 GoogleIdToken.Payload payload = IdTokenVerifierAndParser.getPayload(id_token);
@@ -65,13 +66,12 @@ public class signup extends HttpServlet {
                     String username = request.getParameter("username");
                     String firstname = request.getParameter("firstName");
                     String lastname = request.getParameter("lastName");
-                    String companyName = request.getParameter("companyName");   //ToDO:what to do???
                     String mobileNumber = request.getParameter("mobileNumber");
                     String password = request.getParameter("password");
                     String email = request.getParameter("email");
-                    String otp = request.getParameter("otp");
+                    //String otp = request.getParameter("otp");
                     String referral = request.getParameter("referral");
-                    String reCAPTCHA = request.getParameter("g-recaptcha-response");
+                    //String reCAPTCHA = request.getParameter("g-recaptcha-response");
 
                     if (isCaptchaValid(reCAPTCHA)) {
                         if (map.containsKey(mobileNumber) && map.get(mobileNumber).toString().equals(otp)) {
@@ -132,7 +132,31 @@ public class signup extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }*/
+        String username = request.getParameter("username");
+        String firstname = request.getParameter("firstName");
+        String lastname = request.getParameter("lastName");
+        String mobileNumber = request.getParameter("mobileNumber");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String referral = request.getParameter("referral");
+        user u = new user();
+        try {
+            Map<String, String> map = new HashMap<>();
+            map.put("instanceLocator", Const.Pusher_instanceLocator);
+            map.put("key", Const.Pusher_secret);
+            ChatKit chatKit;
+            chatKit = new ChatKit(map);
+            Map<String, Object> map1 = new HashMap<>();
+            map1.put("name", firstname);
+            chatKit.createUser(username, map1);
+            u.signup(connection, firstname, lastname, username, email, mobileNumber, password, referral);
+        } catch (Exception e) {
+            response.sendError(HttpServletResponse.SC_CONFLICT, "User with this details already exists");
         }
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("user", u.userid);
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

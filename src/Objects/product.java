@@ -161,7 +161,7 @@ public final class product {
     public void getCommentsNU(@NotNull Connection connection, int user_id) throws SQLException {
         comment[] comments;
 
-        PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id != ? and deleted = false", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, reviews.timestamp, first_name, last_name, user_name from reviews inner join users using (user_id) where product_id = ? and user_id != ? and deleted = false", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         preparedStatement.setInt(1, this.product_id);
         preparedStatement.setInt(2, user_id);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -180,7 +180,7 @@ public final class product {
     public void getCommentU(@NotNull Connection connection, int user_id) throws SQLException {
         comment comment = null;
 
-        PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, timestamp, first_name, last_name, user_name from reviews natural join users where product_id = ? and user_id = ? and deleted = false", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        PreparedStatement preparedStatement = connection.prepareStatement("select rating, review, reviews.timestamp, first_name, last_name, user_name from reviews inner join users using (user_id) where product_id = ? and user_id = ? and deleted = false");
         preparedStatement.setInt(1, this.product_id);
         preparedStatement.setInt(2, user_id);
         ResultSet resultSet = preparedStatement.executeQuery();

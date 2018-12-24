@@ -51,6 +51,7 @@ public class Product extends HttpServlet {
         p.getCommentsNU(connection, uid);
         p.getCommentU(connection, uid);
         request.setAttribute("product", p);
+        request.getSession().setAttribute("pr", p.product_id);
         request.getRequestDispatcher("/product.jsp").forward(request, response);
     }
 

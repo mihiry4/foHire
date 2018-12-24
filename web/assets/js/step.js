@@ -12,8 +12,8 @@ $(document).ready(function(){
         var filter = /^[0-9]+$/;
 
         if (filter.test(num) && num.length===10){
-            $("#fstpg").addClass("d-none");
-            $("#secpg").removeClass("d-none");
+            // $("#fstpg").addClass("d-none");
+            // $("#secpg").removeClass("d-none");
         }
         else{
             $("#non_phone").removeClass("d-none");

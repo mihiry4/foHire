@@ -29,10 +29,10 @@ public class comment extends HttpServlet {
         }
     }
 
-    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    protected void respondPost(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         HttpSession session = request.getSession();
         int user = (Integer) session.getAttribute("user");
-        int product = (Integer) session.getAttribute("product");
+        int product = (Integer) session.getAttribute("pr");
         if (user != 0 && product != 0) {
             String r = request.getParameter("rating");
             String review = request.getParameter("review");
@@ -47,8 +47,15 @@ public class comment extends HttpServlet {
             preparedStatement.setDouble(3, rating);
             preparedStatement.setString(4, review);
             preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("update product p inner join (select (sum(rating)/count(rating)) avg, product_id from reviews where product_id = ? and deleted = false) q using (product_id) set p.rating = q.avg where product_id = ?");
+            preparedStatement.setInt(1, product);
+            preparedStatement.setInt(2, product);
+            preparedStatement.executeUpdate();
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Error in request");
         }
-        response.setHeader("REFRESH", "0");
+
     }
 
     @Override
