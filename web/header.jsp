@@ -188,14 +188,14 @@
                 $("#incorrect").text(error)
             });
         });
-        $("#sup").click(function () {
-            $.post("signup", {
+        $("#signup_btn").click(function () {
+            $.post("<%=Const.root%>signup", {
                 username: $("#username").val(),
-                firstName: $("#firstname").val(),
-                lastName: $("#lastname").val(),
-                mobileNumber: $("#mobileNumber").val(),
-                email: $("#email").val(),
-                password: $("#password").val(),
+                firstName: $("#Firstname").val(),
+                lastName: $("#Lastname").val(),
+                mobileNumber: $("#phone_number").val(),
+                email: $("#E-mail").val(),
+                password: $("#Password").val(),
                 referral: "ru"
             }, function () {
                 location.reload(true);
@@ -265,105 +265,109 @@
 
             <div class="modal-body">
                 <div>
-                    <div id="fstpg" style="font-weight: bold;">
-                        <label for="username">Username:</label>
-                        <input id="username" class="form-control" type="text" required="">
-                        <label for="firstname">Firstname:</label>
-                        <input id="firstname" class="form-control" type="text" required="">
-                        <label for="lastname">Lastname:</label>
-                        <input id="lastname" class="form-control" type="text" required="">
+                    <form method="post" action="<%=Const.root%>signup">
+                        <div id="fstpg" style="font-weight: bold;">
+                            <label for="username">Username:</label>
+                            <input id="username" class="form-control" type="text" required="">
+                            <label for="Firstname">Firstname:</label>
+                            <input id="Firstname" class="form-control" type="text" required="">
+                            <label for="Lastname">Lastname:</label>
+                            <input id="Lastname" class="form-control" type="text" required="">
 
-                        <label for="mobileNumber">Mobile number:</label>
-                        <input id="mobileNumber" class="form-control" type="number" required="" maxlength="10"
-                               minlength="10">
-                        <label for="email">E-mail:</label>
-                        <input id="email" class="form-control" type="email">
-                        <label for="password">Password:</label>
-                        <input id="password" class="form-control" type="password" required="">
+                            <label for="phone_number">Mobile number:</label>
+                            <input id="phone_number" class="form-control" type="text" required="" maxlength="10"
+                                   minlength="10">
+                            <div class="text-danger  d-none" id="mob_warn">Please enter valid number!</div>
+                            <label for="E-mail">E-mail:</label>
+                            <input id="E-mail" class="form-control" type="email">
+                            <label for="Password">Password:</label>
+                            <input id="Password" class="form-control" type="password" required="">
 
-                        <div class="InSUP" style="margin-top: 5px;"></div>
-                        <div class="">
-                            By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
-                            that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
-                        </div>
-                        <button id="sup" class="btn btn-primary" type="submit"
-                                style="background-color:#f8b645;margin-top:10px;">Sign up
+                            <%--<div class="g-recaptcha" style="margin-top: 5px;"
+                                 data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
+                            <div class="" id="InSUP">
+                                By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
+                                that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
+                            </div>
+                            <button id="signup_btn" class="btn btn-primary" type="submit"
+                                    style="background-color:#f8b645;margin-top:10px;">Sign up
                             <%--</button>--%>
-                            <%--<label for="phone_number">Mobile number:</label>--%>
-                            <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
-                            <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
+                                <%--<label for="phone_number">Mobile number:</label>--%>
+                                <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
+                                <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
                             <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
-                            <%--</div>--%>
-                            <%--<div class="d-none" id="secpg">--%>
+                        </div>
+                        <%--<div class="d-none" id="secpg">--%>
                             <%--<label for="otp">OTP:</label>--%>
                             <%--<input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">--%>
                             <%--<button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>--%>
                             <%--<button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>--%>
-                            <%--</div>--%>
-                    </div>
+                        <%--</div>--%>
+                    </form>
                 </div>
-                <%--<div class="modal-footer d-block">--%>
+            </div>
+            <%--<div class="modal-footer d-block">--%>
                 <%--<div class="row">--%>
-                <%--<div class="col">--%>
-                <%--<button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">--%>
-                <%--<a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">--%>
-                <%--<i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>--%>
-                <%--&lt;%&ndash;<div id="gSignInWrapper">--%>
+            <%--<div class="col">--%>
+            <%--<button class="btn btn-primary" type="button" style="width:100%;background-color:rgb(48,51,137);">--%>
+            <%--<a href="<%=fbURL%>" style="color:rgb(255,255,255);font-size:20px;">--%>
+            <%--<i class="fab fa-facebook-square" style="font-size:30px;"></i>SignUp with Facebook</a></button>--%>
+            <%--&lt;%&ndash;<div id="gSignInWrapper">--%>
 
-                <%--<div id="customBtn" class="customGPlusSignIn">--%>
-                <%--<span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>--%>
-                <%--<span class="buttonText">Sign up with Google</span>--%>
-                <%--</div>--%>
-                <%--</div>&ndash;%&gt;--%>
-                <%--<div id="name"></div>--%>
+            <%--<div id="customBtn" class="customGPlusSignIn">--%>
+            <%--<span class="icon"><img src="assets/img/google.png" height="100%" width="100%"></span>--%>
+            <%--<span class="buttonText">Sign up with Google</span>--%>
+            <%--</div>--%>
+            <%--</div>&ndash;%&gt;--%>
+            <%--<div id="name"></div>--%>
 
+            <%--</div>--%>
                 <%--</div>--%>
-                <%--</div>--%>
-                <%--</div>--%>
+            <%--</div>--%>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="noti_requests">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Summary</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Check in date:</td>
+                            <td>25/3/18</td>
+                        </tr>
+                        <tr>
+                            <td>Check out date:</td>
+                            <td>30/3/19</td>
+                        </tr>
+                        <tr>
+                            <td>Deposit amount:</td>
+                            <td><i class="fa fa-rupee"></i>1200/-</td>
+                        </tr>
+                        <tr>
+                            <td>1239×2 days<br></td>
+                            <td><i class="fa fa-rupee"></i>1200/-</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total:</strong></td>
+                            <td><i class="fa fa-rupee"></i><strong>2400/-</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary qbtn" type="button">Book</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="noti_requests">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Summary</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td>Check in date:</td>
-                                <td>25/3/18</td>
-                            </tr>
-                            <tr>
-                                <td>Check out date:</td>
-                                <td>30/3/19</td>
-                            </tr>
-                            <tr>
-                                <td>Deposit amount:</td>
-                                <td><i class="fa fa-rupee"></i>1200/-</td>
-                            </tr>
-                            <tr>
-                                <td>1239×2 days<br></td>
-                                <td><i class="fa fa-rupee"></i>1200/-</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total:</strong></td>
-                                <td><i class="fa fa-rupee"></i><strong>2400/-</strong></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-light" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn btn-primary qbtn" type="button">Book</button>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 <% }%>

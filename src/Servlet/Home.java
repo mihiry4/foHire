@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -49,36 +48,17 @@ public class Home extends HttpServlet {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             user_id = (Integer) request.getSession().getAttribute("user");
         }
-        if (user_id == 0) {
-            PreparedStatement preparedStatement = connection.prepareStatement("select product_id from product where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = preparedStatement.executeQuery();
-            rs.last();
-            int row = rs.getRow();
-            products = new product[row];
-            rs.beforeFirst();
-            for (int i = 0; i < products.length; i++) {
-                rs.next();
-                products[i] = new product();
-                products[i].product_id = rs.getInt(1);
-                products[i].favourite = false;
-                products[i].fillDetails(connection);
-            }
-        } else {
-
-            PreparedStatement preparedStatement = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where (favorites.user_id = ? or favorites.user_id is null) and status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            preparedStatement.setInt(1, user_id);
-            ResultSet rs = preparedStatement.executeQuery();
-            rs.last();
-            int row = rs.getRow();
-            products = new product[row];
-            rs.beforeFirst();
-            for (int i = 0; i < products.length; i++) {
-                rs.next();
-                products[i] = new product();
-                products[i].product_id = rs.getInt(1);
-                products[i].favourite = (rs.getInt(2) == user_id);
-                products[i].fillDetails(connection);
-            }
+        ResultSet rs = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery();
+        rs.last();
+        int row = rs.getRow();
+        products = new product[row];
+        rs.beforeFirst();
+        for (int i = 0; i < products.length; i++) {
+            rs.next();
+            products[i] = new product();
+            products[i].product_id = rs.getInt(1);
+            products[i].favourite = user_id != 0 && (rs.getInt(2) == user_id);
+            products[i].fillDetails(connection);
         }
         request.setAttribute("products", products);
         request.getRequestDispatcher("/home.jsp").forward(request, response);
