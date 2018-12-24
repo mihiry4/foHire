@@ -252,40 +252,40 @@
                 <div>
                     <form method="post" action="<%=Const.root%>signup">
                         <div id="fstpg" style="font-weight: bold;">
-                            <%--<label for="username">Username:</label>--%>
-                            <%--<input id="username" class="form-control" type="text" required="">--%>
-                            <%--<label for="Firstname">Firstname:</label>--%>
-                            <%--<input id="Firstname" class="form-control" type="text" required="">--%>
-                            <%--<label for="Lastname">Lastname:</label>--%>
-                            <%--<input id="Lastname" class="form-control" type="text" required="">--%>
+                            <label for="username">Username:</label>
+                            <input id="username" class="form-control" type="text" required="">
+                            <label for="Firstname">Firstname:</label>
+                            <input id="Firstname" class="form-control" type="text" required="">
+                            <label for="Lastname">Lastname:</label>
+                            <input id="Lastname" class="form-control" type="text" required="">
 
-                            <%--<label for="Mobilenumber">Mobile number:</label>--%>
-                            <%--<input id="Mobilenumber" class="form-control" type="number" required="" maxlength="10" minlength="10">--%>
-                            <%--<label for="E-mail">E-mail:</label>--%>
-                            <%--<input id="E-mail" class="form-control" type="email">--%>
-                            <%--<label for="Password">Password:</label>--%>
-                            <%--<input id="Password" class="form-control" type="password" required="">--%>
+                            <label for="Mobilenumber">Mobile number:</label>
+                            <input id="Mobilenumber" class="form-control" type="number" required="" maxlength="10" minlength="10">
+                            <label for="E-mail">E-mail:</label>
+                            <input id="E-mail" class="form-control" type="email">
+                            <label for="Password">Password:</label>
+                            <input id="Password" class="form-control" type="password" required="">
 
-                            <%--&lt;%&ndash;<div class="g-recaptcha" style="margin-top: 5px;"--%>
-                                 <%--data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>&ndash;%&gt;--%>
-                            <%--<div class="">--%>
-                                <%--By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and--%>
-                                <%--that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.--%>
-                            <%--</div>--%>
-                            <%--<button id="sup" class="btn btn-primary" type="submit"--%>
-                                    <%--style="background-color:#f8b645;margin-top:10px;">Sign up--%>
+                            <%--<div class="g-recaptcha" style="margin-top: 5px;"
+                                 data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
+                            <div class="">
+                                By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
+                                that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
+                            </div>
+                            <button id="sup" class="btn btn-primary" type="submit"
+                                    style="background-color:#f8b645;margin-top:10px;">Sign up
                             <%--</button>--%>
-                                <label for="phone_number">Mobile number:</label>
-                                <input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">
-                                <span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>
-                            <button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>
-                        </div>
-                        <div class="d-none" id="secpg">
-                            <label for="otp">OTP:</label>
-                            <input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">
-                            <button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>
-                            <button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>
-                        </div>
+                                <%--<label for="phone_number">Mobile number:</label>--%>
+                                <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
+                                <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
+                            <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
+                        <%--</div>--%>
+                        <%--<div class="d-none" id="secpg">--%>
+                            <%--<label for="otp">OTP:</label>--%>
+                            <%--<input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">--%>
+                            <%--<button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>--%>
+                            <%--<button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>--%>
+                        <%--</div>--%>
                     </form>
                 </div>
             </div>
