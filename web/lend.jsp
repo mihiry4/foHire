@@ -35,11 +35,11 @@
                                     <tbody class="tbdy">
                                     <tr>
                                         <td>Product name:</td>
-                                        <td colspan="3"><input name="productName" class="form-control" type="text"></td>
+                                        <td colspan="3"><input name="productName" required="" class="form-control" type="text"></td>
                                     </tr>
                                     <tr>
                                         <td>Product category:</td>
-                                        <td colspan="3"><select name="category" class="form-control">
+                                        <td colspan="3"><select required="" name="category" class="form-control">
                                             <option value="1" selected="">Books</option>
                                             <option value="2">Blu-ray and console games</option>
                                         </select></td>
@@ -54,13 +54,13 @@
                                     </tr>
                                     <tr>
                                         <td>Rent expected(<i class="fa fa-rupee"></i>):</td>
-                                        <td><input name="rent" class="form-control form-control-lg" type="number"></td>
+                                        <td><input required="" name="rent" class="form-control form-control-lg" type="number" ></td>
                                         <td></td>
                                         <td>Per day</td>
                                     </tr>
                                     <tr>
                                         <td>Deposit amount(<i class="fa fa-rupee"></i>):</td>
-                                        <td colspan="2"><input name="deposit" class="form-control" type="number"></td>
+                                        <td colspan="2"><input name="deposit" class="form-control" type="number" required=""></td>
                                         <td colspan="2"></td>
                                     </tr>
 
@@ -92,23 +92,23 @@
                                     <tbody>
                                     <tr>
                                         <td>Thumbnail image:</td>
-                                        <td colspan="2"><input name="thumbnail" type="file" accept="image/*" onchange="readURL(this);"><img src="#" id="blah" style="height:0;width:0;"/></td>
+                                        <td colspan="2"><input required="" name="thumbnail" type="file" accept="image/*" onchange="readURL(this);"><img src="#" id="blah" style="height:0;width:0;"/></td>
                                     </tr>
                                     <tr>
                                         <td>Product images:<span class="d-block" style="font-size:13px;">(Maximum 3 images)</span></td>
-                                        <td colspan="2"><input name="images" type="file" accept="image/*" multiple="multiple" id="gallery-photo-add" max="3">
+                                        <td colspan="2"><input required="" name="images" type="file" accept="image/*" multiple="multiple" id="gallery-photo-add" max="3">
                                             <div class="gallery"></div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Location:</td>
-                                        <td colspan="2"><input name="region" id="autocomplete"
+                                        <td colspan="2"><input required="" name="region" id="autocomplete"
                                                                placeholder="Enter your address"
                                                                onFocus="geolocate()" class="form-control" type="text"></td>
                                     </tr>
                                     <tr>
                                         <td>Description:</td>
-                                        <td colspan="2"><textarea name="description" class="form-control"></textarea></td>
+                                        <td colspan="2"><textarea required="" name="description" class="form-control"></textarea></td>
                                     </tr>
                                     <%--<tr>--%>
                                         <%--<td>Late charges(<i class="fa fa-rupee"></i>):--%>
