@@ -161,40 +161,40 @@
                 <div style="background: #f8b645;">
                     <ul class="list-unstyled" id="notification_list">
                         <li style="color: white;font-size: 24px;padding: 10px;"><strong>Notifications</strong></li>
-                        <li style="background-color: white;">
-                        <a onclick="fn(0)" data-toggle="modal" data-target="#requests">
-                            <div class="p-2 chatpeople" style="overflow: auto;">
-                                <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
-                                                                        class="rounded-circle"></div>
-                                <div class="d-inline-block p-2">
-                                    <h5 class="fohireclr">Manan</h5>
-                                    <div>
-                                        <p class="fohireclr">A new booking request.</p>
-                                    </div>
-                                </div>
-                                <div class="float-right" style="clear:both;">
-                                    <p class="black" style="font-size:13px;">Time</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                        <li style="background-color: white;">
-                            <a href="#" data-toggle="modal" data-target="#book">
-                                <div class="p-2 chatpeople" style="overflow: auto;">
-                                    <div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"
-                                                                            class="rounded-circle"></div>
-                                    <div class="d-inline-block p-2">
-                                        <h5 class="fohireclr">Manan</h5>
-                                        <div>
-                                            <p class="fohireclr">Your request has been accepted.</p>
-                                        </div>
-                                    </div>
-                                    <div class="float-right" style="clear:both;">
-                                        <p class="black" style="font-size:13px;">Time</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+                        <%--<li style="background-color: white;">--%>
+                        <%--<a onclick="fn(0)" data-toggle="modal" data-target="#requests">--%>
+                            <%--<div class="p-2 chatpeople" style="overflow: auto;">--%>
+                                <%--<div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"--%>
+                                                                        <%--class="rounded-circle"></div>--%>
+                                <%--<div class="d-inline-block p-2">--%>
+                                    <%--<h5 class="fohireclr">Manan</h5>--%>
+                                    <%--<div>--%>
+                                        <%--<p class="fohireclr">A new booking request.</p>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="float-right" style="clear:both;">--%>
+                                    <%--<p class="black" style="font-size:13px;">Time</p>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</a>--%>
+                    <%--</li>--%>
+                        <%--<li style="background-color: white;">--%>
+                            <%--<a href="#" data-toggle="modal" data-target="#book">--%>
+                                <%--<div class="p-2 chatpeople" style="overflow: auto;">--%>
+                                    <%--<div class="float-left chatimgdiv"><img src="assets/img/th-06.jpg"--%>
+                                                                            <%--class="rounded-circle"></div>--%>
+                                    <%--<div class="d-inline-block p-2">--%>
+                                        <%--<h5 class="fohireclr">Manan</h5>--%>
+                                        <%--<div>--%>
+                                            <%--<p class="fohireclr">Your request has been accepted.</p>--%>
+                                        <%--</div>--%>
+                                    <%--</div>--%>
+                                    <%--<div class="float-right" style="clear:both;">--%>
+                                        <%--<p class="black" style="font-size:13px;">Time</p>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                            <%--</a>--%>
+                        <%--</li>--%>
 
                     </ul>
                 </div>
