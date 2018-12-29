@@ -268,20 +268,22 @@
                     <form method="post" action="<%=Const.root%>signup">
                         <div id="fstpg" style="font-weight: bold;">
                             <label for="username">Username:</label>
-                            <input id="username" class="form-control" type="text" required="">
+                            <input id="username" name="username" class="form-control" type="text" required="">
                             <label for="Firstname">Firstname:</label>
-                            <input id="Firstname" class="form-control" type="text" required="">
+                            <input id="Firstname" name="firstname" class="form-control" type="text" required="">
                             <label for="Lastname">Lastname:</label>
-                            <input id="Lastname" class="form-control" type="text" required="">
+                            <input id="Lastname" name="lastname" class="form-control" type="text" required="">
 
                             <label for="phone_number">Mobile number:</label>
-                            <input id="phone_number" class="form-control" type="text" required="" maxlength="10"
+                            <input id="phone_number" name="mobilenumber" class="form-control" type="text" required="" maxlength="10"
                                    minlength="10">
+                            <label for="E-mail">Referral code:</label>
+                            <input id="" name="referral" class="form-control" type="text" maxlength="4">
                             <div class="text-danger  d-none" id="mob_warn">Please enter valid number!</div>
                             <label for="E-mail">E-mail:</label>
-                            <input id="E-mail" class="form-control" type="email">
+                            <input id="E-mail" name="email" class="form-control" type="email">
                             <label for="Password">Password:</label>
-                            <input id="Password" class="form-control" type="password" required="">
+                            <input id="Password" name="password" class="form-control" type="password" required="">
 
                             <%--<div class="g-recaptcha" style="margin-top: 5px;"
                                  data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
