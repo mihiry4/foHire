@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -48,7 +49,8 @@ public class Home extends HttpServlet {
         if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
             user_id = (Integer) request.getSession().getAttribute("user");
         }
-        ResultSet rs = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery();
+        PreparedStatement ps = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ResultSet rs = ps.executeQuery();
         rs.last();
         int row = rs.getRow();
         products = new product[row];
