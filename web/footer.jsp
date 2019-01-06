@@ -81,7 +81,7 @@
                     <i class="fa fa-google-plus"></i></a>
                 <a href=" http://www.linkedin.com/shareArticle?url=[post-url]&amp;title=[post-title]" class="linkedin">
                     <i class="fa fa-linkedin"></i></a>
-                <a href="https://api.whatsapp.com/send?text=www.fohire.com .Fohire helps you find out things you want to rent. Share this link and win upto ₹150 Fohire credits." class="whatsapp">
+                <a href="https://api.whatsapp.com/send?text=www.fohire.com Fohire helps you find things you want to rent. Sign up now and earn up to ₹150 in your fohire account." class="whatsapp">
                     <i class="fa fa-whatsapp"></i></a>
             </div>
         </div>
