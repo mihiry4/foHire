@@ -42,11 +42,7 @@
                   $('#chathistory').append( templateScript(data) ); 
                   s.scrollTop = s.scrollHeight;
                 }
-                  $("#spinner").removeClass('spin');
-                  $("#spinner").removeClass('loader');
-                  //spinner.classList.remove('loader');
-
-
+                  $("#spinner").removeClass('spin').removeClass('loader');
               }
 
             }

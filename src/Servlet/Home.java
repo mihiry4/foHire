@@ -43,25 +43,29 @@ public class Home extends HttpServlet {
     }
 
     private void respond(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        product[] products;
-        int user_id = 0;
-        if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
-            user_id = (Integer) request.getSession().getAttribute("user");
+        try {
+            product[] products;
+            int user_id = 0;
+            if (request.getSession() != null && request.getSession().getAttribute("user") != null) {
+                user_id = (Integer) request.getSession().getAttribute("user");
+            }
+            ResultSet rs = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery();
+            rs.last();
+            int row = rs.getRow();
+            products = new product[row];
+            rs.beforeFirst();
+            for (int i = 0; i < products.length; i++) {
+                rs.next();
+                products[i] = new product();
+                products[i].product_id = rs.getInt(1);
+                products[i].favourite = user_id != 0 && (rs.getInt(2) == user_id);
+                products[i].fillDetails(connection);
+            }
+            request.setAttribute("products", products);
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-        ResultSet rs = connection.prepareStatement("select product_id, favorites.user_id from product left outer join favorites using (product_id) where status = true order by upload_time desc limit 24", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY).executeQuery();
-        rs.last();
-        int row = rs.getRow();
-        products = new product[row];
-        rs.beforeFirst();
-        for (int i = 0; i < products.length; i++) {
-            rs.next();
-            products[i] = new product();
-            products[i].product_id = rs.getInt(1);
-            products[i].favourite = user_id != 0 && (rs.getInt(2) == user_id);
-            products[i].fillDetails(connection);
-        }
-        request.setAttribute("products", products);
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
     }
 
     @Override

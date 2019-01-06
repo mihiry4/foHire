@@ -98,28 +98,28 @@ public final class user {
         if (!validate(connection, email, userName, mobile)) {
             throw new IllegalArgumentException("Account already exists for this information");
         }
-        PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
-        preparedStatement.setString(1, referral);
-        ResultSet rsp = preparedStatement.executeQuery();
-        if (!rsp.next()) {
-            throw new ArithmeticException("promo code does not exist");
-        } else {
-            preparedStatement = connection.prepareStatement("update users set referral_amt = referral_amt+1 where user_name = ? and referral_amt <= 5");
-            preparedStatement.setString(1, userName);
-            preparedStatement.executeUpdate();
+        PreparedStatement preparedStatement;
+        if (!referral.isEmpty()) {
+            preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+            preparedStatement.setString(1, referral);
+            ResultSet rsp = preparedStatement.executeQuery();
+            if (!rsp.next()) {
+                throw new ArithmeticException("referral code does not exist");
+            } else {
+                preparedStatement = connection.prepareStatement("update users set referral_amt = referral_amt+1 where user_name = ? and referral_amt <= 5");
+                preparedStatement.setString(1, userName);
+                preparedStatement.executeUpdate();
+            }
         }
-        preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, referral_amt) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, referral_amt) VALUES (?, ?, ?, ?, ?, ?, 1)", PreparedStatement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, firstName);
         preparedStatement.setString(2, lastName);
         preparedStatement.setString(3, userName);
         preparedStatement.setString(4, email);
         preparedStatement.setString(5, mobile);
         preparedStatement.setString(6, password);
-        preparedStatement.setInt(7, 1);
         preparedStatement.executeUpdate();
-        preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
-        preparedStatement.setString(1, email);
-        ResultSet rs = preparedStatement.executeQuery();
+        ResultSet rs = preparedStatement.getGeneratedKeys();
         rs.next();
         this.userid = rs.getInt(1);
 

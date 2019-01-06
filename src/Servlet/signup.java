@@ -1,5 +1,6 @@
 package Servlet;
 
+import Objects.ApiResponse;
 import Objects.ChatKit;
 import Objects.Const;
 import Objects.user;
@@ -149,14 +150,25 @@ public class signup extends HttpServlet {
             chatKit = new ChatKit(map);
             Map<String, Object> map1 = new HashMap<>();
             map1.put("name", firstname);
-            chatKit.createUser(username, map1);
-            u.signup(connection, firstname, lastname, username, email, mobileNumber, password, referral);
+            ApiResponse apiResponse = chatKit.createUser(username, map1);
+            if (apiResponse.getStatus() == null || apiResponse.getStatus() > 250) {
+                throw new Exception("User with this username already exists");
+            }
+            try {
+                u.signup(connection, firstname, lastname, username, email, mobileNumber, password, referral);
+            } catch (ArithmeticException | IllegalArgumentException e) {
+                response.sendError(HttpServletResponse.SC_CONFLICT, e.getMessage());
+                chatKit.deleteUser(username);
+            }
+            if (u.userid != 0) {
+                HttpSession httpSession = request.getSession();
+                httpSession.setAttribute("user", u.userid);
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_CONFLICT, "User with this details already exists");
+            response.sendError(HttpServletResponse.SC_CONFLICT, e.getMessage());
         }
-        HttpSession httpSession = request.getSession();
-        httpSession.setAttribute("user", u.userid);
-        response.setStatus(HttpServletResponse.SC_OK);
+
     }
 
     @Override
@@ -250,6 +262,7 @@ public class signup extends HttpServlet {
             rd.forward(request, response);
         }
     }
+
     @Override
     public void destroy() {
         super.destroy();

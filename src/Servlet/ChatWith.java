@@ -68,7 +68,7 @@ public class ChatWith extends HttpServlet {
                     JSONObject room = rooms.getJSONObject(i);
                     JSONArray members = room.getJSONArray("member_user_ids");
                     if (members.getString(0).equals(receiver)||members.getString(1).equals(receiver)){
-                        response.sendRedirect("message.jsp?" + receiver);
+                        response.sendRedirect(Const.root + "message/" + receiver);
                         return;
                     }
                 }
@@ -77,7 +77,7 @@ public class ChatWith extends HttpServlet {
                 map1.put("user_ids",new String[]{Sender,receiver});
                 map1.put("name", Sender + "_" + receiver);
                 chatKit.createRoom(Sender, map1);
-                response.sendRedirect("message.jsp?" + receiver);
+                response.sendRedirect(Const.root + "message/" + receiver);
             } catch (SQLException e) {
                 throw e;
             } catch (Exception e) {
