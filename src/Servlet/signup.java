@@ -134,6 +134,7 @@ public class signup extends HttpServlet {
                 e.printStackTrace();
             }
         }*/
+
         String username = request.getParameter("username");
         String firstname = request.getParameter("firstName");
         String lastname = request.getParameter("lastName");

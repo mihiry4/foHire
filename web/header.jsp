@@ -265,13 +265,14 @@
 
             <div class="modal-body">
                 <div>
-                    <div id="fstpg" style="font-weight: bold;">
-                        <label for="username">Username:</label>
-                        <input id="username" class="form-control" type="text" required="">
-                        <label for="Firstname">Firstname:</label>
-                        <input id="Firstname" class="form-control" type="text" required="">
-                        <label for="Lastname">Lastname:</label>
-                        <input id="Lastname" class="form-control" type="text" required="">
+                    <form method="post" action="<%=Const.root%>signup">
+                        <div id="fstpg" style="font-weight: bold;">
+                            <label for="username">Username:</label>
+                            <input id="username" name="username" class="form-control" type="text" required="">
+                            <label for="Firstname">Firstname:</label>
+                            <input id="Firstname" name="firstname" class="form-control" type="text" required="">
+                            <label for="Lastname">Lastname:</label>
+                            <input id="Lastname" name="lastname" class="form-control" type="text" required="">
 
                         <label for="phone_number">Mobile number:</label>
                         <input id="phone_number" class="form-control" type="text" required="" maxlength="10"

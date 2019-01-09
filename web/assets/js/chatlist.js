@@ -1,6 +1,7 @@
 chatManager.connect().then(currentUser => {
     let sequence = Promise.resolve();
     if(!currentUser.rooms){
+        $("#spinner").removeClass('spin').removeClass('loader');
         $("#chatlistmain").append("<li class='nonot'><strong>No messages</strong></li>");
     }
     currentUser.rooms.forEach(function (room) {
