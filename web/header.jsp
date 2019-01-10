@@ -199,8 +199,8 @@
                 referral: $("#referral").val()
             }, function () {
                 location.reload(true);
-            }).fail(function (xhr, status, error) {
-                $("#InSUP").text(error)
+            }).fail(function (xhr) {
+                $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
             });
         });
         <%--$("#nextbtn").click(function () {--%>
@@ -262,49 +262,46 @@
 <div class="modal fade visible" role="dialog" tabindex="-1" id="signup"><%--for signup--%>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-
             <div class="modal-body">
-                <div>
-                    <form method="post" action="<%=Const.root%>signup">
-                        <div id="fstpg" style="font-weight: bold;">
-                            <label for="username">Username:</label>
-                            <input id="username" name="username" class="form-control" type="text" required="">
-                            <label for="Firstname">Firstname:</label>
-                            <input id="Firstname" name="firstname" class="form-control" type="text" required="">
-                            <label for="Lastname">Lastname:</label>
-                            <input id="Lastname" name="lastname" class="form-control" type="text" required="">
+                <div id="fstpg" style="font-weight: bold;">
+                    <label for="username">Username:</label>
+                    <input id="username" name="username" class="form-control" type="text" required="">
+                    <label for="Firstname">Firstname:</label>
+                    <input id="Firstname" name="firstname" class="form-control" type="text" required="">
+                    <label for="Lastname">Lastname:</label>
+                    <input id="Lastname" name="lastname" class="form-control" type="text" required="">
 
-                        <label for="phone_number">Mobile number:</label>
-                        <input id="phone_number" class="form-control" type="text" required="" maxlength="10"
-                               minlength="10">
-                        <div class="text-danger  d-none" id="mob_warn">Please enter valid number!</div>
-                        <label for="E-mail">E-mail:</label>
-                        <input id="E-mail" class="form-control" type="email" required="required">
-                        <label for="Password">Password:</label>
-                        <input id="Password" class="form-control" type="password" required="required">
-                        <label for="referral">Referral code:</label>
-                        <input id="referral" class="form-control" type="text">
-                        <%--<div class="g-recaptcha" style="margin-top: 5px;"
-                             data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
-                        <div class="" id="InSUP">
-                            By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
-                            that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
-                        </div>
-                        <button id="signup_btn" class="btn btn-primary" type="submit"
-                                style="background-color:#f8b645;margin-top:10px;">Sign up
-                            <%--</button>--%>
-                            <%--<label for="phone_number">Mobile number:</label>--%>
-                            <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
-                            <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
-                            <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
-                    </div>
-                    <%--<div class="d-none" id="secpg">--%>
-                    <%--<label for="otp">OTP:</label>--%>
-                    <%--<input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">--%>
-                    <%--<button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>--%>
-                    <%--<button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>--%>
-                    <%--</div>--%>
+                    <label for="phone_number">Mobile number:</label>
+                    <input id="phone_number" class="form-control" type="text" required="" maxlength="10"
+                           minlength="10">
+                    <div class="text-danger  d-none" id="mob_warn">Please enter valid number!</div>
+                    <label for="E-mail">E-mail:</label>
+                    <input id="E-mail" class="form-control" type="email" required="required">
+                    <label for="Password">Password:</label>
+                    <input id="Password" class="form-control" type="password" required="required">
+                    <label for="referral">Referral code:</label>
+                    <input id="referral" class="form-control" type="text">
+                    <%--<div class="g-recaptcha" style="margin-top: 5px;"
+                         data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
+                    <div class="" id="InSUP" style="color: red"></div>
+                    <button id="signup_btn" class="btn btn-primary" type="submit"
+                            style="background-color:#f8b645;margin-top:10px;">Sign up
+                    </button>
+                    <br>
+                    By proceeding you agree to our<a href="terms.html"> terms&nbsp;of service</a>&nbsp;and
+                    that you have read our <a href="terms.html">Privacy&nbsp;Policy</a>.
+                    <%--</button>--%>
+                    <%--<label for="phone_number">Mobile number:</label>--%>
+                    <%--<input id="phone_number" class="form-control" type="text" required="" maxlength="10" minlength="10">--%>
+                    <%--<span class="text-danger d-none" id="non_phone">Please enter valid Mobile number!</span><br/>--%>
+                    <%--<button class="btn btn-primary" type="button" id="nextbtn" style="background-color:#f8b645;margin-top:10px;">Send OTP</button>--%>
                 </div>
+                <%--<div class="d-none" id="secpg">--%>
+                <%--<label for="otp">OTP:</label>--%>
+                <%--<input id="otp" class="form-control" type="number" required="" maxlength="4" minlength="4">--%>
+                <%--<button id="resend" class="btn btn-link btn-sm float-right fohireclr align-middle" type="button" style="clear:both;">Resend OTP</button>--%>
+                <%--<button id="sup" class="btn btn-primary" type="submit" style="background-color:#f8b645;margin-top:10px;">Sign up</button>--%>
+                <%--</div>--%>
             </div>
             <%--<div class="modal-footer d-block">--%>
             <%--<div class="row">--%>

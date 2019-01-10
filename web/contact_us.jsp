@@ -10,21 +10,21 @@
         <h6 class="text-center">Please provide us with your valuable feedback. It will help us to improve your experience.</h6>
         <div class="row" style="margin-top: 70px;">
             <div class="col-lg-8 offset-lg-2">
-                <form>
+                <form method="post" action="feedback">
                     <div class="table-responsive table-borderless">
                         <table class="table table-bordered">
                             <tbody>
                             <tr>
                                 <td><strong>Name</strong></td>
-                                <td><input class="form-control" type="text"></td>
+                                <td><input name="name" class="form-control" type="text"></td>
                             </tr>
                             <tr>
                                 <td><strong>E-mail</strong></td>
-                                <td><input class="form-control" type="email"></td>
+                                <td><input name="email" class="form-control" type="email"></td>
                             </tr>
                             <tr>
                                 <td><strong>Description</strong></td>
-                                <td><textarea class="form-control" rows="5"></textarea></td>
+                                <td><textarea name="description" class="form-control" rows="5"></textarea></td>
                             </tr>
                             <tr>
                                 <td colspan="2"><button class="btn btn-primary float-right qbtn" type="button">Send</button></td>

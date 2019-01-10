@@ -16,8 +16,6 @@ public final class user {
     public String facebook_auth;
     public String google_auth;
     Timestamp firstCreated;
-    Timestamp lastActive;
-    String profilePic;
     int numOfPost;
     boolean verifiedUser;
     boolean emailVerified;
@@ -30,15 +28,7 @@ public final class user {
         super.finalize();
     }
 
-    private static boolean validate(@NotNull Connection connection, String email, String mobile, String userName) throws SQLException {
-
-        PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ? OR user_name = ? OR mobile_number = ?");
-        preparedStatement.setString(1, email);
-        preparedStatement.setString(2, userName);
-        preparedStatement.setString(3, mobile);
-        ResultSet rs = preparedStatement.executeQuery();
-        return (!rs.next());
-    }
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     /*public String getUserName(@NotNull Connection connection) {
         try {
@@ -53,21 +43,15 @@ public final class user {
         return null;
     }*/
 
-    public static String hashpass(@NotNull String base) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
-            StringBuilder hexString = new StringBuilder();
+    private static void validate(@NotNull Connection connection, String email, String userName, String mobile) throws IllegalArgumentException, SQLException {
 
-            for (byte aHash : hash) {
-                String hex = Integer.toHexString(0xff & aHash);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+        PreparedStatement preparedStatement = connection.prepareStatement("select user_id from users where email_id = ? OR user_name = ? OR mobile_number = ?");
+        preparedStatement.setString(1, email);
+        preparedStatement.setString(2, userName);
+        preparedStatement.setString(3, mobile);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            throw new IllegalArgumentException("Account already exists for this information");
         }
     }
 
@@ -85,107 +69,45 @@ public final class user {
         this.facebook_auth = resultSet.getString("facebook_auth");
         this.google_auth = resultSet.getString("google_auth");
         this.firstCreated = resultSet.getTimestamp("timestamp");
-        this.lastActive = resultSet.getTimestamp("last_active");
-        this.profilePic = resultSet.getString("profile_pic");
         this.numOfPost = resultSet.getInt("number_of_post");
         this.emailVerified = resultSet.getBoolean("email_verified");
         this.mobileVerified = resultSet.getBoolean("mobile_verified");
         this.verifiedUser = resultSet.getBoolean("verified_user");
     }
 
-    public void signup(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String mobile, String password, String referral) throws IllegalArgumentException, SQLException//for signUp
-    {
-        if (!validate(connection, email, userName, mobile)) {
-            throw new IllegalArgumentException("Account already exists for this information");
-        }
-        PreparedStatement preparedStatement;
-        if (!referral.isEmpty()) {
-            preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
-            preparedStatement.setString(1, referral);
-            ResultSet rsp = preparedStatement.executeQuery();
-            if (!rsp.next()) {
-                throw new ArithmeticException("referral code does not exist");
-            } else {
-                preparedStatement = connection.prepareStatement("update users set referral_amt = referral_amt+1 where user_name = ? and referral_amt <= 5");
-                preparedStatement.setString(1, userName);
-                preparedStatement.executeUpdate();
-            }
-        }
-        preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, referral_amt) VALUES (?, ?, ?, ?, ?, ?, 1)", PreparedStatement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1, firstName);
-        preparedStatement.setString(2, lastName);
-        preparedStatement.setString(3, userName);
-        preparedStatement.setString(4, email);
-        preparedStatement.setString(5, mobile);
-        preparedStatement.setString(6, password);
-        preparedStatement.executeUpdate();
-        ResultSet rs = preparedStatement.getGeneratedKeys();
-        rs.next();
-        this.userid = rs.getInt(1);
+    private static String hashpass(@NotNull String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
 
+            for (byte aHash : hash) {
+                String hex = Integer.toHexString(0xff & aHash);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public void SocialLogin(@NotNull Connection connection, String firstName, String lastName, String email, String social_auth, boolean emailVerified, String profilePic, boolean google/*if signIn with google*/) throws SQLException {  //for google login/signup     //ToDo:to be improved and user_name to be checked
+    private static String randomAlphaNumeric() {
 
-        String generatedUid;
-        PreparedStatement preparedStatement;
-        if (google) {
-            preparedStatement = connection.prepareStatement("select user_id, google_auth from users where email_id = ?");
-        } else {
-            preparedStatement = connection.prepareStatement("select user_id, facebook_auth from users where email_id = ?");
+        int count = 10;
+        StringBuilder builder = new StringBuilder();
+
+        while (count-- != 0) {
+
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+
         }
-        preparedStatement.setString(1, email);
-        ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            int id = rs.getInt(1);
-            if (google) {
-                if (rs.getString("google_auth") == null) {
-                    preparedStatement = connection.prepareStatement("update users set google_auth = ?, email_verified = ? where user_id = ?");
-                    preparedStatement.setInt(3, id);
-                    preparedStatement.setBoolean(2, emailVerified);
-                    preparedStatement.setString(1, social_auth);
-                    preparedStatement.executeUpdate();
-                }
-            } else {
-                if (rs.getString("facebook_auth") == null) {
-                    preparedStatement = connection.prepareStatement("update users set facebook_auth = ?, email_verified = ? where user_id = ?");
-                    preparedStatement.setInt(3, id);
-                    preparedStatement.setBoolean(2, emailVerified);
-                    preparedStatement.setString(1, social_auth);
-                    preparedStatement.executeUpdate();
-                }
-            }
-            this.userid = id;
-        } else {
-            generatedUid = email.split("@")[0];
-            preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
-            preparedStatement.setString(1, generatedUid);
-            rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                generatedUid = randomAlphaNumeric(10);
-                preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
-                preparedStatement.setString(1, generatedUid);
-                rs = preparedStatement.executeQuery();
-            }
-            if (google) {
-                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, profile_pic, user_name) values (?, ?, ?, ?, ?, ?, ?)");
-            } else {
-                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, facebook_auth, email_verified, profile_pic, user_name) values (?, ?, ?, ?, ?, ?, ?)");
-            }
-            preparedStatement.setString(1, firstName);
-            preparedStatement.setString(2, lastName);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, social_auth);
-            preparedStatement.setBoolean(5, emailVerified);
-            preparedStatement.setString(6, profilePic);
-            preparedStatement.setString(7, generatedUid);
-            preparedStatement.executeUpdate();
-            preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
-            preparedStatement.setString(1, email);
-            rs = preparedStatement.executeQuery();
-            rs.next();
-            this.userid = rs.getInt(1);
-        }
+
+        return builder.toString();
+
     }
 
     public product[] getFavProducts(@NotNull Connection connection) throws SQLException {
@@ -239,7 +161,7 @@ public final class user {
         return null;
     }*/
 
-    public int getProfileCompletion() {
+    /*public int getProfileCompletion() {
         int i = 0;
         if (facebook_auth != null) i++;
         if (google_auth != null) i++;
@@ -248,6 +170,99 @@ public final class user {
         if (emailVerified) i++;
         i *= 20;
         return i;
+    }*/
+
+    public void signup(@NotNull Connection connection, String firstName, String lastName, String userName, String email, String mobile, String password, String referral) throws IllegalArgumentException, SQLException//for signUp
+    {
+        validate(connection, email, userName, mobile);
+        PreparedStatement preparedStatement;
+        if (!referral.isEmpty()) {
+            preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+            preparedStatement.setString(1, referral);
+            ResultSet rsp = preparedStatement.executeQuery();
+            if (!rsp.next()) {
+                throw new ArithmeticException("referral code does not exist");
+            } else {
+                preparedStatement = connection.prepareStatement("update users set referral_amt = referral_amt+1 where user_name = ? and referral_amt <= 5");
+                preparedStatement.setString(1, userName);
+                preparedStatement.executeUpdate();
+            }
+        }
+        preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, user_name, email_id, mobile_number, password, referral_amt) VALUES (?, ?, ?, ?, ?, ?, 1)", PreparedStatement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, firstName);
+        preparedStatement.setString(2, lastName);
+        preparedStatement.setString(3, userName);
+        preparedStatement.setString(4, email);
+        preparedStatement.setString(5, mobile);
+        preparedStatement.setString(6, hashpass(password));
+        preparedStatement.executeUpdate();
+        ResultSet rs = preparedStatement.getGeneratedKeys();
+        rs.next();
+        this.userid = rs.getInt(1);
+
+    }
+
+    public void SocialLogin(@NotNull Connection connection, String firstName, String lastName, String email, String social_auth, boolean emailVerified, String profilePic, boolean google/*if signIn with google*/) throws SQLException {  //for google login/signup     //ToDo:to be improved and user_name to be checked
+
+        String generatedUid;
+        PreparedStatement preparedStatement;
+        if (google) {
+            preparedStatement = connection.prepareStatement("select user_id, google_auth from users where email_id = ?");
+        } else {
+            preparedStatement = connection.prepareStatement("select user_id, facebook_auth from users where email_id = ?");
+        }
+        preparedStatement.setString(1, email);
+        ResultSet rs = preparedStatement.executeQuery();
+        if (rs.next()) {
+            int id = rs.getInt(1);
+            if (google) {
+                if (rs.getString("google_auth") == null) {
+                    preparedStatement = connection.prepareStatement("update users set google_auth = ?, email_verified = ? where user_id = ?");
+                    preparedStatement.setInt(3, id);
+                    preparedStatement.setBoolean(2, emailVerified);
+                    preparedStatement.setString(1, social_auth);
+                    preparedStatement.executeUpdate();
+                }
+            } else {
+                if (rs.getString("facebook_auth") == null) {
+                    preparedStatement = connection.prepareStatement("update users set facebook_auth = ?, email_verified = ? where user_id = ?");
+                    preparedStatement.setInt(3, id);
+                    preparedStatement.setBoolean(2, emailVerified);
+                    preparedStatement.setString(1, social_auth);
+                    preparedStatement.executeUpdate();
+                }
+            }
+            this.userid = id;
+        } else {
+            generatedUid = email.split("@")[0];
+            preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+            preparedStatement.setString(1, generatedUid);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                generatedUid = randomAlphaNumeric();
+                preparedStatement = connection.prepareStatement("select user_id from users where user_name = ?");
+                preparedStatement.setString(1, generatedUid);
+                rs = preparedStatement.executeQuery();
+            }
+            if (google) {
+                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, google_auth, email_verified, user_name) values (?, ?, ?, ?, ?, ?)");
+            } else {
+                preparedStatement = connection.prepareStatement("INSERT into users (first_name, last_name, email_id, facebook_auth, email_verified, user_name) values (?, ?, ?, ?, ?, ?)");
+            }
+            preparedStatement.setString(1, firstName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, social_auth);
+            preparedStatement.setBoolean(5, emailVerified);
+            preparedStatement.setString(6, profilePic);
+            preparedStatement.setString(7, generatedUid);
+            preparedStatement.executeUpdate();
+            preparedStatement = connection.prepareStatement("SELECT user_id from users where email_id = ?");
+            preparedStatement.setString(1, email);
+            rs = preparedStatement.executeQuery();
+            rs.next();
+            this.userid = rs.getInt(1);
+        }
     }
 
     public void login(@NotNull Connection connection, String input, String password) throws IllegalArgumentException, SQLException {    //for login purpose
@@ -255,7 +270,7 @@ public final class user {
         preparedStatement.setString(1, input);
         preparedStatement.setString(2, input);
         preparedStatement.setString(3, input);
-        preparedStatement.setString(4, password);
+        preparedStatement.setString(4, hashpass(password));
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             this.userid = resultSet.getInt(1);
@@ -265,24 +280,6 @@ public final class user {
         } else {
             throw new IllegalArgumentException("Entered invalid credentials");
         }
-
-    }
-
-    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    private static String randomAlphaNumeric(int count) {
-
-        StringBuilder builder = new StringBuilder();
-
-        while (count-- != 0) {
-
-            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-
-            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-
-        }
-
-        return builder.toString();
 
     }
 }

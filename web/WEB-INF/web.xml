@@ -97,6 +97,14 @@
         <servlet-name>changePass</servlet-name>
         <servlet-class>Servlet.ChangePass</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>feedback</servlet-name>
+        <servlet-class>Servlet.feedback</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>feedback</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>changePass</servlet-name>
         <url-pattern>/changePass</url-pattern>
