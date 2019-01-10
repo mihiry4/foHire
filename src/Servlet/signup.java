@@ -163,6 +163,9 @@ public class signup extends HttpServlet {
             if (password.length() < 6) {
                 throw new IllegalArgumentException("Please enter password more than 6 characters");
             }
+            if (firstname.isEmpty() || lastname.isEmpty()) {
+                throw new IllegalArgumentException("First or Last name should not be empty");
+            }
             u.signup(connection, firstname, lastname, username, email, mobileNumber, password, referral);
         } catch (ArithmeticException | IllegalArgumentException e) {
             response.sendError(HttpServletResponse.SC_EXPECTATION_FAILED, e.getMessage());
