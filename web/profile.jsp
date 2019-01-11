@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <div><img class="img-fluid" src="assets/img/th-02.jpg"></div>
+                <div><img class="img-fluid p-3" style="max-height: 300px; max-width: 100%;" src="assets/img/propic.png"></div>
                 <div>
                     <div class="table-responsive">
                         <table class="table">
