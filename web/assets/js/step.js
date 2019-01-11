@@ -7,23 +7,23 @@ $(document).ready(function(){
         $('#'+$(this).val()).show();
     });
 
-    $("#signup_btn").click(function () {
-        var num=$("#phone_number").val();
-        var filter = /^[0-9]+$/;
-
-        if (filter.test(num) && num.length===10){
-            // $("#fstpg").addClass("d-none");
-            // $("#secpg").removeClass("d-none");
-        }
-        else{
-            //$("#non_phone").removeClass("d-none");
-            $("#mob_warn").removeClass("d-none");
-            return false;
-        }
-
-
-
-    });
+    // $("#signup_btn").click(function () {
+    //     var num=$("#phone_number").val();
+    //     var filter = /^[0-9]+$/;
+    //
+    //     if (filter.test(num) && num.length===10){
+    //         // $("#fstpg").addClass("d-none");
+    //         // $("#secpg").removeClass("d-none");
+    //     }
+    //     else{
+    //         //$("#non_phone").removeClass("d-none");
+    //         $("#mob_warn").removeClass("d-none");
+    //         return false;
+    //     }
+    //
+    //
+    //
+    // });
     $("#prvbtn").click(function(){
         $("#secpg").addClass("d-none");
         $("#fstpg").removeClass("d-none");

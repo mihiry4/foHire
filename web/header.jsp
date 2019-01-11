@@ -189,19 +189,22 @@
             });
         });
         $("#signup_btn").click(function () {
-            $.post("<%=Const.root%>signup", {
-                username: $("#username").val(),
-                firstName: $("#Firstname").val(),
-                lastName: $("#Lastname").val(),
-                mobileNumber: $("#phone_number").val(),
-                email: $("#E-mail").val(),
-                password: $("#Password").val(),
-                referral: $("#referral").val()
-            }, function () {
-                location.reload(true);
-            }).fail(function (xhr) {
-                $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
-            });
+
+
+                $.post("<%=Const.root%>signup", {
+                    username: $("#username").val(),
+                    firstName: $("#Firstname").val(),
+                    lastName: $("#Lastname").val(),
+                    mobileNumber: $("#phone_number").val(),
+                    email: $("#E-mail").val(),
+                    password: $("#Password").val(),
+                    referral: $("#referral").val()
+                }, function () {
+                    location.reload(true);
+                }).fail(function (xhr) {
+                   // $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
+                });
+
         });
         <%--$("#nextbtn").click(function () {--%>
         <%--$.post("<%=Const.root%>signup", {--%>

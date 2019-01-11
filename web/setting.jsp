@@ -58,7 +58,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Upload profile picture</td>
-                                                <td><input type="file" accept="image/*"/></td>
+                                                <td><input required type="file" accept="image/*"/></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2">
