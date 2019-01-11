@@ -202,7 +202,8 @@
                 }, function () {
                     location.reload(true);
                 }).fail(function (xhr) {
-                   // $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
+                   //
+                    // $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
                 });
 
         });
