@@ -304,7 +304,7 @@
                                 </fieldset>
                             </div>
 
-                            <div class="col">
+                            <div class="col clearfix">
                                 <%if (session.getAttribute("user") != null) {%>
                                 <button class="btn btn-primary float-right qbtn" id="submitCmt" type="button"
                                         style="margin-right:0;">Add review
@@ -329,7 +329,7 @@
                               style="width: 50px; height:50px;border-radius:50%;"></div>
                     <div class="media-body" style="overflow:visible;">
                         <div class="row no-gutters">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
                                 <p style="margin-bottom:0px;"><a href="Profile/<%=C.user_name%>"
                                                                  style="color:rgb(0,0,0);text-decoration:none;font-weight:600;"><%=C.user_firstName + " " + C.user_lastName%>
                                 </a> <%=C.review%><br>
@@ -338,13 +338,14 @@
                             </div>
                         </div>
                         <div class="row no-gutters">
-                            <div class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
                                 <p class="d-inline"><i class="fa fa-star" style="color:#f8b645;"></i><%=C.rating%>
                                 </p></div>
                         </div>
                     </div>
                 </div>
                 <%}%>
+
             </div>
         </div>
     </div>

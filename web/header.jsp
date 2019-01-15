@@ -203,7 +203,7 @@
                     location.reload(true);
                 }).fail(function (xhr) {
                    //
-                    // $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18))
+                    $("#InSUP").text($(new DOMParser().parseFromString(xhr.responseText, "text/html")).find('h1').text().substring(18));
                 });
 
         });
@@ -283,7 +283,8 @@
                     <input id="E-mail" class="form-control" type="email" required="required">
                     <label for="Password">Password:</label>
                     <input id="Password" class="form-control" type="password" required="required">
-                    <label for="referral">Referral code:</label>
+                    <label for="referral" class="mb-0">Referral code:</label><br/>
+                    <h6 style="font-size: 10px">(Enter username of referrer to avail offer)</h6>
                     <input id="referral" class="form-control" type="text">
                     <%--<div class="g-recaptcha" style="margin-top: 5px;"
                          data-sitekey="<%=Const.reCAPTCHA_sitekey%>"></div>--%>
