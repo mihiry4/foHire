@@ -2,20 +2,26 @@
 
 //spinner.classList.add('spin');
 
-      chatManager.connect().then(currentUser => {
-        for(var i=0;i<(currentUser.rooms).length;i++)
+//console.log(currentUser.rooms[i])
+
+chatManager.connect().then(currentUser => {
+    currentUser.fetchMessages({
+        roomId:12
+    }).then(
+        console.log(messages)
+    );
+          for(var i=0;i<(currentUser.rooms).length;i++)
           {
               if (currentUser.rooms[i].users[0].id === ouid || currentUser.rooms[i].users[1].id === ouid) {
-              var roomid1=currentUser.rooms[i].id;
-              //console.log(currentUser.rooms[i])
-            }
+                  var roomid1=currentUser.rooms[i].id;
+              }
           }
           currentUser.subscribeToRoom({
             roomId: roomid1,
             hooks: {
               onNewMessage: message => {
                 const s=document.getElementById("chat");
-                
+
                 var date = new Date(message.createdAt);
                   var time1 = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
                   var date1= date.getDate()+'/'+(date.getMonth()+1);
@@ -31,7 +37,7 @@
                 {
                     let template = $('#messaget').html();
                     let templateScript = Handlebars.compile(template);
-                  $('#chathistory').append( templateScript(data) ); 
+                  $('#chathistory').append( templateScript(data) );
                   s.scrollTop = s.scrollHeight;
 
                 }
@@ -39,7 +45,7 @@
                 {
                     let template = $('#messager').html();
                     let templateScript = Handlebars.compile(template);
-                  $('#chathistory').append( templateScript(data) ); 
+                  $('#chathistory').append( templateScript(data) );
                   s.scrollTop = s.scrollHeight;
                 }
                   $("#spinner").removeClass('spin').removeClass('loader');

@@ -19,7 +19,7 @@
 <% product[] products = (product[]) request.getAttribute("products");%>
 <section data-aos="fade-up" data-aos-duration="650" class="head" style="background-color:rgba(0,0,0,0.5);">
     <div class="tline" style="margin-top:0;padding-top:10%;">
-        <h1 class="text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting.</h1>
+        <h1 class="text-capitalize text-center" style="color:rgb(248,182,69);">Update to renting</h1>
         <h5 class="text-center" style="color:rgb(248,182,69);">Fohire helps you find things you want to rent.<br></h5>
     </div>
     <div>

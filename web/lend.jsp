@@ -42,6 +42,7 @@
                                         <td colspan="3"><select required="" name="category" class="form-control">
                                             <option value="1" selected="">Books</option>
                                             <option value="2">Blu-ray and console games</option>
+                                            <option value="3">Sports Equipment</option>
                                         </select></td>
                                     </tr>
                                     <tr>
